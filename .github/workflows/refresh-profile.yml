@@ -38,7 +38,8 @@ jobs:
             --stats-path data/latest.json \
             --username mileslow \
             --profile-repo mileslow/mileslow \
-            --generator-repo mileslow/github-line-velocity
+            --generator-repo mileslow/github-line-velocity \
+            --workers 4
 
       - name: Publish the profile SVG
         run: |

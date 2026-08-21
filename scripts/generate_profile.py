@@ -10,6 +10,7 @@ import html
 import json
 import math
 import os
+import time
 import urllib.parse
 import urllib.request
 from collections import Counter
@@ -19,6 +20,7 @@ from typing import Any
 
 API_ROOT = "https://api.github.com"
 API_TIMEOUT_SECONDS = 20
+API_MAX_RETRIES = 5
 DEFAULT_PROFILE_REPO = "mileslow/mileslow"
 DEFAULT_GENERATOR_REPO = "mileslow/github-line-velocity"
 
@@ -137,16 +139,28 @@ def github_request(
     if payload is not None:
         body = json.dumps(payload).encode("utf-8")
         headers["Content-Type"] = "application/json"
-    request = urllib.request.Request(url, data=body, headers=headers, method=method)
-    try:
-        with urllib.request.urlopen(request, timeout=API_TIMEOUT_SECONDS) as response:
-            raw = response.read()
-    except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")
-        raise ApiError(f"GitHub API {method} {path} returned {error.code}: {detail[:400]}") from error
-    except (urllib.error.URLError, TimeoutError) as error:
-        raise ApiError(f"GitHub API {method} {path} failed: {error}") from error
-    return json.loads(raw.decode("utf-8")) if raw else None
+    for attempt in range(API_MAX_RETRIES + 1):
+        request = urllib.request.Request(url, data=body, headers=headers, method=method)
+        try:
+            with urllib.request.urlopen(request, timeout=API_TIMEOUT_SECONDS) as response:
+                raw = response.read()
+            return json.loads(raw.decode("utf-8")) if raw else None
+        except urllib.error.HTTPError as error:
+            detail = error.read().decode("utf-8", errors="replace")
+            retryable = error.code in {403, 429, 500, 502, 503, 504}
+            remaining = error.headers.get("X-RateLimit-Remaining")
+            if not retryable or attempt >= API_MAX_RETRIES or remaining == "0":
+                raise ApiError(
+                    f"GitHub API {method} {path} returned {error.code}: {detail[:400]}"
+                ) from error
+            retry_after = error.headers.get("Retry-After")
+            delay = min(30.0, float(retry_after)) if retry_after else min(30.0, 2**attempt)
+            time.sleep(delay)
+        except (urllib.error.URLError, TimeoutError) as error:
+            if attempt >= API_MAX_RETRIES:
+                raise ApiError(f"GitHub API {method} {path} failed: {error}") from error
+            time.sleep(min(30.0, 2**attempt))
+    raise AssertionError("unreachable")
 
 
 def paged_request(token: str, path: str, query: dict[str, str]) -> list[Any]:
@@ -367,7 +381,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--profile-repo", default=DEFAULT_PROFILE_REPO)
     parser.add_argument("--generator-repo", default=DEFAULT_GENERATOR_REPO)
     parser.add_argument("--days", type=int, default=365)
-    parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--output-dir", default="generated")
     parser.add_argument("--stats-path", default="data/latest.json")
     return parser.parse_args()

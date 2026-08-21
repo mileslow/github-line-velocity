@@ -13,9 +13,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh:
-    runs-on: ubuntu-latest
-    env:
+    refresh:
+      runs-on: ubuntu-latest
+      timeout-minutes: 30
+      env:
       GH_TOKEN: ${{ secrets.PROFILE_REPO_TOKEN }}
     steps:
       - name: Check profile token
@@ -39,7 +40,7 @@ jobs:
             --username mileslow \
             --profile-repo mileslow/mileslow \
             --generator-repo mileslow/github-line-velocity \
-            --workers 4
+            --workers 2
 
       - name: Publish the profile SVG
         run: |

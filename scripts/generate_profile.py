@@ -20,7 +20,7 @@ from typing import Any
 
 API_ROOT = "https://api.github.com"
 API_TIMEOUT_SECONDS = 20
-API_MAX_RETRIES = 5
+API_MAX_RETRIES = 8
 DEFAULT_PROFILE_REPO = "mileslow/mileslow"
 DEFAULT_GENERATOR_REPO = "mileslow/github-line-velocity"
 
@@ -154,12 +154,12 @@ def github_request(
                     f"GitHub API {method} {path} returned {error.code}: {detail[:400]}"
                 ) from error
             retry_after = error.headers.get("Retry-After")
-            delay = min(30.0, float(retry_after)) if retry_after else min(30.0, 2**attempt)
+            delay = min(60.0, float(retry_after)) if retry_after else min(60.0, 2**attempt)
             time.sleep(delay)
         except (urllib.error.URLError, TimeoutError) as error:
             if attempt >= API_MAX_RETRIES:
                 raise ApiError(f"GitHub API {method} {path} failed: {error}") from error
-            time.sleep(min(30.0, 2**attempt))
+            time.sleep(min(60.0, 2**attempt))
     raise AssertionError("unreachable")
 
 
@@ -381,7 +381,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--profile-repo", default=DEFAULT_PROFILE_REPO)
     parser.add_argument("--generator-repo", default=DEFAULT_GENERATOR_REPO)
     parser.add_argument("--days", type=int, default=365)
-    parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--output-dir", default="generated")
     parser.add_argument("--stats-path", default="data/latest.json")
     return parser.parse_args()

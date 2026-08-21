@@ -13,10 +13,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-    refresh:
-      runs-on: ubuntu-latest
-      timeout-minutes: 30
-      env:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
       GH_TOKEN: ${{ secrets.PROFILE_REPO_TOKEN }}
     steps:
       - name: Check profile token

@@ -23,6 +23,7 @@ API_TIMEOUT_SECONDS = 20
 API_MAX_RETRIES = 8
 DEFAULT_PROFILE_REPO = "mileslow/mileslow"
 DEFAULT_GENERATOR_REPO = "mileslow/github-line-velocity"
+DEFAULT_PUBLIC_ORGANIZATIONS = ("Vastly-Podcasts",)
 
 EXCLUDED_EXTENSIONS = {
     ".avif",
@@ -178,16 +179,7 @@ def paged_request(token: str, path: str, query: dict[str, str]) -> list[Any]:
         page += 1
 
 
-def list_repositories(token: str, excluded: set[str]) -> list[dict[str, Any]]:
-    repos = paged_request(
-        token,
-        "/user/repos",
-        {
-            "affiliation": "owner,collaborator,organization_member",
-            "per_page": "100",
-            "sort": "updated",
-        },
-    )
+def filter_repositories(repos: list[dict[str, Any]], excluded: set[str]) -> list[dict[str, Any]]:
     result = []
     seen: set[str] = set()
     for repo in repos:
@@ -199,6 +191,45 @@ def list_repositories(token: str, excluded: set[str]) -> list[dict[str, Any]]:
         seen.add(full_name)
         result.append(repo)
     return sorted(result, key=lambda repo: repo["full_name"].lower())
+
+
+def list_repositories(token: str, excluded: set[str]) -> list[dict[str, Any]]:
+    repos = paged_request(
+        token,
+        "/user/repos",
+        {
+            "affiliation": "owner,collaborator,organization_member",
+            "per_page": "100",
+            "sort": "updated",
+        },
+    )
+    return filter_repositories(repos, excluded)
+
+
+def list_public_repositories(
+    token: str,
+    username: str,
+    excluded: set[str],
+    organizations: tuple[str, ...] = (),
+) -> list[dict[str, Any]]:
+    """List public owned and public organization repositories without /user/repos."""
+    repos = paged_request(
+        token,
+        f"/users/{username}/repos",
+        {"type": "owner", "per_page": "100", "sort": "updated"},
+    )
+    orgs = paged_request(token, f"/users/{username}/orgs", {"per_page": "100"})
+    organization_names = {org.get("login") for org in orgs}
+    organization_names.update(organizations)
+    for login in sorted(name for name in organization_names if name):
+        repos.extend(
+            paged_request(
+                token,
+                f"/orgs/{login}/repos",
+                {"type": "all", "per_page": "100", "sort": "updated"},
+            )
+        )
+    return filter_repositories(repos, excluded)
 
 
 def should_exclude(path: str) -> bool:
@@ -380,6 +411,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--username", default="mileslow")
     parser.add_argument("--profile-repo", default=DEFAULT_PROFILE_REPO)
     parser.add_argument("--generator-repo", default=DEFAULT_GENERATOR_REPO)
+    parser.add_argument(
+        "--organization",
+        action="append",
+        default=list(DEFAULT_PUBLIC_ORGANIZATIONS),
+        help="Organization to include in public-repository fallback (repeatable).",
+    )
     parser.add_argument("--days", type=int, default=365)
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--output-dir", default="generated")
@@ -398,7 +435,18 @@ def main() -> int:
     end = dt.datetime.now(dt.timezone.utc).date()
     start = end - dt.timedelta(days=args.days - 1)
     excluded = {args.profile_repo, args.generator_repo}
-    repos = list_repositories(token, excluded)
+    public_token = os.environ.get("GITHUB_TOKEN") or token
+    scan_mode = "authenticated"
+    try:
+        repos = list_repositories(token, excluded)
+    except ApiError as error:
+        if public_token == token:
+            raise
+        scan_mode = "public-fallback"
+        print(f"Authenticated repository listing unavailable ({error}); falling back to public repositories.")
+        repos = list_public_repositories(
+            public_token, args.username, excluded, tuple(args.organization)
+        )
     daily: Counter[str] = Counter()
     languages: Counter[str] = Counter()
     commits = 0
@@ -409,8 +457,9 @@ def main() -> int:
     for index, repo in enumerate(repos, start=1):
         full_name = repo["full_name"]
         try:
+            repo_token = public_token if not repo.get("private", False) else token
             repo_daily, repo_languages, repo_commits, repo_truncated, repo_failed = collect_repo_stats(
-                repo, start, end, args.username, token, args.workers
+                repo, start, end, args.username, repo_token, args.workers
             )
         except RuntimeError as error:
             skipped.append(full_name)
@@ -426,6 +475,7 @@ def main() -> int:
 
     stats = {
         "username": args.username,
+        "scan_mode": scan_mode,
         "window_days": args.days,
         "start_date": start.isoformat(),
         "end_date": end.isoformat(),

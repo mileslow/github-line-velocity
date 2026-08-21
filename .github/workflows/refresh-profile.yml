@@ -34,21 +34,27 @@ jobs:
           import urllib.error
           import urllib.request
 
-          request = urllib.request.Request(
-              "https://api.github.com/rate_limit",
-              headers={
-                  "Accept": "application/vnd.github+json",
-                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
-                  "X-GitHub-Api-Version": "2022-11-28",
-                  "User-Agent": "github-line-velocity",
-              },
-          )
-          try:
-              with urllib.request.urlopen(request, timeout=20) as response:
-                  quota = json.load(response)["resources"]["core"]
-              print(f"GitHub API quota before scan: {quota['remaining']}/{quota['limit']}")
-          except urllib.error.HTTPError as error:
-              print(f"GitHub API quota check returned HTTP {error.code}; scan will report the detailed error.")
+          for label, token in {
+              "PROFILE_REPO_TOKEN": os.environ["GH_TOKEN"],
+              "ACTIONS_GITHUB_TOKEN": os.environ.get("GITHUB_TOKEN", ""),
+          }.items():
+              if not token:
+                  continue
+              request = urllib.request.Request(
+                  "https://api.github.com/rate_limit",
+                  headers={
+                      "Accept": "application/vnd.github+json",
+                      "Authorization": f"Bearer {token}",
+                      "X-GitHub-Api-Version": "2022-11-28",
+                      "User-Agent": "github-line-velocity",
+                  },
+              )
+              try:
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      quota = json.load(response)["resources"]["core"]
+                  print(f"{label} quota before scan: {quota['remaining']}/{quota['limit']}")
+              except urllib.error.HTTPError as error:
+                  print(f"{label} quota check returned HTTP {error.code}; scan will report the detailed error.")
           PY
 
       - uses: actions/checkout@v4

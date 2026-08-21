@@ -28,10 +28,12 @@ python3 scripts/generate_profile.py \
 ```
 
 The token needs read access to the repositories being scanned. The automated
-workflow uses the `PROFILE_REPO_TOKEN` repository secret so it can also write
-the refreshed SVG to `mileslow/mileslow`. GitHub caps the file list returned
-for an individual very large commit; the aggregate snapshot records how many
-such commits were encountered in `data/latest.json`.
+workflow uses `PROFILE_REPO_TOKEN` for private-repository reads and publishing,
+and the built-in Actions token for public-repository reads. If the personal
+token's repository-list quota is temporarily exhausted, it falls back to
+public repositories instead of failing the refresh. GitHub caps the file list
+returned for an individual very large commit; the aggregate snapshot records
+how many such commits were encountered in `data/latest.json`.
 
 ## Audit notes
 

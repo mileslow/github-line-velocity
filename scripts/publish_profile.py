@@ -22,7 +22,13 @@ def request(token: str, method: str, url: str, payload: dict | None = None):
     if payload is not None:
         headers["Content-Type"] = "application/json"
     try:
-        with urllib.request.urlopen(urllib.request.Request(url, body, headers, method), timeout=60) as response:
+        request = urllib.request.Request(
+            url,
+            data=body,
+            headers=headers,
+            method=method,
+        )
+        with urllib.request.urlopen(request, timeout=60) as response:
             raw = response.read()
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")

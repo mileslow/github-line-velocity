@@ -38,8 +38,8 @@ how many such commits were encountered in `data/latest.json`.
 ## Audit notes
 
 The model panel is backed by the checked-in `data/model_usage.json` snapshot,
-which was audited from local Codex session token records. GitHub Actions cannot
-read those local session records, so the weekly job refreshes the GitHub-derived
-metrics while preserving the latest audited model snapshot. The model snapshot
-contains its own date range and source metadata; it is not presented as a
-365-day GitHub metric.
+which was audited from local Codex session token records over a recent 30-day
+window. GitHub Actions cannot read those local session records, so the weekly
+job refreshes the 365-day GitHub-derived metrics while preserving the latest
+audited model snapshot. The model snapshot contains its own date range and
+source metadata.

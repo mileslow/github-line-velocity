@@ -347,20 +347,13 @@ def render_svg(
     def esc(value: object) -> str:
         return html.escape(str(value), quote=True)
 
-    def lang_line(
-        index: int,
-        name: str,
-        value: int,
-        x_name: int,
-        x_value: int,
-        x_bar: int,
-    ) -> str:
-        y = 120 + index * 24
-        bar_width = max(3, round(50 * value / language_max))
+    def lang_line(index: int, name: str, value: int) -> str:
+        y = 138 + index * 18
+        bar_width = max(3, round(164 * value / language_max))
         return (
-            f'<text x="{x_name}" y="{y}" class="small">{esc(name)}</text>'
-            f'<text x="{x_value}" y="{y}" class="small">{compact_number(value)}</text>'
-            f'<rect x="{x_bar}" y="{y - 9}" width="{bar_width}" height="8" fill="#111"/>'
+            f'<text x="54" y="{y}" class="small">{esc(name)}</text>'
+            f'<text x="160" y="{y}" class="small">{compact_number(value)}</text>'
+            f'<rect x="224" y="{y - 9}" width="{bar_width}" height="8" fill="#111"/>'
         )
 
     lines = [
@@ -374,38 +367,29 @@ def render_svg(
         "  .small { font-size: 12px; }",
         "  .tiny { font-size: 11px; fill: #666; }",
         "  .axis { stroke: #111; stroke-width: 1; shape-rendering: crispEdges; }",
-        "  .bar { stroke: #111; stroke-width: 1.6; opacity: 0.46; shape-rendering: crispEdges; }",
+        "  .bar { stroke: #111; stroke-width: 2.2; opacity: 0.46; shape-rendering: crispEdges; }",
         "</style>",
         '<rect width="1000" height="320" fill="#fff"/>',
         f'<text x="54" y="52" class="title">{compact_number(total)} code lines / 365 days</text>',
         f'<text x="54" y="84" class="body">{commits:,} authored commits · {active_days} active days · refreshed {esc(end.isoformat())}</text>',
-        '<line x1="476" y1="104" x2="476" y2="276" stroke="#ddd"/>',
+        '<text x="54" y="112" class="small">languages by added lines</text>',
     ]
-    split = (len(top_languages) + 1) // 2
-    left_languages = top_languages[:split]
-    right_languages = top_languages[split:]
-    lines.extend(
-        lang_line(index, name, value, 54, 160, 220)
-        for index, (name, value) in enumerate(left_languages)
-    )
-    lines.extend(
-        lang_line(index, name, value, 280, 340, 400)
-        for index, (name, value) in enumerate(right_languages)
-    )
+    lines.extend(lang_line(index, name, value) for index, (name, value) in enumerate(top_languages))
     lines.extend(
         [
-            '<text x="520" y="112" class="small">daily code lines added</text>',
-            f'<text x="520" y="132" class="tiny">code-only · {esc(start.isoformat())} → {esc(end.isoformat())}</text>',
-            '<text x="520" y="152" class="tiny">hover bars for daily additions</text>',
-            '<line x1="520" y1="268" x2="946" y2="268" class="axis"/>',
+            '<text x="660" y="62" class="body">code-only · last 365 days</text>',
+            f'<text x="660" y="86" class="small">{esc(start.isoformat())} → {esc(end.isoformat())}</text>',
+            '<text x="660" y="110" class="small">generated from authored commits</text>',
+            '<text x="660" y="134" class="tiny">hover bars for daily additions</text>',
+            '<line x1="54" y1="284" x2="964" y2="284" class="axis"/>',
         ]
     )
 
-    x0, x1, baseline = 520.0, 946.0, 268.0
+    x0, x1, baseline = 54.0, 964.0, 284.0
     step = (x1 - x0) / max(1, len(days) - 1)
     for index, day in enumerate(days):
         value = daily[day.isoformat()]
-        height = 0 if not value else 4 + 96 * math.log1p(value) / log_max
+        height = 0 if not value else 8 + 66 * math.log1p(value) / log_max
         x = x0 + index * step
         y = baseline - height
         lines.append(
@@ -414,8 +398,8 @@ def render_svg(
         )
     lines.extend(
         [
-            f'<text x="520" y="290" class="tiny">{esc(start.isoformat())}</text>',
-            f'<text x="868" y="290" class="tiny">{esc(end.isoformat())}</text>',
+            f'<text x="54" y="305" class="tiny">{esc(start.isoformat())}</text>',
+            f'<text x="886" y="305" class="tiny">{esc(end.isoformat())}</text>',
             "</svg>",
         ]
     )

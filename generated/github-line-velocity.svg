@@ -1,6 +1,6 @@
 <svg width="1000" height="320" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
 <title id="title">Miles Low GitHub velocity, languages, and model split</title>
-<desc id="desc">Last 365 days of additions with a language summary and model usage donut chart.</desc>
+<desc id="desc">Last 365 days of code additions through 2026-08-21, with a language summary and model usage donut chart.</desc>
 <style>
   text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }
   .title { font-size: 28px; font-weight: 700; }
@@ -11,18 +11,17 @@
   .bar { stroke: #111; stroke-width: 2; opacity: 0.42; shape-rendering: crispEdges; }
 </style>
 <rect width="1000" height="320" fill="#fff"/>
-<text x="54" y="52" class="title">945.3K lines / 365 days</text>
-<text x="54" y="84" class="body">4,381 contributions · 299 active days · 10.68B tokens</text>
+<text x="54" y="52" class="title">1.7M lines / 365 days</text>
+<text x="54" y="84" class="body">3,060 contributions · 292 active days · 10.68B tokens</text>
 <text x="54" y="122" class="small">languages</text>
-<text x="54" y="144" class="small">TypeScript</text><text x="150" y="144" class="small">397K</text><rect x="198" y="135" width="170" height="8" fill="#111"/>
-<text x="54" y="162" class="small">Python</text><text x="150" y="162" class="small">270K</text><rect x="198" y="153" width="116" height="8" fill="#111"/>
-<text x="54" y="180" class="small">JavaScript</text><text x="150" y="180" class="small">235K</text><rect x="198" y="171" width="101" height="8" fill="#111"/>
-<text x="384" y="144" class="small">Shell</text><text x="440" y="144" class="small">29K</text><rect x="480" y="135" width="12" height="8" fill="#111"/>
-<text x="384" y="162" class="small">CSS</text><text x="440" y="162" class="small">5K</text><rect x="480" y="153" width="3" height="8" fill="#111"/>
-<text x="384" y="180" class="small">Other</text><text x="440" y="180" class="small">5K</text><rect x="480" y="171" width="3" height="8" fill="#111"/>
+<text x="54" y="144" class="small">TypeScript</text><text x="150" y="144" class="small">688.5K</text><rect x="198" y="135" width="170" height="8" fill="#111"/>
+<text x="54" y="162" class="small">Python</text><text x="150" y="162" class="small">578.5K</text><rect x="198" y="153" width="143" height="8" fill="#111"/>
+<text x="54" y="180" class="small">JavaScript</text><text x="150" y="180" class="small">106.9K</text><rect x="198" y="171" width="26" height="8" fill="#111"/>
+<text x="384" y="144" class="small">Shell</text><text x="440" y="144" class="small">59.6K</text><rect x="480" y="135" width="15" height="8" fill="#111"/>
+<text x="384" y="162" class="small">CSS</text><text x="440" y="162" class="small">45.0K</text><rect x="480" y="153" width="11" height="8" fill="#111"/>
+<text x="384" y="180" class="small">Other</text><text x="440" y="180" class="small">179.7K</text><rect x="480" y="171" width="44" height="8" fill="#111"/>
 <text x="660" y="62" class="body">model breakdown</text>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#f2f2f2" stroke-width="22"/>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="28.5 71.5" stroke-dashoffset="0" transform="rotate(-90 718 132)"><title>claude 4.5-sonnet-thinking: 28.5%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="28.5 71.5" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>claude 4.5-sonnet-thinking: 28.5%</title></circle>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="16.9 83.1" stroke-dashoffset="-28.5" transform="rotate(-90 718 132)"><title>gpt 5.4-medium: 16.9%</title></circle>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="10.8 89.2" stroke-dashoffset="-45.4" transform="rotate(-90 718 132)"><title>opus 4-6: 10.8%</title></circle>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="10.4 89.6" stroke-dashoffset="-56.2" transform="rotate(-90 718 132)"><title>claude 4-sonnet-thinking: 10.4%</title></circle>
@@ -34,201 +33,202 @@
 <text x="806" y="144" class="tiny">claude 4-sonnet 10.4%</text>
 <text x="806" y="164" class="tiny">codex 6.3%</text>
 <text x="806" y="184" class="tiny">other 27.0%</text>
+<line x1="54.00" y1="284.0" x2="54.00" y2="223.8" class="bar"><title>2025-08-22: 9,157 additions</title></line>
+<line x1="59.00" y1="284.0" x2="59.00" y2="226.4" class="bar"><title>2025-08-24: 5,829 additions</title></line>
+<line x1="64.00" y1="284.0" x2="64.00" y2="226.2" class="bar"><title>2025-08-26: 6,002 additions</title></line>
+<line x1="69.00" y1="284.0" x2="69.00" y2="223.3" class="bar"><title>2025-08-28: 9,979 additions</title></line>
+<line x1="74.00" y1="284.0" x2="74.00" y2="229.5" class="bar"><title>2025-08-30: 3,401 additions</title></line>
+<line x1="79.00" y1="284.0" x2="79.00" y2="228.5" class="bar"><title>2025-09-01: 4,048 additions</title></line>
+<line x1="84.00" y1="284.0" x2="84.00" y2="230.3" class="bar"><title>2025-09-03: 2,952 additions</title></line>
+<line x1="89.00" y1="284.0" x2="89.00" y2="230.8" class="bar"><title>2025-09-05: 2,691 additions</title></line>
+<line x1="94.00" y1="284.0" x2="94.00" y2="225.4" class="bar"><title>2025-09-07: 6,889 additions</title></line>
+<line x1="99.00" y1="284.0" x2="99.00" y2="230.7" class="bar"><title>2025-09-09: 2,745 additions</title></line>
+<line x1="104.00" y1="284.0" x2="104.00" y2="227.6" class="bar"><title>2025-09-11: 4,698 additions</title></line>
+<line x1="109.00" y1="284.0" x2="109.00" y2="227.4" class="bar"><title>2025-09-13: 4,905 additions</title></line>
+<line x1="114.00" y1="284.0" x2="114.00" y2="222.2" class="bar"><title>2025-09-15: 12,245 additions</title></line>
+<line x1="119.00" y1="284.0" x2="119.00" y2="226.5" class="bar"><title>2025-09-17: 5,725 additions</title></line>
+<line x1="124.00" y1="284.0" x2="124.00" y2="241.1" class="bar"><title>2025-09-19: 442 additions</title></line>
+<line x1="129.00" y1="284.0" x2="129.00" y2="231.9" class="bar"><title>2025-09-21: 2,221 additions</title></line>
+<line x1="134.00" y1="284.0" x2="134.00" y2="233.2" class="bar"><title>2025-09-23: 1,765 additions</title></line>
+<line x1="139.00" y1="284.0" x2="139.00" y2="234.4" class="bar"><title>2025-09-25: 1,450 additions</title></line>
+<line x1="144.00" y1="284.0" x2="144.00" y2="239.1" class="bar"><title>2025-09-27: 629 additions</title></line>
+<line x1="149.00" y1="284.0" x2="149.00" y2="218.3" class="bar"><title>2025-09-29: 24,206 additions</title></line>
+<line x1="154.00" y1="284.0" x2="154.00" y2="219.2" class="bar"><title>2025-10-01: 20,654 additions</title></line>
+<line x1="159.00" y1="284.0" x2="159.00" y2="284.0" class="bar"><title>2025-10-03: 0 additions</title></line>
+<line x1="164.00" y1="284.0" x2="164.00" y2="284.0" class="bar"><title>2025-10-05: 0 additions</title></line>
+<line x1="169.00" y1="284.0" x2="169.00" y2="284.0" class="bar"><title>2025-10-07: 0 additions</title></line>
+<line x1="174.00" y1="284.0" x2="174.00" y2="247.6" class="bar"><title>2025-10-09: 141 additions</title></line>
+<line x1="179.00" y1="284.0" x2="179.00" y2="258.1" class="bar"><title>2025-10-11: 22 additions</title></line>
+<line x1="184.00" y1="284.0" x2="184.00" y2="244.7" class="bar"><title>2025-10-13: 235 additions</title></line>
+<line x1="189.00" y1="284.0" x2="189.00" y2="226.7" class="bar"><title>2025-10-15: 5,525 additions</title></line>
+<line x1="194.00" y1="284.0" x2="194.00" y2="245.9" class="bar"><title>2025-10-17: 192 additions</title></line>
+<line x1="199.00" y1="284.0" x2="199.00" y2="222.7" class="bar"><title>2025-10-19: 11,171 additions</title></line>
+<line x1="204.00" y1="284.0" x2="204.00" y2="226.6" class="bar"><title>2025-10-21: 5,651 additions</title></line>
+<line x1="209.00" y1="284.0" x2="209.00" y2="230.8" class="bar"><title>2025-10-23: 2,703 additions</title></line>
+<line x1="214.00" y1="284.0" x2="214.00" y2="284.0" class="bar"><title>2025-10-25: 0 additions</title></line>
+<line x1="219.00" y1="284.0" x2="219.00" y2="214.0" class="bar"><title>2025-10-27: 50,975 additions</title></line>
+<line x1="224.00" y1="284.0" x2="224.00" y2="224.0" class="bar"><title>2025-10-29: 8,920 additions</title></line>
+<line x1="229.00" y1="284.0" x2="229.00" y2="228.6" class="bar"><title>2025-10-31: 3,936 additions</title></line>
+<line x1="234.00" y1="284.0" x2="234.00" y2="237.5" class="bar"><title>2025-11-02: 833 additions</title></line>
+<line x1="239.00" y1="284.0" x2="239.00" y2="221.4" class="bar"><title>2025-11-04: 13,896 additions</title></line>
+<line x1="244.00" y1="284.0" x2="244.00" y2="218.4" class="bar"><title>2025-11-06: 23,547 additions</title></line>
+<line x1="249.00" y1="284.0" x2="249.00" y2="244.2" class="bar"><title>2025-11-08: 257 additions</title></line>
+<line x1="254.00" y1="284.0" x2="254.00" y2="215.6" class="bar"><title>2025-11-10: 38,192 additions</title></line>
+<line x1="259.00" y1="284.0" x2="259.00" y2="227.3" class="bar"><title>2025-11-12: 4,940 additions</title></line>
+<line x1="264.00" y1="284.0" x2="264.00" y2="220.0" class="bar"><title>2025-11-14: 17,912 additions</title></line>
+<line x1="269.00" y1="284.0" x2="269.00" y2="219.7" class="bar"><title>2025-11-16: 18,948 additions</title></line>
+<line x1="274.00" y1="284.0" x2="274.00" y2="222.9" class="bar"><title>2025-11-18: 10,813 additions</title></line>
+<line x1="279.00" y1="284.0" x2="279.00" y2="225.0" class="bar"><title>2025-11-20: 7,393 additions</title></line>
+<line x1="284.00" y1="284.0" x2="284.00" y2="252.3" class="bar"><title>2025-11-22: 62 additions</title></line>
+<line x1="289.00" y1="284.0" x2="289.00" y2="231.9" class="bar"><title>2025-11-24: 2,235 additions</title></line>
+<line x1="294.00" y1="284.0" x2="294.00" y2="223.0" class="bar"><title>2025-11-26: 10,573 additions</title></line>
+<line x1="299.00" y1="284.0" x2="299.00" y2="233.2" class="bar"><title>2025-11-28: 1,782 additions</title></line>
+<line x1="304.00" y1="284.0" x2="304.00" y2="231.1" class="bar"><title>2025-11-30: 2,572 additions</title></line>
+<line x1="309.00" y1="284.0" x2="309.00" y2="236.8" class="bar"><title>2025-12-02: 947 additions</title></line>
+<line x1="314.00" y1="284.0" x2="314.00" y2="216.6" class="bar"><title>2025-12-04: 32,322 additions</title></line>
+<line x1="319.00" y1="284.0" x2="319.00" y2="238.1" class="bar"><title>2025-12-06: 752 additions</title></line>
+<line x1="324.00" y1="284.0" x2="324.00" y2="232.4" class="bar"><title>2025-12-08: 2,045 additions</title></line>
+<line x1="329.00" y1="284.0" x2="329.00" y2="236.2" class="bar"><title>2025-12-10: 1,055 additions</title></line>
+<line x1="334.00" y1="284.0" x2="334.00" y2="230.5" class="bar"><title>2025-12-12: 2,858 additions</title></line>
+<line x1="339.00" y1="284.0" x2="339.00" y2="244.9" class="bar"><title>2025-12-14: 228 additions</title></line>
+<line x1="344.00" y1="284.0" x2="344.00" y2="232.5" class="bar"><title>2025-12-16: 2,021 additions</title></line>
+<line x1="349.00" y1="284.0" x2="349.00" y2="225.3" class="bar"><title>2025-12-18: 7,039 additions</title></line>
+<line x1="354.00" y1="284.0" x2="354.00" y2="248.8" class="bar"><title>2025-12-20: 115 additions</title></line>
+<line x1="359.00" y1="284.0" x2="359.00" y2="258.9" class="bar"><title>2025-12-22: 19 additions</title></line>
+<line x1="364.00" y1="284.0" x2="364.00" y2="284.0" class="bar"><title>2025-12-24: 0 additions</title></line>
+<line x1="369.00" y1="284.0" x2="369.00" y2="233.2" class="bar"><title>2025-12-26: 1,765 additions</title></line>
+<line x1="374.00" y1="284.0" x2="374.00" y2="241.4" class="bar"><title>2025-12-28: 425 additions</title></line>
+<line x1="379.00" y1="284.0" x2="379.00" y2="237.2" class="bar"><title>2025-12-30: 875 additions</title></line>
+<line x1="384.00" y1="284.0" x2="384.00" y2="284.0" class="bar"><title>2026-01-01: 0 additions</title></line>
+<line x1="389.00" y1="284.0" x2="389.00" y2="284.0" class="bar"><title>2026-01-03: 0 additions</title></line>
+<line x1="394.00" y1="284.0" x2="394.00" y2="227.9" class="bar"><title>2026-01-05: 4,462 additions</title></line>
+<line x1="399.00" y1="284.0" x2="399.00" y2="231.8" class="bar"><title>2026-01-07: 2,284 additions</title></line>
+<line x1="404.00" y1="284.0" x2="404.00" y2="231.3" class="bar"><title>2026-01-09: 2,483 additions</title></line>
+<line x1="409.00" y1="284.0" x2="409.00" y2="222.9" class="bar"><title>2026-01-11: 10,774 additions</title></line>
+<line x1="414.00" y1="284.0" x2="414.00" y2="235.0" class="bar"><title>2026-01-13: 1,300 additions</title></line>
+<line x1="419.00" y1="284.0" x2="419.00" y2="229.1" class="bar"><title>2026-01-15: 3,610 additions</title></line>
+<line x1="424.00" y1="284.0" x2="424.00" y2="252.6" class="bar"><title>2026-01-17: 59 additions</title></line>
+<line x1="429.00" y1="284.0" x2="429.00" y2="284.0" class="bar"><title>2026-01-19: 0 additions</title></line>
+<line x1="434.00" y1="284.0" x2="434.00" y2="220.1" class="bar"><title>2026-01-21: 17,622 additions</title></line>
+<line x1="439.00" y1="284.0" x2="439.00" y2="237.3" class="bar"><title>2026-01-23: 860 additions</title></line>
+<line x1="444.00" y1="284.0" x2="444.00" y2="221.6" class="bar"><title>2026-01-25: 13,583 additions</title></line>
+<line x1="449.00" y1="284.0" x2="449.00" y2="232.5" class="bar"><title>2026-01-27: 1,997 additions</title></line>
+<line x1="454.00" y1="284.0" x2="454.00" y2="211.7" class="bar"><title>2026-01-29: 76,279 additions</title></line>
+<line x1="459.00" y1="284.0" x2="459.00" y2="259.2" class="bar"><title>2026-01-31: 18 additions</title></line>
+<line x1="464.00" y1="284.0" x2="464.00" y2="233.5" class="bar"><title>2026-02-02: 1,687 additions</title></line>
+<line x1="469.00" y1="284.0" x2="469.00" y2="236.6" class="bar"><title>2026-02-04: 981 additions</title></line>
+<line x1="474.00" y1="284.0" x2="474.00" y2="232.6" class="bar"><title>2026-02-06: 1,954 additions</title></line>
+<line x1="479.00" y1="284.0" x2="479.00" y2="284.0" class="bar"><title>2026-02-08: 0 additions</title></line>
+<line x1="484.00" y1="284.0" x2="484.00" y2="211.5" class="bar"><title>2026-02-10: 79,224 additions</title></line>
+<line x1="489.00" y1="284.0" x2="489.00" y2="211.5" class="bar"><title>2026-02-12: 78,304 additions</title></line>
+<line x1="494.00" y1="284.0" x2="494.00" y2="284.0" class="bar"><title>2026-02-14: 0 additions</title></line>
+<line x1="499.00" y1="284.0" x2="499.00" y2="228.2" class="bar"><title>2026-02-16: 4,278 additions</title></line>
+<line x1="504.00" y1="284.0" x2="504.00" y2="232.9" class="bar"><title>2026-02-18: 1,871 additions</title></line>
+<line x1="509.00" y1="284.0" x2="509.00" y2="221.1" class="bar"><title>2026-02-20: 14,808 additions</title></line>
+<line x1="514.00" y1="284.0" x2="514.00" y2="233.1" class="bar"><title>2026-02-22: 1,803 additions</title></line>
+<line x1="519.00" y1="284.0" x2="519.00" y2="226.0" class="bar"><title>2026-02-24: 6,200 additions</title></line>
+<line x1="524.00" y1="284.0" x2="524.00" y2="225.3" class="bar"><title>2026-02-26: 7,004 additions</title></line>
+<line x1="529.00" y1="284.0" x2="529.00" y2="226.1" class="bar"><title>2026-02-28: 6,177 additions</title></line>
+<line x1="534.00" y1="284.0" x2="534.00" y2="224.9" class="bar"><title>2026-03-02: 7,510 additions</title></line>
+<line x1="539.00" y1="284.0" x2="539.00" y2="228.7" class="bar"><title>2026-03-04: 3,914 additions</title></line>
+<line x1="544.00" y1="284.0" x2="544.00" y2="220.6" class="bar"><title>2026-03-06: 16,057 additions</title></line>
+<line x1="549.00" y1="284.0" x2="549.00" y2="228.1" class="bar"><title>2026-03-08: 4,317 additions</title></line>
+<line x1="554.00" y1="284.0" x2="554.00" y2="229.7" class="bar"><title>2026-03-10: 3,282 additions</title></line>
+<line x1="559.00" y1="284.0" x2="559.00" y2="229.7" class="bar"><title>2026-03-12: 3,294 additions</title></line>
+<line x1="564.00" y1="284.0" x2="564.00" y2="240.1" class="bar"><title>2026-03-14: 529 additions</title></line>
+<line x1="569.00" y1="284.0" x2="569.00" y2="217.3" class="bar"><title>2026-03-16: 28,490 additions</title></line>
+<line x1="574.00" y1="284.0" x2="574.00" y2="229.3" class="bar"><title>2026-03-18: 3,503 additions</title></line>
+<line x1="579.00" y1="284.0" x2="579.00" y2="229.8" class="bar"><title>2026-03-20: 3,235 additions</title></line>
+<line x1="584.00" y1="284.0" x2="584.00" y2="236.7" class="bar"><title>2026-03-22: 958 additions</title></line>
+<line x1="589.00" y1="284.0" x2="589.00" y2="227.1" class="bar"><title>2026-03-24: 5,187 additions</title></line>
+<line x1="594.00" y1="284.0" x2="594.00" y2="230.3" class="bar"><title>2026-03-26: 2,923 additions</title></line>
+<line x1="599.00" y1="284.0" x2="599.00" y2="222.4" class="bar"><title>2026-03-28: 11,628 additions</title></line>
+<line x1="604.00" y1="284.0" x2="604.00" y2="226.6" class="bar"><title>2026-03-30: 5,583 additions</title></line>
+<line x1="609.00" y1="284.0" x2="609.00" y2="225.7" class="bar"><title>2026-04-01: 6,626 additions</title></line>
+<line x1="614.00" y1="284.0" x2="614.00" y2="225.8" class="bar"><title>2026-04-03: 6,439 additions</title></line>
+<line x1="619.00" y1="284.0" x2="619.00" y2="227.4" class="bar"><title>2026-04-05: 4,931 additions</title></line>
+<line x1="624.00" y1="284.0" x2="624.00" y2="221.6" class="bar"><title>2026-04-07: 13,588 additions</title></line>
+<line x1="629.00" y1="284.0" x2="629.00" y2="231.9" class="bar"><title>2026-04-09: 2,225 additions</title></line>
+<line x1="634.00" y1="284.0" x2="634.00" y2="237.6" class="bar"><title>2026-04-11: 824 additions</title></line>
+<line x1="639.00" y1="284.0" x2="639.00" y2="225.3" class="bar"><title>2026-04-13: 7,097 additions</title></line>
+<line x1="644.00" y1="284.0" x2="644.00" y2="214.0" class="bar"><title>2026-04-15: 50,568 additions</title></line>
+<line x1="649.00" y1="284.0" x2="649.00" y2="237.9" class="bar"><title>2026-04-17: 779 additions</title></line>
+<line x1="654.00" y1="284.0" x2="654.00" y2="227.9" class="bar"><title>2026-04-19: 4,490 additions</title></line>
+<line x1="659.00" y1="284.0" x2="659.00" y2="228.1" class="bar"><title>2026-04-21: 4,353 additions</title></line>
+<line x1="664.00" y1="284.0" x2="664.00" y2="223.6" class="bar"><title>2026-04-23: 9,522 additions</title></line>
+<line x1="669.00" y1="284.0" x2="669.00" y2="231.7" class="bar"><title>2026-04-25: 2,297 additions</title></line>
+<line x1="674.00" y1="284.0" x2="674.00" y2="221.4" class="bar"><title>2026-04-27: 14,026 additions</title></line>
+<line x1="679.00" y1="284.0" x2="679.00" y2="214.7" class="bar"><title>2026-04-29: 45,045 additions</title></line>
+<line x1="684.00" y1="284.0" x2="684.00" y2="218.6" class="bar"><title>2026-05-01: 22,637 additions</title></line>
+<line x1="689.00" y1="284.0" x2="689.00" y2="213.9" class="bar"><title>2026-05-03: 51,502 additions</title></line>
+<line x1="694.00" y1="284.0" x2="694.00" y2="212.1" class="bar"><title>2026-05-05: 71,135 additions</title></line>
+<line x1="699.00" y1="284.0" x2="699.00" y2="225.8" class="bar"><title>2026-05-07: 6,469 additions</title></line>
+<line x1="704.00" y1="284.0" x2="704.00" y2="219.5" class="bar"><title>2026-05-09: 19,352 additions</title></line>
+<line x1="709.00" y1="284.0" x2="709.00" y2="235.2" class="bar"><title>2026-05-11: 1,261 additions</title></line>
+<line x1="714.00" y1="284.0" x2="714.00" y2="220.5" class="bar"><title>2026-05-13: 16,234 additions</title></line>
+<line x1="719.00" y1="284.0" x2="719.00" y2="232.4" class="bar"><title>2026-05-15: 2,023 additions</title></line>
+<line x1="724.00" y1="284.0" x2="724.00" y2="231.3" class="bar"><title>2026-05-17: 2,476 additions</title></line>
+<line x1="729.00" y1="284.0" x2="729.00" y2="225.9" class="bar"><title>2026-05-19: 6,357 additions</title></line>
+<line x1="734.00" y1="284.0" x2="734.00" y2="225.5" class="bar"><title>2026-05-21: 6,787 additions</title></line>
+<line x1="739.00" y1="284.0" x2="739.00" y2="284.0" class="bar"><title>2026-05-23: 0 additions</title></line>
+<line x1="744.00" y1="284.0" x2="744.00" y2="234.8" class="bar"><title>2026-05-25: 1,330 additions</title></line>
+<line x1="749.00" y1="284.0" x2="749.00" y2="218.8" class="bar"><title>2026-05-27: 21,962 additions</title></line>
+<line x1="754.00" y1="284.0" x2="754.00" y2="247.1" class="bar"><title>2026-05-29: 155 additions</title></line>
+<line x1="759.00" y1="284.0" x2="759.00" y2="237.6" class="bar"><title>2026-05-31: 818 additions</title></line>
+<line x1="764.00" y1="284.0" x2="764.00" y2="223.7" class="bar"><title>2026-06-02: 9,341 additions</title></line>
+<line x1="769.00" y1="284.0" x2="769.00" y2="225.7" class="bar"><title>2026-06-04: 6,600 additions</title></line>
+<line x1="774.00" y1="284.0" x2="774.00" y2="251.5" class="bar"><title>2026-06-06: 71 additions</title></line>
+<line x1="779.00" y1="284.0" x2="779.00" y2="230.7" class="bar"><title>2026-06-08: 2,723 additions</title></line>
+<line x1="784.00" y1="284.0" x2="784.00" y2="219.9" class="bar"><title>2026-06-10: 18,167 additions</title></line>
+<line x1="789.00" y1="284.0" x2="789.00" y2="235.0" class="bar"><title>2026-06-12: 1,285 additions</title></line>
+<line x1="794.00" y1="284.0" x2="794.00" y2="241.7" class="bar"><title>2026-06-14: 399 additions</title></line>
+<line x1="799.00" y1="284.0" x2="799.00" y2="232.9" class="bar"><title>2026-06-16: 1,877 additions</title></line>
+<line x1="804.00" y1="284.0" x2="804.00" y2="231.5" class="bar"><title>2026-06-18: 2,384 additions</title></line>
+<line x1="809.00" y1="284.0" x2="809.00" y2="237.7" class="bar"><title>2026-06-20: 813 additions</title></line>
+<line x1="814.00" y1="284.0" x2="814.00" y2="237.3" class="bar"><title>2026-06-22: 864 additions</title></line>
+<line x1="819.00" y1="284.0" x2="819.00" y2="232.7" class="bar"><title>2026-06-24: 1,934 additions</title></line>
+<line x1="824.00" y1="284.0" x2="824.00" y2="225.7" class="bar"><title>2026-06-26: 6,616 additions</title></line>
+<line x1="829.00" y1="284.0" x2="829.00" y2="239.6" class="bar"><title>2026-06-28: 575 additions</title></line>
+<line x1="834.00" y1="284.0" x2="834.00" y2="253.7" class="bar"><title>2026-06-30: 48 additions</title></line>
+<line x1="839.00" y1="284.0" x2="839.00" y2="284.0" class="bar"><title>2026-07-02: 0 additions</title></line>
+<line x1="844.00" y1="284.0" x2="844.00" y2="284.0" class="bar"><title>2026-07-04: 0 additions</title></line>
+<line x1="849.00" y1="284.0" x2="849.00" y2="227.6" class="bar"><title>2026-07-06: 4,711 additions</title></line>
+<line x1="854.00" y1="284.0" x2="854.00" y2="228.8" class="bar"><title>2026-07-08: 3,861 additions</title></line>
+<line x1="859.00" y1="284.0" x2="859.00" y2="219.3" class="bar"><title>2026-07-10: 20,253 additions</title></line>
+<line x1="864.00" y1="284.0" x2="864.00" y2="224.1" class="bar"><title>2026-07-12: 8,741 additions</title></line>
+<line x1="869.00" y1="284.0" x2="869.00" y2="223.9" class="bar"><title>2026-07-14: 9,041 additions</title></line>
+<line x1="874.00" y1="284.0" x2="874.00" y2="236.3" class="bar"><title>2026-07-16: 1,037 additions</title></line>
+<line x1="879.00" y1="284.0" x2="879.00" y2="213.1" class="bar"><title>2026-07-18: 59,462 additions</title></line>
+<line x1="884.00" y1="284.0" x2="884.00" y2="227.9" class="bar"><title>2026-07-20: 4,486 additions</title></line>
+<line x1="889.00" y1="284.0" x2="889.00" y2="210.0" class="bar"><title>2026-07-22: 102,437 additions</title></line>
+<line x1="894.00" y1="284.0" x2="894.00" y2="222.2" class="bar"><title>2026-07-24: 12,089 additions</title></line>
+<line x1="899.00" y1="284.0" x2="899.00" y2="213.9" class="bar"><title>2026-07-26: 51,379 additions</title></line>
+<line x1="904.00" y1="284.0" x2="904.00" y2="231.8" class="bar"><title>2026-07-28: 2,260 additions</title></line>
+<line x1="909.00" y1="284.0" x2="909.00" y2="229.1" class="bar"><title>2026-07-30: 3,611 additions</title></line>
+<line x1="914.00" y1="284.0" x2="914.00" y2="238.6" class="bar"><title>2026-08-01: 686 additions</title></line>
+<line x1="919.00" y1="284.0" x2="919.00" y2="284.0" class="bar"><title>2026-08-03: 0 additions</title></line>
+<line x1="924.00" y1="284.0" x2="924.00" y2="224.3" class="bar"><title>2026-08-05: 8,374 additions</title></line>
+<line x1="929.00" y1="284.0" x2="929.00" y2="284.0" class="bar"><title>2026-08-07: 0 additions</title></line>
+<line x1="934.00" y1="284.0" x2="934.00" y2="238.2" class="bar"><title>2026-08-09: 746 additions</title></line>
+<line x1="939.00" y1="284.0" x2="939.00" y2="231.5" class="bar"><title>2026-08-11: 2,395 additions</title></line>
+<line x1="944.00" y1="284.0" x2="944.00" y2="226.7" class="bar"><title>2026-08-13: 5,565 additions</title></line>
+<line x1="949.00" y1="284.0" x2="949.00" y2="222.4" class="bar"><title>2026-08-15: 11,643 additions</title></line>
+<line x1="954.00" y1="284.0" x2="954.00" y2="222.5" class="bar"><title>2026-08-17: 11,512 additions</title></line>
+<line x1="959.00" y1="284.0" x2="959.00" y2="231.9" class="bar"><title>2026-08-19: 2,223 additions</title></line>
+<line x1="964.00" y1="284.0" x2="964.00" y2="226.1" class="bar"><title>2026-08-21: 6,094 additions</title></line>
+<polyline points="54.0,223.8 59.0,226.4 64.0,226.2 69.0,223.3 74.0,229.5 79.0,228.5 84.0,230.3 89.0,230.8 94.0,225.4 99.0,230.7 104.0,227.6 109.0,227.4 114.0,222.2 119.0,226.5 124.0,241.1 129.0,231.9 134.0,233.2 139.0,234.4 144.0,239.1 149.0,218.3 154.0,219.2 159.0,284.0 164.0,284.0 169.0,284.0 174.0,247.6 179.0,258.1 184.0,244.7 189.0,226.7 194.0,245.9 199.0,222.7 204.0,226.6 209.0,230.8 214.0,284.0 219.0,214.0 224.0,224.0 229.0,228.6 234.0,237.5 239.0,221.4 244.0,218.4 249.0,244.2 254.0,215.6 259.0,227.3 264.0,220.0 269.0,219.7 274.0,222.9 279.0,225.0 284.0,252.3 289.0,231.9 294.0,223.0 299.0,233.2 304.0,231.1 309.0,236.8 314.0,216.6 319.0,238.1 324.0,232.4 329.0,236.2 334.0,230.5 339.0,244.9 344.0,232.5 349.0,225.3 354.0,248.8 359.0,258.9 364.0,284.0 369.0,233.2 374.0,241.4 379.0,237.2 384.0,284.0 389.0,284.0 394.0,227.9 399.0,231.8 404.0,231.3 409.0,222.9 414.0,235.0 419.0,229.1 424.0,252.6 429.0,284.0 434.0,220.1 439.0,237.3 444.0,221.6 449.0,232.5 454.0,211.7 459.0,259.2 464.0,233.5 469.0,236.6 474.0,232.6 479.0,284.0 484.0,211.5 489.0,211.5 494.0,284.0 499.0,228.2 504.0,232.9 509.0,221.1 514.0,233.1 519.0,226.0 524.0,225.3 529.0,226.1 534.0,224.9 539.0,228.7 544.0,220.6 549.0,228.1 554.0,229.7 559.0,229.7 564.0,240.1 569.0,217.3 574.0,229.3 579.0,229.8 584.0,236.7 589.0,227.1 594.0,230.3 599.0,222.4 604.0,226.6 609.0,225.7 614.0,225.8 619.0,227.4 624.0,221.6 629.0,231.9 634.0,237.6 639.0,225.3 644.0,214.0 649.0,237.9 654.0,227.9 659.0,228.1 664.0,223.6 669.0,231.7 674.0,221.4 679.0,214.7 684.0,218.6 689.0,213.9 694.0,212.1 699.0,225.8 704.0,219.5 709.0,235.2 714.0,220.5 719.0,232.4 724.0,231.3 729.0,225.9 734.0,225.5 739.0,284.0 744.0,234.8 749.0,218.8 754.0,247.1 759.0,237.6 764.0,223.7 769.0,225.7 774.0,251.5 779.0,230.7 784.0,219.9 789.0,235.0 794.0,241.7 799.0,232.9 804.0,231.5 809.0,237.7 814.0,237.3 819.0,232.7 824.0,225.7 829.0,239.6 834.0,253.7 839.0,284.0 844.0,284.0 849.0,227.6 854.0,228.8 859.0,219.3 864.0,224.1 869.0,223.9 874.0,236.3 879.0,213.1 884.0,227.9 889.0,210.0 894.0,222.2 899.0,213.9 904.0,231.8 909.0,229.1 914.0,238.6 919.0,284.0 924.0,224.3 929.0,284.0 934.0,238.2 939.0,231.5 944.0,226.7 949.0,222.4 954.0,222.5 959.0,231.9 964.0,226.1" fill="none" stroke="#111" stroke-width="1.4"/>
+<text x="54.0" y="306" class="tiny">aug</text>
+<text x="79.0" y="306" class="tiny">sep</text>
+<text x="154.0" y="306" class="tiny">oct</text>
+<text x="234.0" y="306" class="tiny">nov</text>
+<text x="309.0" y="306" class="tiny">dec</text>
+<text x="384.0" y="306" class="tiny">jan</text>
+<text x="464.0" y="306" class="tiny">feb</text>
+<text x="534.0" y="306" class="tiny">mar</text>
+<text x="609.0" y="306" class="tiny">apr</text>
+<text x="684.0" y="306" class="tiny">may</text>
+<text x="764.0" y="306" class="tiny">jun</text>
+<text x="839.0" y="306" class="tiny">jul</text>
+<text x="914.0" y="306" class="tiny">aug</text>
 <line x1="54" y1="284" x2="964" y2="284" class="axis"/>
-<line x1="54.0" y1="284" x2="54.0" y2="236.7" class="bar"><title>2025-05-04: 1,910 additions</title></line>
-<line x1="59.0" y1="284" x2="59.0" y2="235.3" class="bar"><title>2025-05-06: 2,379 additions</title></line>
-<line x1="64.0" y1="284" x2="64.0" y2="238.8" class="bar"><title>2025-05-08: 1,360 additions</title></line>
-<line x1="69.0" y1="284" x2="69.0" y2="284.0" class="bar"><title>2025-05-10: 0 additions</title></line>
-<line x1="74.0" y1="284" x2="74.0" y2="284.0" class="bar"><title>2025-05-12: 0 additions</title></line>
-<line x1="79.0" y1="284" x2="79.0" y2="235.3" class="bar"><title>2025-05-14: 2,380 additions</title></line>
-<line x1="84.0" y1="284" x2="84.0" y2="233.7" class="bar"><title>2025-05-16: 3,064 additions</title></line>
-<line x1="89.0" y1="284" x2="89.0" y2="234.3" class="bar"><title>2025-05-18: 2,781 additions</title></line>
-<line x1="94.0" y1="284" x2="94.0" y2="258.4" class="bar"><title>2025-05-20: 59 additions</title></line>
-<line x1="99.0" y1="284" x2="99.0" y2="253.0" class="bar"><title>2025-05-22: 140 additions</title></line>
-<line x1="104.0" y1="284" x2="104.0" y2="245.0" class="bar"><title>2025-05-24: 510 additions</title></line>
-<line x1="109.0" y1="284" x2="109.0" y2="241.3" class="bar"><title>2025-05-26: 921 additions</title></line>
-<line x1="114.0" y1="284" x2="114.0" y2="233.5" class="bar"><title>2025-05-28: 3,190 additions</title></line>
-<line x1="119.0" y1="284" x2="119.0" y2="236.9" class="bar"><title>2025-05-30: 1,850 additions</title></line>
-<line x1="124.0" y1="284" x2="124.0" y2="264.1" class="bar"><title>2025-06-01: 23 additions</title></line>
-<line x1="129.0" y1="284" x2="129.0" y2="225.3" class="bar"><title>2025-06-03: 11,836 additions</title></line>
-<line x1="134.0" y1="284" x2="134.0" y2="235.4" class="bar"><title>2025-06-05: 2,345 additions</title></line>
-<line x1="139.0" y1="284" x2="139.0" y2="244.9" class="bar"><title>2025-06-07: 514 additions</title></line>
-<line x1="144.0" y1="284" x2="144.0" y2="247.0" class="bar"><title>2025-06-09: 365 additions</title></line>
-<line x1="149.0" y1="284" x2="149.0" y2="235.3" class="bar"><title>2025-06-11: 2,381 additions</title></line>
-<line x1="154.0" y1="284" x2="154.0" y2="244.6" class="bar"><title>2025-06-13: 536 additions</title></line>
-<line x1="159.0" y1="284" x2="159.0" y2="245.1" class="bar"><title>2025-06-15: 500 additions</title></line>
-<line x1="164.0" y1="284" x2="164.0" y2="234.6" class="bar"><title>2025-06-17: 2,659 additions</title></line>
-<line x1="169.0" y1="284" x2="169.0" y2="252.9" class="bar"><title>2025-06-19: 143 additions</title></line>
-<line x1="174.0" y1="284" x2="174.0" y2="256.6" class="bar"><title>2025-06-21: 79 additions</title></line>
-<line x1="179.0" y1="284" x2="179.0" y2="244.1" class="bar"><title>2025-06-23: 582 additions</title></line>
-<line x1="184.0" y1="284" x2="184.0" y2="236.8" class="bar"><title>2025-06-25: 1,889 additions</title></line>
-<line x1="189.0" y1="284" x2="189.0" y2="240.8" class="bar"><title>2025-06-27: 988 additions</title></line>
-<line x1="194.0" y1="284" x2="194.0" y2="244.7" class="bar"><title>2025-06-29: 529 additions</title></line>
-<line x1="199.0" y1="284" x2="199.0" y2="246.6" class="bar"><title>2025-07-01: 391 additions</title></line>
-<line x1="204.0" y1="284" x2="204.0" y2="249.2" class="bar"><title>2025-07-03: 258 additions</title></line>
-<line x1="209.0" y1="284" x2="209.0" y2="284.0" class="bar"><title>2025-07-05: 0 additions</title></line>
-<line x1="214.0" y1="284" x2="214.0" y2="244.5" class="bar"><title>2025-07-07: 545 additions</title></line>
-<line x1="219.0" y1="284" x2="219.0" y2="244.3" class="bar"><title>2025-07-09: 569 additions</title></line>
-<line x1="224.0" y1="284" x2="224.0" y2="243.4" class="bar"><title>2025-07-11: 659 additions</title></line>
-<line x1="229.0" y1="284" x2="229.0" y2="258.3" class="bar"><title>2025-07-13: 60 additions</title></line>
-<line x1="234.0" y1="284" x2="234.0" y2="266.6" class="bar"><title>2025-07-15: 15 additions</title></line>
-<line x1="239.0" y1="284" x2="239.0" y2="275.3" class="bar"><title>2025-07-17: 3 additions</title></line>
-<line x1="244.0" y1="284" x2="244.0" y2="284.0" class="bar"><title>2025-07-19: 0 additions</title></line>
-<line x1="249.0" y1="284" x2="249.0" y2="284.0" class="bar"><title>2025-07-21: 0 additions</title></line>
-<line x1="254.0" y1="284" x2="254.0" y2="248.3" class="bar"><title>2025-07-23: 298 additions</title></line>
-<line x1="259.0" y1="284" x2="259.0" y2="248.4" class="bar"><title>2025-07-25: 292 additions</title></line>
-<line x1="264.0" y1="284" x2="264.0" y2="284.0" class="bar"><title>2025-07-27: 0 additions</title></line>
-<line x1="269.0" y1="284" x2="269.0" y2="284.0" class="bar"><title>2025-07-29: 0 additions</title></line>
-<line x1="274.0" y1="284" x2="274.0" y2="246.4" class="bar"><title>2025-07-31: 406 additions</title></line>
-<line x1="279.0" y1="284" x2="279.0" y2="235.9" class="bar"><title>2025-08-02: 2,185 additions</title></line>
-<line x1="284.0" y1="284" x2="284.0" y2="235.1" class="bar"><title>2025-08-04: 2,449 additions</title></line>
-<line x1="289.0" y1="284" x2="289.0" y2="236.1" class="bar"><title>2025-08-06: 2,112 additions</title></line>
-<line x1="294.0" y1="284" x2="294.0" y2="237.3" class="bar"><title>2025-08-08: 1,739 additions</title></line>
-<line x1="299.0" y1="284" x2="299.0" y2="284.0" class="bar"><title>2025-08-10: 0 additions</title></line>
-<line x1="304.0" y1="284" x2="304.0" y2="236.5" class="bar"><title>2025-08-12: 1,962 additions</title></line>
-<line x1="309.0" y1="284" x2="309.0" y2="229.1" class="bar"><title>2025-08-14: 6,403 additions</title></line>
-<line x1="314.0" y1="284" x2="314.0" y2="239.9" class="bar"><title>2025-08-16: 1,148 additions</title></line>
-<line x1="319.0" y1="284" x2="319.0" y2="258.7" class="bar"><title>2025-08-18: 56 additions</title></line>
-<line x1="324.0" y1="284" x2="324.0" y2="233.4" class="bar"><title>2025-08-20: 3,223 additions</title></line>
-<line x1="329.0" y1="284" x2="329.0" y2="230.8" class="bar"><title>2025-08-22: 4,869 additions</title></line>
-<line x1="334.0" y1="284" x2="334.0" y2="284.0" class="bar"><title>2025-08-24: 0 additions</title></line>
-<line x1="339.0" y1="284" x2="339.0" y2="240.0" class="bar"><title>2025-08-26: 1,120 additions</title></line>
-<line x1="344.0" y1="284" x2="344.0" y2="239.7" class="bar"><title>2025-08-28: 1,177 additions</title></line>
-<line x1="349.0" y1="284" x2="349.0" y2="247.6" class="bar"><title>2025-08-30: 336 additions</title></line>
-<line x1="354.0" y1="284" x2="354.0" y2="284.0" class="bar"><title>2025-09-01: 0 additions</title></line>
-<line x1="359.0" y1="284" x2="359.0" y2="238.3" class="bar"><title>2025-09-03: 1,471 additions</title></line>
-<line x1="364.0" y1="284" x2="364.0" y2="234.6" class="bar"><title>2025-09-05: 2,692 additions</title></line>
-<line x1="369.0" y1="284" x2="369.0" y2="264.6" class="bar"><title>2025-09-07: 21 additions</title></line>
-<line x1="374.0" y1="284" x2="374.0" y2="237.6" class="bar"><title>2025-09-09: 1,659 additions</title></line>
-<line x1="379.0" y1="284" x2="379.0" y2="240.9" class="bar"><title>2025-09-11: 970 additions</title></line>
-<line x1="384.0" y1="284" x2="384.0" y2="230.6" class="bar"><title>2025-09-13: 5,042 additions</title></line>
-<line x1="389.0" y1="284" x2="389.0" y2="225.3" class="bar"><title>2025-09-15: 11,867 additions</title></line>
-<line x1="394.0" y1="284" x2="394.0" y2="240.8" class="bar"><title>2025-09-17: 991 additions</title></line>
-<line x1="399.0" y1="284" x2="399.0" y2="258.0" class="bar"><title>2025-09-19: 63 additions</title></line>
-<line x1="404.0" y1="284" x2="404.0" y2="265.6" class="bar"><title>2025-09-21: 18 additions</title></line>
-<line x1="409.0" y1="284" x2="409.0" y2="242.7" class="bar"><title>2025-09-23: 736 additions</title></line>
-<line x1="414.0" y1="284" x2="414.0" y2="241.0" class="bar"><title>2025-09-25: 965 additions</title></line>
-<line x1="419.0" y1="284" x2="419.0" y2="284.0" class="bar"><title>2025-09-27: 0 additions</title></line>
-<line x1="424.0" y1="284" x2="424.0" y2="231.0" class="bar"><title>2025-09-29: 4,720 additions</title></line>
-<line x1="429.0" y1="284" x2="429.0" y2="231.8" class="bar"><title>2025-10-01: 4,172 additions</title></line>
-<line x1="434.0" y1="284" x2="434.0" y2="284.0" class="bar"><title>2025-10-03: 0 additions</title></line>
-<line x1="439.0" y1="284" x2="439.0" y2="284.0" class="bar"><title>2025-10-05: 0 additions</title></line>
-<line x1="444.0" y1="284" x2="444.0" y2="284.0" class="bar"><title>2025-10-07: 0 additions</title></line>
-<line x1="449.0" y1="284" x2="449.0" y2="255.6" class="bar"><title>2025-10-09: 93 additions</title></line>
-<line x1="454.0" y1="284" x2="454.0" y2="264.4" class="bar"><title>2025-10-11: 22 additions</title></line>
-<line x1="459.0" y1="284" x2="459.0" y2="251.8" class="bar"><title>2025-10-13: 171 additions</title></line>
-<line x1="464.0" y1="284" x2="464.0" y2="234.5" class="bar"><title>2025-10-15: 2,706 additions</title></line>
-<line x1="469.0" y1="284" x2="469.0" y2="264.1" class="bar"><title>2025-10-17: 23 additions</title></line>
-<line x1="474.0" y1="284" x2="474.0" y2="284.0" class="bar"><title>2025-10-19: 0 additions</title></line>
-<line x1="479.0" y1="284" x2="479.0" y2="230.9" class="bar"><title>2025-10-21: 4,824 additions</title></line>
-<line x1="484.0" y1="284" x2="484.0" y2="243.8" class="bar"><title>2025-10-23: 611 additions</title></line>
-<line x1="489.0" y1="284" x2="489.0" y2="284.0" class="bar"><title>2025-10-25: 0 additions</title></line>
-<line x1="494.0" y1="284" x2="494.0" y2="231.8" class="bar"><title>2025-10-27: 4,153 additions</title></line>
-<line x1="499.0" y1="284" x2="499.0" y2="233.9" class="bar"><title>2025-10-29: 2,965 additions</title></line>
-<line x1="504.0" y1="284" x2="504.0" y2="239.7" class="bar"><title>2025-10-31: 1,182 additions</title></line>
-<line x1="509.0" y1="284" x2="509.0" y2="284.0" class="bar"><title>2025-11-02: 0 additions</title></line>
-<line x1="514.0" y1="284" x2="514.0" y2="231.1" class="bar"><title>2025-11-04: 4,687 additions</title></line>
-<line x1="519.0" y1="284" x2="519.0" y2="227.4" class="bar"><title>2025-11-06: 8,482 additions</title></line>
-<line x1="524.0" y1="284" x2="524.0" y2="255.2" class="bar"><title>2025-11-08: 99 additions</title></line>
-<line x1="529.0" y1="284" x2="529.0" y2="230.0" class="bar"><title>2025-11-10: 5,553 additions</title></line>
-<line x1="534.0" y1="284" x2="534.0" y2="238.4" class="bar"><title>2025-11-12: 1,460 additions</title></line>
-<line x1="539.0" y1="284" x2="539.0" y2="284.0" class="bar"><title>2025-11-14: 0 additions</title></line>
-<line x1="544.0" y1="284" x2="544.0" y2="227.2" class="bar"><title>2025-11-16: 8,652 additions</title></line>
-<line x1="549.0" y1="284" x2="549.0" y2="237.3" class="bar"><title>2025-11-18: 1,733 additions</title></line>
-<line x1="554.0" y1="284" x2="554.0" y2="236.9" class="bar"><title>2025-11-20: 1,845 additions</title></line>
-<line x1="559.0" y1="284" x2="559.0" y2="261.7" class="bar"><title>2025-11-22: 34 additions</title></line>
-<line x1="564.0" y1="284" x2="564.0" y2="247.8" class="bar"><title>2025-11-24: 321 additions</title></line>
-<line x1="569.0" y1="284" x2="569.0" y2="237.8" class="bar"><title>2025-11-26: 1,601 additions</title></line>
-<line x1="574.0" y1="284" x2="574.0" y2="245.2" class="bar"><title>2025-11-28: 491 additions</title></line>
-<line x1="579.0" y1="284" x2="579.0" y2="284.0" class="bar"><title>2025-11-30: 0 additions</title></line>
-<line x1="584.0" y1="284" x2="584.0" y2="248.0" class="bar"><title>2025-12-02: 314 additions</title></line>
-<line x1="589.0" y1="284" x2="589.0" y2="218.7" class="bar"><title>2025-12-04: 33,813 additions</title></line>
-<line x1="594.0" y1="284" x2="594.0" y2="245.4" class="bar"><title>2025-12-06: 476 additions</title></line>
-<line x1="599.0" y1="284" x2="599.0" y2="257.7" class="bar"><title>2025-12-08: 66 additions</title></line>
-<line x1="604.0" y1="284" x2="604.0" y2="250.4" class="bar"><title>2025-12-10: 214 additions</title></line>
-<line x1="609.0" y1="284" x2="609.0" y2="249.3" class="bar"><title>2025-12-12: 253 additions</title></line>
-<line x1="614.0" y1="284" x2="614.0" y2="284.0" class="bar"><title>2025-12-14: 0 additions</title></line>
-<line x1="619.0" y1="284" x2="619.0" y2="259.0" class="bar"><title>2025-12-16: 53 additions</title></line>
-<line x1="624.0" y1="284" x2="624.0" y2="237.8" class="bar"><title>2025-12-18: 1,607 additions</title></line>
-<line x1="629.0" y1="284" x2="629.0" y2="277.1" class="bar"><title>2025-12-20: 2 additions</title></line>
-<line x1="634.0" y1="284" x2="634.0" y2="265.2" class="bar"><title>2025-12-22: 19 additions</title></line>
-<line x1="639.0" y1="284" x2="639.0" y2="284.0" class="bar"><title>2025-12-24: 0 additions</title></line>
-<line x1="644.0" y1="284" x2="644.0" y2="284.0" class="bar"><title>2025-12-26: 0 additions</title></line>
-<line x1="649.0" y1="284" x2="649.0" y2="284.0" class="bar"><title>2025-12-28: 0 additions</title></line>
-<line x1="654.0" y1="284" x2="654.0" y2="242.3" class="bar"><title>2025-12-30: 780 additions</title></line>
-<line x1="659.0" y1="284" x2="659.0" y2="284.0" class="bar"><title>2026-01-01: 0 additions</title></line>
-<line x1="664.0" y1="284" x2="664.0" y2="284.0" class="bar"><title>2026-01-03: 0 additions</title></line>
-<line x1="669.0" y1="284" x2="669.0" y2="233.6" class="bar"><title>2026-01-05: 3,139 additions</title></line>
-<line x1="674.0" y1="284" x2="674.0" y2="259.4" class="bar"><title>2026-01-07: 50 additions</title></line>
-<line x1="679.0" y1="284" x2="679.0" y2="247.7" class="bar"><title>2026-01-09: 330 additions</title></line>
-<line x1="684.0" y1="284" x2="684.0" y2="284.0" class="bar"><title>2026-01-11: 0 additions</title></line>
-<line x1="689.0" y1="284" x2="689.0" y2="248.5" class="bar"><title>2026-01-13: 287 additions</title></line>
-<line x1="694.0" y1="284" x2="694.0" y2="236.3" class="bar"><title>2026-01-15: 2,029 additions</title></line>
-<line x1="699.0" y1="284" x2="699.0" y2="258.4" class="bar"><title>2026-01-17: 59 additions</title></line>
-<line x1="704.0" y1="284" x2="704.0" y2="284.0" class="bar"><title>2026-01-19: 0 additions</title></line>
-<line x1="709.0" y1="284" x2="709.0" y2="222.9" class="bar"><title>2026-01-21: 17,410 additions</title></line>
-<line x1="714.0" y1="284" x2="714.0" y2="246.8" class="bar"><title>2026-01-23: 378 additions</title></line>
-<line x1="719.0" y1="284" x2="719.0" y2="233.3" class="bar"><title>2026-01-25: 3,279 additions</title></line>
-<line x1="724.0" y1="284" x2="724.0" y2="242.5" class="bar"><title>2026-01-27: 754 additions</title></line>
-<line x1="729.0" y1="284" x2="729.0" y2="262.9" class="bar"><title>2026-01-29: 28 additions</title></line>
-<line x1="734.0" y1="284" x2="734.0" y2="265.6" class="bar"><title>2026-01-31: 18 additions</title></line>
-<line x1="739.0" y1="284" x2="739.0" y2="245.2" class="bar"><title>2026-02-02: 489 additions</title></line>
-<line x1="744.0" y1="284" x2="744.0" y2="262.5" class="bar"><title>2026-02-04: 30 additions</title></line>
-<line x1="749.0" y1="284" x2="749.0" y2="242.8" class="bar"><title>2026-02-06: 722 additions</title></line>
-<line x1="754.0" y1="284" x2="754.0" y2="284.0" class="bar"><title>2026-02-08: 0 additions</title></line>
-<line x1="759.0" y1="284" x2="759.0" y2="236.9" class="bar"><title>2026-02-10: 1,857 additions</title></line>
-<line x1="764.0" y1="284" x2="764.0" y2="248.8" class="bar"><title>2026-02-12: 277 additions</title></line>
-<line x1="769.0" y1="284" x2="769.0" y2="284.0" class="bar"><title>2026-02-14: 0 additions</title></line>
-<line x1="774.0" y1="284" x2="774.0" y2="256.2" class="bar"><title>2026-02-16: 84 additions</title></line>
-<line x1="779.0" y1="284" x2="779.0" y2="250.3" class="bar"><title>2026-02-18: 217 additions</title></line>
-<line x1="784.0" y1="284" x2="784.0" y2="231.5" class="bar"><title>2026-02-20: 4,353 additions</title></line>
-<line x1="789.0" y1="284" x2="789.0" y2="240.2" class="bar"><title>2026-02-22: 1,089 additions</title></line>
-<line x1="794.0" y1="284" x2="794.0" y2="249.4" class="bar"><title>2026-02-24: 252 additions</title></line>
-<line x1="799.0" y1="284" x2="799.0" y2="230.5" class="bar"><title>2026-02-26: 5,123 additions</title></line>
-<line x1="804.0" y1="284" x2="804.0" y2="229.5" class="bar"><title>2026-02-28: 6,065 additions</title></line>
-<line x1="809.0" y1="284" x2="809.0" y2="261.9" class="bar"><title>2026-03-02: 33 additions</title></line>
-<line x1="814.0" y1="284" x2="814.0" y2="232.6" class="bar"><title>2026-03-04: 3,654 additions</title></line>
-<line x1="819.0" y1="284" x2="819.0" y2="223.8" class="bar"><title>2026-03-06: 14,983 additions</title></line>
-<line x1="824.0" y1="284" x2="824.0" y2="260.0" class="bar"><title>2026-03-08: 45 additions</title></line>
-<line x1="829.0" y1="284" x2="829.0" y2="249.5" class="bar"><title>2026-03-10: 246 additions</title></line>
-<line x1="834.0" y1="284" x2="834.0" y2="257.9" class="bar"><title>2026-03-12: 64 additions</title></line>
-<line x1="839.0" y1="284" x2="839.0" y2="284.0" class="bar"><title>2026-03-14: 0 additions</title></line>
-<line x1="844.0" y1="284" x2="844.0" y2="246.3" class="bar"><title>2026-03-16: 410 additions</title></line>
-<line x1="849.0" y1="284" x2="849.0" y2="233.7" class="bar"><title>2026-03-18: 3,104 additions</title></line>
-<line x1="854.0" y1="284" x2="854.0" y2="247.7" class="bar"><title>2026-03-20: 328 additions</title></line>
-<line x1="859.0" y1="284" x2="859.0" y2="250.2" class="bar"><title>2026-03-22: 221 additions</title></line>
-<line x1="864.0" y1="284" x2="864.0" y2="241.6" class="bar"><title>2026-03-24: 869 additions</title></line>
-<line x1="869.0" y1="284" x2="869.0" y2="284.0" class="bar"><title>2026-03-26: 0 additions</title></line>
-<line x1="874.0" y1="284" x2="874.0" y2="225.4" class="bar"><title>2026-03-28: 11,627 additions</title></line>
-<line x1="879.0" y1="284" x2="879.0" y2="241.5" class="bar"><title>2026-03-30: 893 additions</title></line>
-<line x1="884.0" y1="284" x2="884.0" y2="236.3" class="bar"><title>2026-04-01: 2,029 additions</title></line>
-<line x1="889.0" y1="284" x2="889.0" y2="248.4" class="bar"><title>2026-04-03: 294 additions</title></line>
-<line x1="894.0" y1="284" x2="894.0" y2="237.8" class="bar"><title>2026-04-05: 1,590 additions</title></line>
-<line x1="899.0" y1="284" x2="899.0" y2="226.5" class="bar"><title>2026-04-07: 9,679 additions</title></line>
-<line x1="904.0" y1="284" x2="904.0" y2="235.7" class="bar"><title>2026-04-09: 2,225 additions</title></line>
-<line x1="909.0" y1="284" x2="909.0" y2="242.0" class="bar"><title>2026-04-11: 824 additions</title></line>
-<line x1="914.0" y1="284" x2="914.0" y2="229.7" class="bar"><title>2026-04-13: 5,823 additions</title></line>
-<line x1="919.0" y1="284" x2="919.0" y2="206.0" class="bar"><title>2026-04-15: 257,564 additions</title></line>
-<line x1="924.0" y1="284" x2="924.0" y2="242.3" class="bar"><title>2026-04-17: 779 additions</title></line>
-<line x1="929.0" y1="284" x2="929.0" y2="237.3" class="bar"><title>2026-04-19: 1,736 additions</title></line>
-<line x1="934.0" y1="284" x2="934.0" y2="237.5" class="bar"><title>2026-04-21: 1,689 additions</title></line>
-<line x1="939.0" y1="284" x2="939.0" y2="249.5" class="bar"><title>2026-04-23: 247 additions</title></line>
-<line x1="944.0" y1="284" x2="944.0" y2="284.0" class="bar"><title>2026-04-25: 0 additions</title></line>
-<line x1="949.0" y1="284" x2="949.0" y2="229.6" class="bar"><title>2026-04-27: 5,969 additions</title></line>
-<line x1="954.0" y1="284" x2="954.0" y2="233.3" class="bar"><title>2026-04-29: 3,266 additions</title></line>
-<line x1="959.0" y1="284" x2="959.0" y2="236.3" class="bar"><title>2026-05-01: 2,042 additions</title></line>
-<line x1="964.0" y1="284" x2="964.0" y2="284.0" class="bar"><title>2026-05-03: 0 additions</title></line>
-<polyline points="54.0,236.7 59.0,235.3 64.0,238.8 69.0,284.0 74.0,284.0 79.0,235.3 84.0,233.7 89.0,234.3 94.0,258.4 99.0,253.0 104.0,245.0 109.0,241.3 114.0,233.5 119.0,236.9 124.0,264.1 129.0,225.3 134.0,235.4 139.0,244.9 144.0,247.0 149.0,235.3 154.0,244.6 159.0,245.1 164.0,234.6 169.0,252.9 174.0,256.6 179.0,244.1 184.0,236.8 189.0,240.8 194.0,244.7 199.0,246.6 204.0,249.2 209.0,284.0 214.0,244.5 219.0,244.3 224.0,243.4 229.0,258.3 234.0,266.6 239.0,275.3 244.0,284.0 249.0,284.0 254.0,248.3 259.0,248.4 264.0,284.0 269.0,284.0 274.0,246.4 279.0,235.9 284.0,235.1 289.0,236.1 294.0,237.3 299.0,284.0 304.0,236.5 309.0,229.1 314.0,239.9 319.0,258.7 324.0,233.4 329.0,230.8 334.0,284.0 339.0,240.0 344.0,239.7 349.0,247.6 354.0,284.0 359.0,238.3 364.0,234.6 369.0,264.6 374.0,237.6 379.0,240.9 384.0,230.6 389.0,225.3 394.0,240.8 399.0,258.0 404.0,265.6 409.0,242.7 414.0,241.0 419.0,284.0 424.0,231.0 429.0,231.8 434.0,284.0 439.0,284.0 444.0,284.0 449.0,255.6 454.0,264.4 459.0,251.8 464.0,234.5 469.0,264.1 474.0,284.0 479.0,230.9 484.0,243.8 489.0,284.0 494.0,231.8 499.0,233.9 504.0,239.7 509.0,284.0 514.0,231.1 519.0,227.4 524.0,255.2 529.0,230.0 534.0,238.4 539.0,284.0 544.0,227.2 549.0,237.3 554.0,236.9 559.0,261.7 564.0,247.8 569.0,237.8 574.0,245.2 579.0,284.0 584.0,248.0 589.0,218.7 594.0,245.4 599.0,257.7 604.0,250.4 609.0,249.3 614.0,284.0 619.0,259.0 624.0,237.8 629.0,277.1 634.0,265.2 639.0,284.0 644.0,284.0 649.0,284.0 654.0,242.3 659.0,284.0 664.0,284.0 669.0,233.6 674.0,259.4 679.0,247.7 684.0,284.0 689.0,248.5 694.0,236.3 699.0,258.4 704.0,284.0 709.0,222.9 714.0,246.8 719.0,233.3 724.0,242.5 729.0,262.9 734.0,265.6 739.0,245.2 744.0,262.5 749.0,242.8 754.0,284.0 759.0,236.9 764.0,248.8 769.0,284.0 774.0,256.2 779.0,250.3 784.0,231.5 789.0,240.2 794.0,249.4 799.0,230.5 804.0,229.5 809.0,261.9 814.0,232.6 819.0,223.8 824.0,260.0 829.0,249.5 834.0,257.9 839.0,284.0 844.0,246.3 849.0,233.7 854.0,247.7 859.0,250.2 864.0,241.6 869.0,284.0 874.0,225.4 879.0,241.5 884.0,236.3 889.0,248.4 894.0,237.8 899.0,226.5 904.0,235.7 909.0,242.0 914.0,229.7 919.0,206.0 924.0,242.3 929.0,237.3 934.0,237.5 939.0,249.5 944.0,284.0 949.0,229.6 954.0,233.3 959.0,236.3 964.0,284.0" fill="none" stroke="#111" stroke-width="1.4"/>
-<text x="124.0" y="306" class="tiny">jun</text>
-<text x="199.0" y="306" class="tiny">jul</text>
-<text x="276.5" y="306" class="tiny">aug</text>
-<text x="354.0" y="306" class="tiny">sep</text>
-<text x="429.0" y="306" class="tiny">oct</text>
-<text x="506.5" y="306" class="tiny">nov</text>
-<text x="581.5" y="306" class="tiny">dec</text>
-<text x="659.0" y="306" class="tiny">jan</text>
-<text x="736.5" y="306" class="tiny">feb</text>
-<text x="806.5" y="306" class="tiny">mar</text>
-<text x="884.0" y="306" class="tiny">apr</text>
-<text x="959.0" y="306" class="tiny">may</text>
 </svg>

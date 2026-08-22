@@ -333,33 +333,46 @@ def render_svg(
     total = sum(daily.values())
     active_days = sum(1 for value in daily.values() if value)
     days = [start + dt.timedelta(days=offset) for offset in range((end - start).days + 1)]
-    max_value = max((daily[day.isoformat()] for day in days), default=0)
-    log_max = math.log1p(max_value) if max_value else 1
-
     language_rows = sorted(languages.items(), key=lambda item: (-item[1], item[0]))
     named_languages = [(name, value) for name, value in language_rows if name != "Other"]
-    top_languages = named_languages[:6]
-    other = languages.get("Other", 0) + sum(value for _, value in named_languages[6:])
+    top_languages = named_languages[:5]
+    other = languages.get("Other", 0) + sum(value for _, value in named_languages[5:])
     if other:
         top_languages.append(("Other", other))
     language_max = max((value for _, value in top_languages), default=1)
 
+    graph_points: list[tuple[dt.date, int]] = []
+    for offset in range(0, len(days), 2):
+        bucket = days[offset : offset + 2]
+        graph_points.append((bucket[0], sum(daily[day.isoformat()] for day in bucket)))
+    max_value = max((value for _, value in graph_points), default=0)
+    log_max = math.log1p(max_value) if max_value else 1
+
+    model_segments = [
+        ("claude 4.5-sonnet-thinking", 28.5, "#111"),
+        ("gpt 5.4-medium", 16.9, "#444"),
+        ("opus 4-6", 10.8, "#666"),
+        ("claude 4-sonnet-thinking", 10.4, "#888"),
+        ("codex", 6.3, "#aaa"),
+        ("other models", 27.0, "#ccc"),
+    ]
+
     def esc(value: object) -> str:
         return html.escape(str(value), quote=True)
 
-    def lang_line(index: int, name: str, value: int) -> str:
-        y = 138 + index * 18
-        bar_width = max(3, round(164 * value / language_max))
+    def lang_line(x: int, value_x: int, bar_x: int, index: int, name: str, value: int) -> str:
+        y = 144 + index * 18
+        bar_width = max(3, round(170 * value / language_max))
         return (
-            f'<text x="54" y="{y}" class="small">{esc(name)}</text>'
-            f'<text x="160" y="{y}" class="small">{compact_number(value)}</text>'
-            f'<rect x="224" y="{y - 9}" width="{bar_width}" height="8" fill="#111"/>'
+            f'<text x="{x}" y="{y}" class="small">{esc(name)}</text>'
+            f'<text x="{value_x}" y="{y}" class="small">{compact_number(value)}</text>'
+            f'<rect x="{bar_x}" y="{y - 9}" width="{bar_width}" height="8" fill="#111"/>'
         )
 
     lines = [
         '<svg width="1000" height="320" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">',
-        '<title id="title">Miles Low GitHub code line velocity</title>',
-        f'<desc id="desc">Code-only additions over the last 365 days, refreshed {esc(end.isoformat())}. Documentation, data, media, and generated artifacts are excluded.</desc>',
+        '<title id="title">Miles Low GitHub velocity, languages, and model split</title>',
+        f'<desc id="desc">Last 365 days of code additions through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
         "<style>",
         '  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }',
         "  .title { font-size: 28px; font-weight: 700; }",
@@ -367,41 +380,67 @@ def render_svg(
         "  .small { font-size: 12px; }",
         "  .tiny { font-size: 11px; fill: #666; }",
         "  .axis { stroke: #111; stroke-width: 1; shape-rendering: crispEdges; }",
-        "  .bar { stroke: #111; stroke-width: 2.2; opacity: 0.46; shape-rendering: crispEdges; }",
+        "  .bar { stroke: #111; stroke-width: 2; opacity: 0.42; shape-rendering: crispEdges; }",
         "</style>",
         '<rect width="1000" height="320" fill="#fff"/>',
-        f'<text x="54" y="52" class="title">{compact_number(total)} code lines / 365 days</text>',
-        f'<text x="54" y="84" class="body">{commits:,} authored commits · {active_days} active days · refreshed {esc(end.isoformat())}</text>',
-        '<text x="54" y="112" class="small">languages by added lines</text>',
+        f'<text x="54" y="52" class="title">{compact_number(total)} lines / 365 days</text>',
+        f'<text x="54" y="84" class="body">{commits:,} contributions · {active_days} active days · 10.68B tokens</text>',
+        '<text x="54" y="122" class="small">languages</text>',
     ]
-    lines.extend(lang_line(index, name, value) for index, (name, value) in enumerate(top_languages))
     lines.extend(
-        [
-            '<text x="660" y="62" class="body">code-only · last 365 days</text>',
-            f'<text x="660" y="86" class="small">{esc(start.isoformat())} → {esc(end.isoformat())}</text>',
-            '<text x="660" y="110" class="small">generated from authored commits</text>',
-            '<text x="660" y="134" class="tiny">hover bars for daily additions</text>',
-            '<line x1="54" y1="284" x2="964" y2="284" class="axis"/>',
-        ]
+        lang_line(54, 150, 198, index, name, value)
+        for index, (name, value) in enumerate(top_languages[:3])
+    )
+    lines.extend(
+        lang_line(384, 440, 480, index, name, value)
+        for index, (name, value) in enumerate(top_languages[3:6])
+    )
+    lines.append('<text x="660" y="62" class="body">model breakdown</text>')
+
+    offset = 0.0
+    for name, percentage, color in model_segments:
+        lines.append(
+            f'<circle cx="718" cy="132" r="48" fill="none" stroke="{color}" stroke-width="22" '
+            f'pathLength="100" stroke-dasharray="{percentage:.1f} {100 - percentage:.1f}" '
+            f'stroke-dashoffset="-{offset:.1f}" transform="rotate(-90 718 132)"><title>{esc(name)}: {percentage:.1f}%</title></circle>'
+        )
+        offset += percentage
+    model_labels = [
+        ("claude 4.5-sonnet", 28.5),
+        ("gpt 5.4-medium", 16.9),
+        ("opus 4-6", 10.8),
+        ("claude 4-sonnet", 10.4),
+        ("codex", 6.3),
+        ("other", 27.0),
+    ]
+    lines.extend(
+        f'<text x="806" y="{84 + index * 20}" class="tiny">{esc(name)} {percentage:.1f}%</text>'
+        for index, (name, percentage) in enumerate(model_labels)
     )
 
     x0, x1, baseline = 54.0, 964.0, 284.0
-    step = (x1 - x0) / max(1, len(days) - 1)
-    for index, day in enumerate(days):
-        value = daily[day.isoformat()]
+    step = (x1 - x0) / max(1, len(graph_points) - 1)
+    points: list[str] = []
+    for index, (day, value) in enumerate(graph_points):
         height = 0 if not value else 8 + 66 * math.log1p(value) / log_max
         x = x0 + index * step
         y = baseline - height
         lines.append(
             f'<line x1="{x:.2f}" y1="{baseline:.1f}" x2="{x:.2f}" y2="{y:.1f}" class="bar">'
-            f'<title>{esc(day.isoformat())}: {value:,} code lines added</title></line>'
+            f'<title>{esc(day.isoformat())}: {value:,} additions</title></line>'
         )
+        points.append(f"{x:.1f},{y:.1f}")
+    lines.append(f'<polyline points="{" ".join(points)}" fill="none" stroke="#111" stroke-width="1.4"/>')
+    seen_months: set[tuple[int, int]] = set()
+    for index, (day, _) in enumerate(graph_points):
+        month = (day.year, day.month)
+        if month in seen_months:
+            continue
+        seen_months.add(month)
+        x = x0 + index * step
+        lines.append(f'<text x="{x:.1f}" y="306" class="tiny">{esc(day.strftime("%b").lower())}</text>')
     lines.extend(
-        [
-            f'<text x="54" y="305" class="tiny">{esc(start.isoformat())}</text>',
-            f'<text x="886" y="305" class="tiny">{esc(end.isoformat())}</text>',
-            "</svg>",
-        ]
+        ['<line x1="54" y1="284" x2="964" y2="284" class="axis"/>', "</svg>"]
     )
     return "\n".join(lines) + "\n"
 

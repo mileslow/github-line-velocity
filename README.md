@@ -40,5 +40,6 @@ how many such commits were encountered in `data/latest.json`.
 The original one-off Cursor run mixed GitHub-derived line statistics with a
 local Codex token/model breakdown. That token data cannot be refreshed by a
 GitHub Action, so the maintained generator intentionally publishes only
-GitHub-derived metrics. This keeps the weekly card current and its numbers
-reproducible.
+GitHub-derived metrics while preserving the original token/model panel as its
+last known snapshot. This keeps the weekly card current without changing its
+visual structure; the token/model values should be treated as historical.

@@ -14,14 +14,13 @@
 <text x="54" y="52" class="title">1.7M code lines / 365 days</text>
 <text x="54" y="84" class="body">3,060 authored commits · 292 active days · refreshed 2026-08-21</text>
 <line x1="476" y1="104" x2="476" y2="276" stroke="#ddd"/>
-<text x="54" y="112" class="small">languages by added lines</text>
-<text x="54" y="138" class="small">TypeScript</text><text x="160" y="138" class="small">688.5K</text><rect x="224" y="129" width="164" height="8" fill="#111"/>
-<text x="54" y="156" class="small">Python</text><text x="160" y="156" class="small">578.5K</text><rect x="224" y="147" width="138" height="8" fill="#111"/>
-<text x="54" y="174" class="small">JavaScript</text><text x="160" y="174" class="small">106.9K</text><rect x="224" y="165" width="25" height="8" fill="#111"/>
-<text x="54" y="192" class="small">Shell</text><text x="160" y="192" class="small">59.6K</text><rect x="224" y="183" width="14" height="8" fill="#111"/>
-<text x="54" y="210" class="small">CSS</text><text x="160" y="210" class="small">45.0K</text><rect x="224" y="201" width="11" height="8" fill="#111"/>
-<text x="54" y="228" class="small">YAML</text><text x="160" y="228" class="small">4.9K</text><rect x="224" y="219" width="3" height="8" fill="#111"/>
-<text x="54" y="246" class="small">Other</text><text x="160" y="246" class="small">174.7K</text><rect x="224" y="237" width="42" height="8" fill="#111"/>
+<text x="54" y="120" class="small">TypeScript</text><text x="160" y="120" class="small">688.5K</text><rect x="220" y="111" width="50" height="8" fill="#111"/>
+<text x="54" y="144" class="small">Python</text><text x="160" y="144" class="small">578.5K</text><rect x="220" y="135" width="42" height="8" fill="#111"/>
+<text x="54" y="168" class="small">JavaScript</text><text x="160" y="168" class="small">106.9K</text><rect x="220" y="159" width="8" height="8" fill="#111"/>
+<text x="54" y="192" class="small">Shell</text><text x="160" y="192" class="small">59.6K</text><rect x="220" y="183" width="4" height="8" fill="#111"/>
+<text x="280" y="120" class="small">CSS</text><text x="340" y="120" class="small">45.0K</text><rect x="400" y="111" width="3" height="8" fill="#111"/>
+<text x="280" y="144" class="small">YAML</text><text x="340" y="144" class="small">4.9K</text><rect x="400" y="135" width="3" height="8" fill="#111"/>
+<text x="280" y="168" class="small">Other</text><text x="340" y="168" class="small">174.7K</text><rect x="400" y="159" width="13" height="8" fill="#111"/>
 <text x="520" y="112" class="small">daily code lines added</text>
 <text x="520" y="132" class="tiny">code-only · 2025-08-22 → 2026-08-21</text>
 <text x="520" y="152" class="tiny">hover bars for daily additions</text>

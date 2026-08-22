@@ -347,13 +347,20 @@ def render_svg(
     def esc(value: object) -> str:
         return html.escape(str(value), quote=True)
 
-    def lang_line(index: int, name: str, value: int) -> str:
-        y = 138 + index * 18
-        bar_width = max(3, round(164 * value / language_max))
+    def lang_line(
+        index: int,
+        name: str,
+        value: int,
+        x_name: int,
+        x_value: int,
+        x_bar: int,
+    ) -> str:
+        y = 120 + index * 24
+        bar_width = max(3, round(50 * value / language_max))
         return (
-            f'<text x="54" y="{y}" class="small">{esc(name)}</text>'
-            f'<text x="160" y="{y}" class="small">{compact_number(value)}</text>'
-            f'<rect x="224" y="{y - 9}" width="{bar_width}" height="8" fill="#111"/>'
+            f'<text x="{x_name}" y="{y}" class="small">{esc(name)}</text>'
+            f'<text x="{x_value}" y="{y}" class="small">{compact_number(value)}</text>'
+            f'<rect x="{x_bar}" y="{y - 9}" width="{bar_width}" height="8" fill="#111"/>'
         )
 
     lines = [
@@ -373,9 +380,18 @@ def render_svg(
         f'<text x="54" y="52" class="title">{compact_number(total)} code lines / 365 days</text>',
         f'<text x="54" y="84" class="body">{commits:,} authored commits · {active_days} active days · refreshed {esc(end.isoformat())}</text>',
         '<line x1="476" y1="104" x2="476" y2="276" stroke="#ddd"/>',
-        '<text x="54" y="112" class="small">languages by added lines</text>',
     ]
-    lines.extend(lang_line(index, name, value) for index, (name, value) in enumerate(top_languages))
+    split = (len(top_languages) + 1) // 2
+    left_languages = top_languages[:split]
+    right_languages = top_languages[split:]
+    lines.extend(
+        lang_line(index, name, value, 54, 160, 220)
+        for index, (name, value) in enumerate(left_languages)
+    )
+    lines.extend(
+        lang_line(index, name, value, 280, 340, 400)
+        for index, (name, value) in enumerate(right_languages)
+    )
     lines.extend(
         [
             '<text x="520" y="112" class="small">daily code lines added</text>',

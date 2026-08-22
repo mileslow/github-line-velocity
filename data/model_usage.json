@@ -1,0 +1,50 @@
+{
+  "source": "local Codex session token records",
+  "start_date": "2026-02-18",
+  "end_date": "2026-08-21",
+  "sessions": 1080,
+  "allocation_method": "token totals grouped by recorded model; sessions that changed models were proportionally reconciled to their final total",
+  "total_tokens": 8551657930,
+  "models": [
+    {
+      "name": "gpt-5.6-sol",
+      "tokens": 5676791625
+    },
+    {
+      "name": "gpt-5.5",
+      "tokens": 915875116
+    },
+    {
+      "name": "gpt-5.4",
+      "tokens": 765805186
+    },
+    {
+      "name": "gpt-5.2-codex",
+      "tokens": 553359276
+    },
+    {
+      "name": "gpt-5.4-mini",
+      "tokens": 228701855
+    },
+    {
+      "name": "gpt-5.6-luna",
+      "tokens": 215327542
+    },
+    {
+      "name": "gpt-5.6-terra",
+      "tokens": 171662697
+    },
+    {
+      "name": "gpt-5.3-codex",
+      "tokens": 18483517
+    },
+    {
+      "name": "gpt-5.3-codex-spark",
+      "tokens": 2850323
+    },
+    {
+      "name": "codex-auto-review",
+      "tokens": 2800793
+    }
+  ]
+}

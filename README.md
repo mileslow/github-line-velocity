@@ -37,9 +37,9 @@ how many such commits were encountered in `data/latest.json`.
 
 ## Audit notes
 
-The original one-off Cursor run mixed GitHub-derived line statistics with a
-local Codex token/model breakdown. That token data cannot be refreshed by a
-GitHub Action, so the maintained generator intentionally publishes only
-GitHub-derived metrics while preserving the original token/model panel as its
-last known snapshot. This keeps the weekly card current without changing its
-visual structure; the token/model values should be treated as historical.
+The model panel is backed by the checked-in `data/model_usage.json` snapshot,
+which was audited from local Codex session token records. GitHub Actions cannot
+read those local session records, so the weekly job refreshes the GitHub-derived
+metrics while preserving the latest audited model snapshot. The model snapshot
+contains its own date range and source metadata; it is not presented as a
+365-day GitHub metric.

@@ -323,12 +323,45 @@ def compact_number(value: int) -> str:
     return f"{value:,}"
 
 
+def compact_token_count(value: int) -> str:
+    if value >= 1_000_000_000:
+        return f"{value / 1_000_000_000:.2f}B"
+    if value >= 1_000_000:
+        return f"{value / 1_000_000:.1f}M"
+    if value >= 1_000:
+        return f"{value / 1_000:.1f}K"
+    return f"{value:,}"
+
+
+def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
+    snapshot = json.loads(path.read_text(encoding="utf-8"))
+    total_tokens = int(snapshot["total_tokens"])
+    models = sorted(
+        ((str(model["name"]), int(model["tokens"])) for model in snapshot["models"]),
+        key=lambda item: (-item[1], item[0]),
+    )
+    if total_tokens <= 0 or not models:
+        raise ValueError(f"Model usage snapshot must contain positive token totals: {path}")
+
+    colors = ("#111", "#444", "#666", "#888", "#aaa")
+    segments = [
+        (name, tokens / total_tokens * 100, colors[index])
+        for index, (name, tokens) in enumerate(models[:5])
+    ]
+    other_tokens = sum(tokens for _, tokens in models[5:])
+    if other_tokens:
+        segments.append(("other models", other_tokens / total_tokens * 100, "#ccc"))
+    return segments, total_tokens
+
+
 def render_svg(
     start: dt.date,
     end: dt.date,
     daily: Counter[str],
     languages: Counter[str],
     commits: int,
+    model_segments: list[tuple[str, float, str]],
+    model_tokens: int,
 ) -> str:
     total = sum(daily.values())
     active_days = sum(1 for value in daily.values() if value)
@@ -347,15 +380,6 @@ def render_svg(
         graph_points.append((bucket[0], sum(daily[day.isoformat()] for day in bucket)))
     max_value = max((value for _, value in graph_points), default=0)
     log_max = math.log1p(max_value) if max_value else 1
-
-    model_segments = [
-        ("claude 4.5-sonnet-thinking", 28.5, "#111"),
-        ("gpt 5.4-medium", 16.9, "#444"),
-        ("opus 4-6", 10.8, "#666"),
-        ("claude 4-sonnet-thinking", 10.4, "#888"),
-        ("codex", 6.3, "#aaa"),
-        ("other models", 27.0, "#ccc"),
-    ]
 
     def esc(value: object) -> str:
         return html.escape(str(value), quote=True)
@@ -384,7 +408,7 @@ def render_svg(
         "</style>",
         '<rect width="1000" height="320" fill="#fff"/>',
         f'<text x="54" y="52" class="title">{compact_number(total)} lines / 365 days</text>',
-        f'<text x="54" y="84" class="body">{commits:,} contributions · {active_days} active days · 10.68B tokens</text>',
+        f'<text x="54" y="84" class="body">{commits:,} contributions · {active_days} active days · {compact_token_count(model_tokens)} tokens</text>',
         '<text x="54" y="122" class="small">languages</text>',
     ]
     lines.extend(
@@ -405,17 +429,9 @@ def render_svg(
             f'stroke-dashoffset="-{offset:.1f}" transform="rotate(-90 718 132)"><title>{esc(name)}: {percentage:.1f}%</title></circle>'
         )
         offset += percentage
-    model_labels = [
-        ("claude 4.5-sonnet", 28.5),
-        ("gpt 5.4-medium", 16.9),
-        ("opus 4-6", 10.8),
-        ("claude 4-sonnet", 10.4),
-        ("codex", 6.3),
-        ("other", 27.0),
-    ]
     lines.extend(
         f'<text x="806" y="{84 + index * 20}" class="tiny">{esc(name)} {percentage:.1f}%</text>'
-        for index, (name, percentage) in enumerate(model_labels)
+        for index, (name, percentage, _) in enumerate(model_segments)
     )
 
     x0, x1, baseline = 54.0, 964.0, 284.0
@@ -460,6 +476,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--output-dir", default="generated")
     parser.add_argument("--stats-path", default="data/latest.json")
+    parser.add_argument("--model-usage-path", default="data/model_usage.json")
     return parser.parse_args()
 
 
@@ -470,6 +487,11 @@ def main() -> int:
         raise SystemExit("GH_TOKEN or GITHUB_TOKEN is required")
     if args.days < 1:
         raise SystemExit("--days must be positive")
+    model_usage_path = Path(args.model_usage_path)
+    try:
+        model_segments, model_tokens = load_model_usage(model_usage_path)
+    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
+        raise SystemExit(f"Could not load model usage snapshot: {error}") from error
 
     end = dt.datetime.now(dt.timezone.utc).date()
     start = end - dt.timedelta(days=args.days - 1)
@@ -528,7 +550,7 @@ def main() -> int:
         "languages": dict(sorted(languages.items(), key=lambda item: (-item[1], item[0]))),
         "daily_additions": {day.isoformat(): daily[day.isoformat()] for day in (start + dt.timedelta(days=i) for i in range(args.days))},
     }
-    svg = render_svg(start, end, daily, languages, commits)
+    svg = render_svg(start, end, daily, languages, commits, model_segments, model_tokens)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "github-line-velocity.svg").write_text(svg, encoding="utf-8")

@@ -68,6 +68,7 @@ jobs:
           python scripts/generate_profile.py \
             --output-dir generated \
             --stats-path data/latest.json \
+            --model-usage-path data/model_usage.json \
             --username mileslow \
             --profile-repo mileslow/mileslow \
             --generator-repo mileslow/github-line-velocity \
@@ -84,7 +85,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add generated/github-line-velocity.svg data/latest.json
+          git add generated/github-line-velocity.svg data/latest.json data/model_usage.json
           if git diff --cached --quiet; then
             echo "No generator changes to commit."
             exit 0

@@ -2,7 +2,7 @@ name: Refresh GitHub profile graphic
 
 on:
   schedule:
-    - cron: "17 8 * * 1"
+    - cron: "17 8 * * *"
   workflow_dispatch:
 
 permissions:

@@ -11,7 +11,7 @@ documentation/data/media/generated artifacts, and publishes only aggregate
 totals, languages, and daily activity. Repository names are never written to
 the generated public files.
 
-The weekly workflow runs every Monday and can also be started manually. It
+The daily workflow runs at 08:17 UTC and can also be started manually. It
 refreshes the tracked aggregate snapshot in this repo and updates
 `assets/github-line-velocity.svg` in the profile repo.
 
@@ -39,7 +39,7 @@ how many such commits were encountered in `data/latest.json`.
 
 The model panel is backed by the checked-in `data/model_usage.json` snapshot,
 which was audited from local Codex session token records over a recent 30-day
-window. GitHub Actions cannot read those local session records, so the weekly
+window. GitHub Actions cannot read those local session records, so the daily
 job refreshes the 365-day GitHub-derived metrics while preserving the latest
 audited model snapshot. The model snapshot contains its own date range and
 source metadata.

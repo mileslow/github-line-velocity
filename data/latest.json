@@ -1,11 +1,10 @@
 {
   "active_days": 292,
-  "authored_commits": 3379,
-  "code_lines_added": 1788933,
+  "authored_commits": 3426,
+  "code_lines_added": 1790234,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "daily_additions": {
-    "2025-08-27": 4275,
     "2025-08-28": 9163,
     "2025-08-29": 816,
     "2025-08-30": 3065,
@@ -369,27 +368,28 @@
     "2026-08-23": 34579,
     "2026-08-24": 34553,
     "2026-08-25": 9181,
-    "2026-08-26": 23453
+    "2026-08-26": 23453,
+    "2026-08-27": 5576
   },
-  "end_date": "2026-08-26",
+  "end_date": "2026-08-27",
   "languages": {
     "C": 176,
     "C/C++": 42,
     "CSS": 64522,
     "HTML": 4115,
-    "JavaScript": 93281,
-    "Other": 167036,
+    "JavaScript": 90411,
+    "Other": 166353,
     "Python": 578913,
     "SQL": 8031,
-    "Shell": 59096,
-    "TypeScript": 808622,
+    "Shell": 58536,
+    "TypeScript": 814198,
     "Vue": 206,
-    "YAML": 4893
+    "YAML": 4731
   },
   "repositories_scanned": 153,
   "repositories_skipped": 5,
   "scan_mode": "authenticated",
-  "start_date": "2025-08-27",
+  "start_date": "2025-08-28",
   "username": "mileslow",
   "window_days": 365
 }

@@ -421,7 +421,7 @@ def render_svg(
         "</style>",
         '<rect width="1000" height="320" fill="#fff"/>',
         f'<text x="54" y="52" class="title">{compact_number(total)} lines / 365 days</text>',
-        f'<text x="54" y="84" class="body">{commits:,} contributions · {active_days} active days · {compact_token_count(model_tokens)} tokens</text>',
+        f'<text x="54" y="84" class="body">{commits:,} commits · {active_days} active days · {compact_token_count(model_tokens)} tokens</text>',
         '<text x="54" y="122" class="small">languages</text>',
     ]
     lines.extend(

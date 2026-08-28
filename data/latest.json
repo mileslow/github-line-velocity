@@ -1,7 +1,7 @@
 {
   "active_days": 292,
-  "authored_commits": 3485,
-  "code_lines_added": 1826108,
+  "authored_commits": 3519,
+  "code_lines_added": 1853716,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "daily_additions": {
@@ -369,7 +369,7 @@
     "2026-08-25": 9181,
     "2026-08-26": 23453,
     "2026-08-27": 22281,
-    "2026-08-28": 28332
+    "2026-08-28": 55940
   },
   "end_date": "2026-08-28",
   "languages": {
@@ -378,11 +378,11 @@
     "CSS": 64522,
     "HTML": 4115,
     "JavaScript": 84895,
-    "Other": 164630,
+    "Other": 164676,
     "Python": 579108,
-    "SQL": 8868,
+    "SQL": 18522,
     "Shell": 57854,
-    "TypeScript": 857379,
+    "TypeScript": 875287,
     "Vue": 206,
     "YAML": 4313
   },

@@ -1,27 +1,72 @@
 {
-  "source": "local Codex session token records",
-  "window_days": 30,
-  "start_date": "2026-07-29",
-  "end_date": "2026-08-27",
-  "session_files": 1062,
-  "allocation_method": "last-token usage grouped by the model recorded for each token event",
-  "total_tokens": 6709752446,
+  "source": "exact local Codex token records plus a preserved exact Cursor export subtotal",
+  "window_days": 365,
+  "start_date": "2025-08-29",
+  "end_date": "2026-08-28",
+  "coverage_status": "Exact known records; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
+  "allocation_method": "Codex last-token usage grouped by the model recorded for each token event; preserved Cursor usage is shown as a separate historical source because its per-model rows are unavailable.",
+  "total_tokens": 20264937606,
+  "sources": [
+    {
+      "name": "local Codex session token records",
+      "start_date": "2025-08-29",
+      "end_date": "2026-08-28",
+      "session_files": 2056,
+      "token_events": 136038,
+      "malformed_lines": 0,
+      "unattributed_model_events": 1,
+      "total_tokens": 14225586899
+    },
+    {
+      "name": "preserved Cursor CSV export subtotal",
+      "start_date": "2026-01-01",
+      "end_date": "2026-05-04",
+      "total_tokens": 6039350707
+    }
+  ],
+  "archived_cursor_export": {
+    "start_date": "2025-05-05",
+    "end_date": "2026-05-04",
+    "total_tokens": 9215105360,
+    "included_in_current_total": 6039350707,
+    "note": "Only the preserved January 1-May 4, 2026 subtotal is included because every included event falls within the current 365-day window. The unavailable raw rows prevent an exact August 29-December 31, 2025 subtotal."
+  },
   "models": [
     {
       "name": "gpt-5.6-sol",
-      "tokens": 3973253176
+      "tokens": 8310090786
+    },
+    {
+      "name": "Cursor (historical)",
+      "tokens": 6039350707
     },
     {
       "name": "gpt-5.6-luna",
-      "tokens": 2624867802
+      "tokens": 2652504602
     },
     {
-      "name": "gpt-5.6-terra",
-      "tokens": 92350461
+      "name": "gpt-5.2-codex",
+      "tokens": 1003212939
     },
     {
       "name": "gpt-5.5",
-      "tokens": 13607656
+      "tokens": 947624849
+    },
+    {
+      "name": "gpt-5.4",
+      "tokens": 861956065
+    },
+    {
+      "name": "gpt-5.4-mini",
+      "tokens": 250946457
+    },
+    {
+      "name": "gpt-5.6-terra",
+      "tokens": 174686575
+    },
+    {
+      "name": "gpt-5.3-codex",
+      "tokens": 18887366
     },
     {
       "name": "gpt-5.3-codex-spark",
@@ -30,6 +75,10 @@
     {
       "name": "codex-auto-review",
       "tokens": 2800793
+    },
+    {
+      "name": "Unattributed legacy event",
+      "tokens": 3909
     }
   ]
 }

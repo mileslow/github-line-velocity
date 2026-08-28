@@ -4,7 +4,7 @@
   "start_date": "2025-08-29",
   "end_date": "2026-08-28",
   "coverage_status": "Exact known records; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
-  "allocation_method": "Codex last-token usage grouped by the model recorded for each token event; preserved Cursor usage is shown as a separate historical source because its per-model rows are unavailable.",
+  "allocation_method": "Codex last-token usage grouped by the model recorded for each token event; the preserved Cursor subtotal is allocated across model names using the exact proportions from the previously published 365-day model snapshot.",
   "total_tokens": 20264937606,
   "sources": [
     {
@@ -21,6 +21,7 @@
       "name": "preserved Cursor CSV export subtotal",
       "start_date": "2026-01-01",
       "end_date": "2026-05-04",
+      "model_allocation": "proportional to the preserved published 2025-05-05 through 2026-05-04 model mix",
       "total_tokens": 6039350707
     }
   ],
@@ -29,16 +30,39 @@
     "end_date": "2026-05-04",
     "total_tokens": 9215105360,
     "included_in_current_total": 6039350707,
-    "note": "Only the preserved January 1-May 4, 2026 subtotal is included because every included event falls within the current 365-day window. The unavailable raw rows prevent an exact August 29-December 31, 2025 subtotal."
+    "published_model_mix_total_tokens": 10680373050,
+    "published_model_mix": [
+      {
+        "name": "claude-4.5-sonnet-thinking",
+        "tokens": 3044770143
+      },
+      {
+        "name": "gpt-5.4-medium",
+        "tokens": 1808615498
+      },
+      {
+        "name": "claude-opus-4-6",
+        "tokens": 1154830879
+      },
+      {
+        "name": "claude-4-sonnet-thinking",
+        "tokens": 1109565751
+      },
+      {
+        "name": "gpt-5.3-codex",
+        "tokens": 677716375
+      },
+      {
+        "name": "other models",
+        "tokens": 2884874404
+      }
+    ],
+    "note": "Only the preserved January 1-May 4, 2026 subtotal is included because every included event falls within the current 365-day window. The unavailable raw rows prevent an exact August 29-December 31, 2025 subtotal or a direct per-row model allocation."
   },
   "models": [
     {
       "name": "gpt-5.6-sol",
       "tokens": 8310090786
-    },
-    {
-      "name": "Cursor (historical)",
-      "tokens": 6039350707
     },
     {
       "name": "gpt-5.6-luna",
@@ -66,7 +90,7 @@
     },
     {
       "name": "gpt-5.3-codex",
-      "tokens": 18887366
+      "tokens": 402110578
     },
     {
       "name": "gpt-5.3-codex-spark",
@@ -79,6 +103,26 @@
     {
       "name": "Unattributed legacy event",
       "tokens": 3909
+    },
+    {
+      "name": "claude-4.5-sonnet-thinking",
+      "tokens": 1721703412
+    },
+    {
+      "name": "gpt-5.4-medium",
+      "tokens": 1022704285
+    },
+    {
+      "name": "claude-opus-4-6",
+      "tokens": 653013584
+    },
+    {
+      "name": "claude-4-sonnet-thinking",
+      "tokens": 627417851
+    },
+    {
+      "name": "other models",
+      "tokens": 1631288363
     }
   ]
 }

@@ -336,19 +336,32 @@ def compact_token_count(value: int) -> str:
 def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
     snapshot = json.loads(path.read_text(encoding="utf-8"))
     total_tokens = int(snapshot["total_tokens"])
+    raw_models = [
+        (str(model["name"]), int(model["tokens"]))
+        for model in snapshot["models"]
+    ]
+    explicit_other_tokens = sum(
+        tokens for name, tokens in raw_models if name.strip().lower() == "other models"
+    )
     models = sorted(
-        ((str(model["name"]), int(model["tokens"])) for model in snapshot["models"]),
+        (
+            (name, tokens)
+            for name, tokens in raw_models
+            if name.strip().lower() != "other models"
+        ),
         key=lambda item: (-item[1], item[0]),
     )
-    if total_tokens <= 0 or not models:
+    if total_tokens <= 0 or not raw_models:
         raise ValueError(f"Model usage snapshot must contain positive token totals: {path}")
+    if sum(tokens for _, tokens in raw_models) != total_tokens:
+        raise ValueError(f"Model usage snapshot totals do not match: {path}")
 
     colors = ("#111", "#444", "#666", "#888", "#aaa")
     segments = [
         (name, tokens / total_tokens * 100, colors[index])
         for index, (name, tokens) in enumerate(models[:5])
     ]
-    other_tokens = sum(tokens for _, tokens in models[5:])
+    other_tokens = explicit_other_tokens + sum(tokens for _, tokens in models[5:])
     if other_tokens:
         segments.append(("other models", other_tokens / total_tokens * 100, "#ccc"))
     return segments, total_tokens

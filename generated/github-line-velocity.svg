@@ -12,7 +12,7 @@
 </style>
 <rect width="1000" height="320" fill="#fff"/>
 <text x="54" y="52" class="title">1.8M lines / 365 days</text>
-<text x="54" y="84" class="body">3,485 contributions · 292 active days · 20.26B tokens</text>
+<text x="54" y="84" class="body">3,485 commits · 292 active days · 20.26B tokens</text>
 <text x="54" y="122" class="small">languages</text>
 <text x="54" y="144" class="small">TypeScript</text><text x="150" y="144" class="small">857.4K</text><rect x="198" y="135" width="170" height="8" fill="#111"/>
 <text x="54" y="162" class="small">Python</text><text x="150" y="162" class="small">579.1K</text><rect x="198" y="153" width="115" height="8" fill="#111"/>

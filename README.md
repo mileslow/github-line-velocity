@@ -41,7 +41,9 @@ The model panel is backed by the checked-in `data/model_usage.json` snapshot.
 The current snapshot covers a 365-day window using exact local Codex session
 token records plus the exact recoverable portion of the historical Cursor CSV
 export. The original Cursor account and raw CSV rows are no longer available,
-so Cursor usage is shown as a separate historical source and the snapshot
-metadata documents the incomplete Cursor coverage. GitHub Actions cannot read
-the local Codex records, so the daily job refreshes the 365-day GitHub-derived
-metrics while preserving the latest audited model snapshot.
+so the exact Cursor subtotal is allocated across model names using the
+proportions from the preserved, previously published 365-day model breakdown.
+The snapshot metadata documents that allocation and the incomplete Cursor
+coverage. GitHub Actions cannot read the local Codex records, so the daily job
+refreshes the 365-day GitHub-derived metrics while preserving the latest
+audited model snapshot.

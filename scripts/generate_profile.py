@@ -660,7 +660,7 @@ def main() -> int:
         validate_repository_inventory(len(repos), previous_stats)
     except (ScanRegressionError, ValueError) as error:
         raise SystemExit(
-            "Refusing to scan with incomplete repository access: "
+            "SCAN_BLOCKED: refusing to scan with incomplete repository access: "
             f"{error} Check PROFILE_REPO_TOKEN access to all source repositories."
         ) from error
     daily: Counter[str] = Counter()

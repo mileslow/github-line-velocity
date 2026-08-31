@@ -21,6 +21,8 @@ from typing import Any
 API_ROOT = "https://api.github.com"
 API_TIMEOUT_SECONDS = 20
 API_MAX_RETRIES = 8
+MIN_PREVIOUS_COVERAGE_RATIO = 0.8
+MAX_ACTIVE_DAYS_DROP = 25
 DEFAULT_PROFILE_REPO = "mileslow/mileslow"
 DEFAULT_GENERATOR_REPO = "mileslow/github-line-velocity"
 DEFAULT_PUBLIC_ORGANIZATIONS = ("Vastly-Podcasts",)
@@ -119,6 +121,10 @@ class ApiError(RuntimeError):
     pass
 
 
+class ScanRegressionError(RuntimeError):
+    pass
+
+
 def github_request(
     token: str,
     method: str,
@@ -145,7 +151,16 @@ def github_request(
         try:
             with urllib.request.urlopen(request, timeout=API_TIMEOUT_SECONDS) as response:
                 raw = response.read()
-            return json.loads(raw.decode("utf-8")) if raw else None
+            if not raw:
+                return None
+            try:
+                return json.loads(raw.decode("utf-8"))
+            except json.JSONDecodeError as error:
+                if attempt >= API_MAX_RETRIES:
+                    raise ApiError(
+                        f"GitHub API {method} {path} returned invalid JSON"
+                    ) from error
+                time.sleep(min(60.0, 2**attempt))
         except urllib.error.HTTPError as error:
             detail = error.read().decode("utf-8", errors="replace")
             retryable = error.code in {403, 429, 500, 502, 503, 504}
@@ -155,7 +170,10 @@ def github_request(
                     f"GitHub API {method} {path} returned {error.code}: {detail[:400]}"
                 ) from error
             retry_after = error.headers.get("Retry-After")
-            delay = min(60.0, float(retry_after)) if retry_after else min(60.0, 2**attempt)
+            try:
+                delay = min(60.0, float(retry_after)) if retry_after else min(60.0, 2**attempt)
+            except (TypeError, ValueError):
+                delay = min(60.0, 2**attempt)
             time.sleep(delay)
         except (urllib.error.URLError, TimeoutError) as error:
             if attempt >= API_MAX_RETRIES:
@@ -171,6 +189,10 @@ def paged_request(token: str, path: str, query: dict[str, str]) -> list[Any]:
         page_query = dict(query)
         page_query["page"] = str(page)
         response = github_request(token, "GET", path, query=page_query)
+        if response is None:
+            raise ApiError(f"GitHub API GET {path} returned an empty response")
+        if not isinstance(response, list):
+            raise ApiError(f"GitHub API GET {path} returned a non-list response")
         if not response:
             return items
         items.extend(response)
@@ -269,13 +291,31 @@ def list_authored_commits(
 def commit_detail_stats(
     token: str, repo_name: str, commit: dict[str, Any]
 ) -> tuple[str, Counter[str], int]:
-    details = github_request(token, "GET", f"/repos/{repo_name}/commits/{commit['sha']}")
+    sha = commit.get("sha")
+    if not isinstance(sha, str) or not sha:
+        raise ApiError(f"GitHub commit listing returned a commit without a SHA in {repo_name}")
+    details = github_request(token, "GET", f"/repos/{repo_name}/commits/{sha}")
+    if not isinstance(details, dict):
+        raise ApiError(f"GitHub commit detail for {repo_name}/{sha} was not an object")
     commit_date = (commit.get("commit", {}).get("author", {}).get("date") or "")[:10]
+    if not commit_date:
+        raise ApiError(f"GitHub commit listing returned a commit without an author date in {repo_name}")
     additions_by_language: Counter[str] = Counter()
-    files = details.get("files") or []
+    files = details.get("files")
+    if not isinstance(files, list):
+        raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had no file list")
     for changed_file in files:
-        path = changed_file.get("filename", "")
-        added = int(changed_file.get("additions", 0) or 0)
+        if not isinstance(changed_file, dict):
+            raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had an invalid file")
+        path = changed_file.get("filename")
+        if not isinstance(path, str) or not path:
+            raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had a file without a path")
+        try:
+            added = int(changed_file.get("additions", 0) or 0)
+        except (TypeError, ValueError) as error:
+            raise ApiError(
+                f"GitHub commit detail for {repo_name}/{sha} had invalid additions"
+            ) from error
         if added <= 0 or should_exclude(path):
             continue
         additions_by_language[language_for(path)] += added
@@ -331,6 +371,89 @@ def compact_token_count(value: int) -> str:
     if value >= 1_000:
         return f"{value / 1_000:.1f}K"
     return f"{value:,}"
+
+
+def load_stats_snapshot(path: Path) -> dict[str, Any] | None:
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return None
+    try:
+        snapshot = json.loads(raw)
+    except json.JSONDecodeError as error:
+        raise ValueError(f"invalid JSON in {path}") from error
+    if not isinstance(snapshot, dict):
+        raise ValueError(f"stats snapshot must contain an object: {path}")
+    return snapshot
+
+
+def snapshot_count(snapshot: dict[str, Any], key: str) -> int | None:
+    value = snapshot.get(key)
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        raise ValueError(f"stats snapshot field {key!r} must be an integer")
+    try:
+        count = int(value)
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"stats snapshot field {key!r} must be an integer") from error
+    if count < 0:
+        raise ValueError(f"stats snapshot field {key!r} must not be negative")
+    return count
+
+
+def minimum_repository_baseline(snapshot: dict[str, Any]) -> int | None:
+    configured_baseline = snapshot.get("coverage_baseline")
+    if configured_baseline is not None:
+        if not isinstance(configured_baseline, dict):
+            raise ValueError("stats snapshot field 'coverage_baseline' must be an object")
+        baseline_count = snapshot_count(configured_baseline, "repositories_scanned")
+        if baseline_count is not None:
+            return baseline_count
+    return snapshot_count(snapshot, "repositories_scanned")
+
+
+def validate_scan(
+    current: dict[str, Any], previous: dict[str, Any] | None
+) -> None:
+    """Reject incomplete scans before they can replace the public snapshot."""
+    current_failures = snapshot_count(current, "commit_detail_failures") or 0
+    if current_failures:
+        raise ScanRegressionError(
+            f"{current_failures} commit detail request(s) failed; refusing to publish a partial scan"
+        )
+    if previous is None:
+        return
+
+    if previous.get("scan_mode") == "authenticated" and current.get("scan_mode") != "authenticated":
+        raise ScanRegressionError(
+            "scan downgraded from authenticated to public fallback; refusing to publish a partial scan"
+        )
+
+    previous_repositories = minimum_repository_baseline(previous)
+    current_repositories = snapshot_count(current, "repositories_scanned")
+    if (
+        previous_repositories
+        and current_repositories is not None
+        and current_repositories
+        < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
+    ):
+        raise ScanRegressionError(
+            f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
+            f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
+        )
+
+    previous_active_days = snapshot_count(previous, "active_days")
+    current_active_days = snapshot_count(current, "active_days")
+    if (
+        previous_active_days is not None
+        and current_active_days is not None
+        and previous_active_days - current_active_days > MAX_ACTIVE_DAYS_DROP
+    ):
+        raise ScanRegressionError(
+            f"active days dropped from {previous_active_days:,} to {current_active_days:,}; "
+            f"refusing to publish a scan with a drop greater than {MAX_ACTIVE_DAYS_DROP} days"
+        )
 
 
 def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
@@ -500,6 +623,11 @@ def main() -> int:
         raise SystemExit("GH_TOKEN or GITHUB_TOKEN is required")
     if args.days < 1:
         raise SystemExit("--days must be positive")
+    stats_path = Path(args.stats_path)
+    try:
+        previous_stats = load_stats_snapshot(stats_path)
+    except (OSError, ValueError) as error:
+        raise SystemExit(f"Could not load previous stats snapshot: {error}") from error
     model_usage_path = Path(args.model_usage_path)
     try:
         model_segments, model_tokens = load_model_usage(model_usage_path)
@@ -563,11 +691,21 @@ def main() -> int:
         "languages": dict(sorted(languages.items(), key=lambda item: (-item[1], item[0]))),
         "daily_additions": {day.isoformat(): daily[day.isoformat()] for day in (start + dt.timedelta(days=i) for i in range(args.days))},
     }
+    previous_repository_baseline = (
+        minimum_repository_baseline(previous_stats) if previous_stats else None
+    )
+    if previous_repository_baseline is not None:
+        stats["coverage_baseline"] = {
+            "repositories_scanned": max(previous_repository_baseline, len(repos))
+        }
+    try:
+        validate_scan(stats, previous_stats)
+    except (ScanRegressionError, ValueError) as error:
+        raise SystemExit(f"Refusing to publish GitHub line-velocity snapshot: {error}") from error
     svg = render_svg(start, end, daily, languages, commits, model_segments, model_tokens)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "github-line-velocity.svg").write_text(svg, encoding="utf-8")
-    stats_path = Path(args.stats_path)
     stats_path.parent.mkdir(parents=True, exist_ok=True)
     stats_path.write_text(json.dumps(stats, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(

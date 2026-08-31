@@ -63,6 +63,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Run regression tests
+        run: python -m unittest discover --start-directory tests --verbose
+
       - name: Generate the latest 365-day snapshot
         run: |
           python scripts/generate_profile.py \

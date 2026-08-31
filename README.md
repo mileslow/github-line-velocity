@@ -30,10 +30,19 @@ python3 scripts/generate_profile.py \
 The token needs read access to the repositories being scanned. The automated
 workflow uses `PROFILE_REPO_TOKEN` for private-repository reads and publishing,
 and the built-in Actions token for public-repository reads. If the personal
-token's repository-list quota is temporarily exhausted, it falls back to
-public repositories instead of failing the refresh. GitHub caps the file list
-returned for an individual very large commit; the aggregate snapshot records
-how many such commits were encountered in `data/latest.json`.
+token's repository-list quota is temporarily exhausted, it can fall back to
+public repositories, but an existing authenticated baseline rejects that
+downgrade instead of publishing a partial refresh. Before writing a new
+snapshot, the generator also rejects a sudden drop in repository coverage or
+active days and rejects any failed commit-detail requests. GitHub caps the file
+list returned for an individual very large commit; the aggregate snapshot
+records how many such commits were encountered in `data/latest.json`.
+
+The regression tests run in the scheduled workflow before the scan:
+
+```bash
+python -m unittest discover --start-directory tests --verbose
+```
 
 ## Audit notes
 

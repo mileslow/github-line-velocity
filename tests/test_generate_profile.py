@@ -2,6 +2,7 @@ import unittest
 
 from scripts.generate_profile import (
     ScanRegressionError,
+    repository_name_hash,
     validate_repository_inventory,
     validate_scan,
 )
@@ -32,6 +33,24 @@ class ScanValidationTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ScanRegressionError, "repositories dropped"):
             validate_repository_inventory(59, previous)
+
+    def test_rejects_a_missing_known_repository_even_when_the_count_stays_high(self):
+        previous = {
+            "coverage_baseline": {
+                "repositories_scanned": 2,
+                "repository_hashes": [
+                    repository_name_hash("Vastly-Podcasts/Overlap"),
+                    repository_name_hash("mileslow/another-repository"),
+                ],
+            }
+        }
+
+        with self.assertRaisesRegex(ScanRegressionError, "no longer accessible"):
+            validate_repository_inventory(
+                2,
+                previous,
+                ["mileslow/another-repository", "mileslow/new-repository"],
+            )
 
     def test_rejects_commit_detail_failures_even_without_a_baseline(self):
         current = {"commit_detail_failures": 1}

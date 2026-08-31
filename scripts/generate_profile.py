@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import datetime as dt
+import hashlib
 import html
 import json
 import math
@@ -402,6 +403,42 @@ def snapshot_count(snapshot: dict[str, Any], key: str) -> int | None:
     return count
 
 
+def repository_name_hash(name: str) -> str:
+    """Create a non-reversible fingerprint without publishing a repository name."""
+    return hashlib.sha256(name.casefold().encode("utf-8")).hexdigest()
+
+
+def repository_inventory_hashes(names: list[str]) -> set[str]:
+    return {repository_name_hash(name) for name in names}
+
+
+def baseline_repository_hashes(snapshot: dict[str, Any]) -> set[str] | None:
+    configured_baseline = snapshot.get("coverage_baseline")
+    if configured_baseline is None:
+        return None
+    if not isinstance(configured_baseline, dict):
+        raise ValueError("stats snapshot field 'coverage_baseline' must be an object")
+    raw_hashes = configured_baseline.get("repository_hashes")
+    if raw_hashes is None:
+        return None
+    if not isinstance(raw_hashes, list):
+        raise ValueError("stats snapshot field 'coverage_baseline.repository_hashes' must be a list")
+    hashes: set[str] = set()
+    for value in raw_hashes:
+        if not isinstance(value, str) or len(value) != 64:
+            raise ValueError(
+                "stats snapshot field 'coverage_baseline.repository_hashes' must contain SHA-256 hashes"
+            )
+        try:
+            int(value, 16)
+        except ValueError as error:
+            raise ValueError(
+                "stats snapshot field 'coverage_baseline.repository_hashes' must contain SHA-256 hashes"
+            ) from error
+        hashes.add(value)
+    return hashes
+
+
 def minimum_repository_baseline(snapshot: dict[str, Any]) -> int | None:
     configured_baseline = snapshot.get("coverage_baseline")
     if configured_baseline is not None:
@@ -414,7 +451,9 @@ def minimum_repository_baseline(snapshot: dict[str, Any]) -> int | None:
 
 
 def validate_repository_inventory(
-    current_repositories: int, previous: dict[str, Any] | None
+    current_repositories: int,
+    previous: dict[str, Any] | None,
+    current_repository_names: list[str] | None = None,
 ) -> None:
     if previous is None:
         return
@@ -427,6 +466,15 @@ def validate_repository_inventory(
             f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
             f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
         )
+    previous_hashes = baseline_repository_hashes(previous)
+    if previous_hashes is not None and current_repository_names is not None:
+        current_hashes = repository_inventory_hashes(current_repository_names)
+        missing = previous_hashes - current_hashes
+        if missing:
+            raise ScanRegressionError(
+                f"{len(missing):,} previously scanned repositories are no longer accessible; "
+                "refusing to publish until repository access is restored"
+            )
 
 
 def validate_scan(
@@ -657,7 +705,11 @@ def main() -> int:
             public_token, args.username, excluded, tuple(args.organization)
         )
     try:
-        validate_repository_inventory(len(repos), previous_stats)
+        validate_repository_inventory(
+            len(repos),
+            previous_stats,
+            [repo["full_name"] for repo in repos],
+        )
     except (ScanRegressionError, ValueError) as error:
         raise SystemExit(
             "SCAN_BLOCKED: refusing to scan with incomplete repository access: "
@@ -708,10 +760,16 @@ def main() -> int:
     previous_repository_baseline = (
         minimum_repository_baseline(previous_stats) if previous_stats else None
     )
-    if previous_repository_baseline is not None:
-        stats["coverage_baseline"] = {
-            "repositories_scanned": max(previous_repository_baseline, len(repos))
-        }
+    previous_repository_hashes = (
+        baseline_repository_hashes(previous_stats) if previous_stats else None
+    )
+    current_repository_hashes = repository_inventory_hashes(
+        [repo["full_name"] for repo in repos]
+    )
+    stats["coverage_baseline"] = {
+        "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
+        "repository_hashes": sorted((previous_repository_hashes or set()) | current_repository_hashes),
+    }
     try:
         validate_scan(stats, previous_stats)
     except (ScanRegressionError, ValueError) as error:

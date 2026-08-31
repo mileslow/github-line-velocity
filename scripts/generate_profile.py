@@ -457,15 +457,6 @@ def validate_repository_inventory(
 ) -> None:
     if previous is None:
         return
-    previous_repositories = minimum_repository_baseline(previous)
-    if (
-        previous_repositories
-        and current_repositories < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
-    ):
-        raise ScanRegressionError(
-            f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
-            f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
-        )
     previous_hashes = baseline_repository_hashes(previous)
     if previous_hashes is not None and current_repository_names is not None:
         current_hashes = repository_inventory_hashes(current_repository_names)
@@ -475,6 +466,15 @@ def validate_repository_inventory(
                 f"{len(missing):,} previously scanned repositories are no longer accessible; "
                 "refusing to publish until repository access is restored"
             )
+    previous_repositories = minimum_repository_baseline(previous)
+    if (
+        previous_repositories
+        and current_repositories < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
+    ):
+        raise ScanRegressionError(
+            f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
+            f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
+        )
 
 
 def validate_scan(

@@ -413,6 +413,22 @@ def minimum_repository_baseline(snapshot: dict[str, Any]) -> int | None:
     return snapshot_count(snapshot, "repositories_scanned")
 
 
+def validate_repository_inventory(
+    current_repositories: int, previous: dict[str, Any] | None
+) -> None:
+    if previous is None:
+        return
+    previous_repositories = minimum_repository_baseline(previous)
+    if (
+        previous_repositories
+        and current_repositories < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
+    ):
+        raise ScanRegressionError(
+            f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
+            f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
+        )
+
+
 def validate_scan(
     current: dict[str, Any], previous: dict[str, Any] | None
 ) -> None:
@@ -430,18 +446,9 @@ def validate_scan(
             "scan downgraded from authenticated to public fallback; refusing to publish a partial scan"
         )
 
-    previous_repositories = minimum_repository_baseline(previous)
     current_repositories = snapshot_count(current, "repositories_scanned")
-    if (
-        previous_repositories
-        and current_repositories is not None
-        and current_repositories
-        < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
-    ):
-        raise ScanRegressionError(
-            f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
-            f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
-        )
+    if current_repositories is not None:
+        validate_repository_inventory(current_repositories, previous)
 
     previous_active_days = snapshot_count(previous, "active_days")
     current_active_days = snapshot_count(current, "active_days")
@@ -649,6 +656,13 @@ def main() -> int:
         repos = list_public_repositories(
             public_token, args.username, excluded, tuple(args.organization)
         )
+    try:
+        validate_repository_inventory(len(repos), previous_stats)
+    except (ScanRegressionError, ValueError) as error:
+        raise SystemExit(
+            "Refusing to scan with incomplete repository access: "
+            f"{error} Check PROFILE_REPO_TOKEN access to all source repositories."
+        ) from error
     daily: Counter[str] = Counter()
     languages: Counter[str] = Counter()
     commits = 0

@@ -1,6 +1,10 @@
 import unittest
 
-from scripts.generate_profile import ScanRegressionError, validate_scan
+from scripts.generate_profile import (
+    ScanRegressionError,
+    validate_repository_inventory,
+    validate_scan,
+)
 
 
 class ScanValidationTests(unittest.TestCase):
@@ -19,6 +23,15 @@ class ScanValidationTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ScanRegressionError, "repositories dropped"):
             validate_scan(current, previous)
+
+    def test_rejects_incomplete_repository_access_before_detail_scanning(self):
+        previous = {
+            "scan_mode": "authenticated",
+            "repositories_scanned": 153,
+        }
+
+        with self.assertRaisesRegex(ScanRegressionError, "repositories dropped"):
+            validate_repository_inventory(59, previous)
 
     def test_rejects_commit_detail_failures_even_without_a_baseline(self):
         current = {"commit_detail_failures": 1}

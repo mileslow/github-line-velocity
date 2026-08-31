@@ -37,6 +37,9 @@ snapshot, the generator also rejects a sudden drop in repository coverage or
 active days and rejects any failed commit-detail requests. GitHub caps the file
 list returned for an individual very large commit; the aggregate snapshot
 records how many such commits were encountered in `data/latest.json`.
+Repository coverage is checked immediately after repository discovery, before
+the more expensive commit-detail scan begins, so a token with reduced access
+fails fast and leaves the previous snapshot in place.
 
 The regression tests run in the scheduled workflow before the scan:
 

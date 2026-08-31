@@ -715,7 +715,9 @@ def main() -> int:
     try:
         validate_scan(stats, previous_stats)
     except (ScanRegressionError, ValueError) as error:
-        raise SystemExit(f"Refusing to publish GitHub line-velocity snapshot: {error}") from error
+        raise SystemExit(
+            f"SCAN_BLOCKED: refusing to publish GitHub line-velocity snapshot: {error}"
+        ) from error
     svg = render_svg(start, end, daily, languages, commits, model_segments, model_tokens)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

@@ -39,7 +39,9 @@ list returned for an individual very large commit; the aggregate snapshot
 records how many such commits were encountered in `data/latest.json`.
 Repository coverage is checked immediately after repository discovery, before
 the more expensive commit-detail scan begins, so a token with reduced access
-fails fast and leaves the previous snapshot in place.
+fails fast and leaves the previous snapshot in place. The workflow treats this
+expected blocked-scan result as a successful no-op with a warning; unexpected
+generator failures still fail the workflow.
 
 The regression tests run in the scheduled workflow before the scan:
 

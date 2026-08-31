@@ -68,7 +68,9 @@ jobs:
         run: python -m unittest discover --start-directory tests --verbose
 
       - name: Generate the latest 365-day snapshot
+        id: generate
         run: |
+          set +e
           python scripts/generate_profile.py \
             --output-dir generated \
             --stats-path data/latest.json \
@@ -76,9 +78,20 @@ jobs:
             --username mileslow \
             --profile-repo mileslow/mileslow \
             --generator-repo mileslow/github-line-velocity \
-            --workers 2
+            --workers 2 2>&1 | tee "$RUNNER_TEMP/generate-profile.log"
+          status=${PIPESTATUS[0]}
+          if [ "$status" -eq 0 ]; then
+            exit 0
+          fi
+          if grep -q "SCAN_BLOCKED:" "$RUNNER_TEMP/generate-profile.log" 2>/dev/null; then
+            echo "blocked=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::Scan blocked; preserving the previous snapshot and profile graphic."
+            exit 0
+          fi
+          exit "$status"
 
       - name: Publish the profile SVG
+        if: steps.generate.outputs.blocked != 'true'
         run: |
           python scripts/publish_profile.py \
             --svg generated/github-line-velocity.svg \
@@ -86,6 +99,7 @@ jobs:
             --path assets/github-line-velocity.svg
 
       - name: Commit the aggregate snapshot
+        if: steps.generate.outputs.blocked != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

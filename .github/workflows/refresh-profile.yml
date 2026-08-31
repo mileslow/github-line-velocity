@@ -18,6 +18,7 @@ jobs:
     timeout-minutes: 30
     env:
       GH_TOKEN: ${{ secrets.PROFILE_REPO_TOKEN }}
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - name: Check profile token
         run: |

@@ -74,11 +74,25 @@ def load_json_lines(path: Path) -> Iterator[dict[str, Any]]:
         return
 
 
+def changed_jsonl_paths(root: Path, after: dt.datetime) -> Iterator[Path]:
+    """Yield files that could contain records newer than the source watermark."""
+    after_epoch = after.timestamp()
+    for path in sorted(root.glob("**/*.jsonl")):
+        try:
+            if path.stat().st_mtime <= after_epoch:
+                continue
+        except OSError:
+            # A file can disappear while a session is being rotated. Let the
+            # reader handle that case instead of making the whole sync fail.
+            pass
+        yield path
+
+
 def claude_usage_events(
     root: Path, after: dt.datetime
 ) -> Iterator[tuple[str, dt.datetime, int]]:
     latest_by_request: dict[str, tuple[str, dt.datetime, dict[str, Any]]] = {}
-    for path in sorted(root.glob("**/*.jsonl")):
+    for path in changed_jsonl_paths(root, after):
         for item in load_json_lines(path):
             message = item.get("message")
             if not isinstance(message, dict):
@@ -110,7 +124,7 @@ def claude_usage_events(
 def codex_usage_events(
     root: Path, after: dt.datetime
 ) -> Iterator[tuple[str, dt.datetime, int]]:
-    for path in sorted(root.glob("**/*.jsonl")):
+    for path in changed_jsonl_paths(root, after):
         current_model = "Unattributed Codex"
         for item in load_json_lines(path):
             payload = item.get("payload")

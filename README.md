@@ -67,15 +67,13 @@ the proportions from the preserved, previously published 365-day model
 breakdown. The snapshot metadata documents that allocation and the incomplete
 Cursor coverage.
 
-The `$500 Claude Code` value is a separate cumulative spend value supplied by
-the user. It is displayed alongside tokens and is intentionally not converted
-into invented tokens, because spend alone does not identify the model mix,
-cache usage, or billing period needed for an exact token count. The local
-`scripts/sync_model_usage.py` updater reads aggregate token usage from the
-machine's Claude Code and Codex JSONL records, counts only completed Claude
-responses, deduplicates streaming rows, and advances per-source watermarks
-after each successful update. Raw prompts, responses, and session contents are
-never written to the repository.
+The local `scripts/sync_model_usage.py` updater reads aggregate token usage from
+the machine's model-session JSONL records, counts only completed responses,
+deduplicates streaming rows, and advances per-source watermarks after each
+successful update. Raw prompts, responses, and session contents are never
+written to the repository.
+Unchanged session files are skipped using their modification time, so hourly
+syncs inspect only files that could contain newer usage.
 
 GitHub Actions cannot read local home-directory records. The installed macOS
 LaunchAgent in `launchd/com.mileslow.github-line-velocity.plist` runs the local

@@ -6,15 +6,6 @@
   "coverage_status": "Exact known Codex and Claude Code records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code request usage are grouped by recorded model; the preserved Cursor subtotal is allocated across model names using the exact proportions from the previously published 365-day model snapshot.",
   "total_tokens": 21365303353,
-  "claude_code_spend_usd": 500,
-  "spend_sources": [
-    {
-      "name": "Claude Code",
-      "spend_usd": 500,
-      "source": "user-provided cumulative spend",
-      "as_of": "2026-09-05"
-    }
-  ],
   "sources": [
     {
       "name": "local Codex session token records",

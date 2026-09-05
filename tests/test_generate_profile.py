@@ -1,16 +1,12 @@
 import unittest
 import datetime as dt
-import json
-import tempfile
 from collections import Counter
-from pathlib import Path
 from unittest.mock import patch
 
 from scripts.generate_profile import (
     ScanRegressionError,
     carried_daily_changed,
     commit_detail_stats,
-    load_model_usage,
     merge_rolling_changed,
     partial_scan_start,
     render_svg,
@@ -38,39 +34,15 @@ class GraphRenderingTests(unittest.TestCase):
             3,
             [],
             0,
-            500,
         )
 
         self.assertIn("35 lines / 3 days", svg)
-        self.assertIn("500 Claude Code", svg)
         self.assertIn("2026-09-01 to 2026-09-02: 15 lines", svg)
         self.assertIn("2026-09-03: 20 lines", svg)
         self.assertIn('x1="54.00" y1="284.0" x2="54.00" y2="224.0"', svg)
         self.assertIn('x1="964.00" y1="284.0" x2="964.00" y2="204.0"', svg)
         self.assertNotIn("additions", svg)
         self.assertNotIn("lines changed", svg)
-
-
-class ModelUsageTests(unittest.TestCase):
-    def test_loads_claude_code_spend_alongside_reconciled_tokens(self):
-        with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / "model_usage.json"
-            path.write_text(
-                json.dumps(
-                    {
-                        "total_tokens": 100,
-                        "claude_code_spend_usd": 500,
-                        "models": [{"name": "Claude", "tokens": 100}],
-                    }
-                ),
-                encoding="utf-8",
-            )
-
-            segments, total_tokens, spend_usd = load_model_usage(path)
-
-        self.assertEqual(total_tokens, 100)
-        self.assertEqual(spend_usd, 500)
-        self.assertEqual(segments[0][0], "Claude")
 
 
 class CommitDetailStatsTests(unittest.TestCase):

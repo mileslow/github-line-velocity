@@ -216,6 +216,60 @@ class LocalUsageSyncTests(unittest.TestCase):
             self.assertEqual(json.loads(snapshot_path.read_text(encoding="utf-8")), updated)
             self.assertEqual(snapshot_after(updated), dt.datetime(2026, 9, 5, 9, 1, tzinfo=dt.timezone.utc))
 
+    def test_main_preserves_unallocated_token_baseline(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            snapshot_path = root / "data" / "model_usage.json"
+            codex_root = root / "codex"
+            snapshot_path.parent.mkdir()
+            snapshot_path.write_text(
+                json.dumps(
+                    {
+                        "window_days": 365,
+                        "start_date": "2026-09-04",
+                        "end_date": "2026-09-04",
+                        "total_tokens": 110,
+                        "unallocated_token_baseline": 100,
+                        "models": [{"name": "Existing model", "tokens": 10}],
+                        "usage_sync": {
+                            "last_processed_at": "2026-09-04T23:59:59Z"
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            write_json_lines(
+                codex_root / "session.jsonl",
+                [
+                    {"type": "turn_context", "payload": {"model": "gpt-5.6-sol"}},
+                    {
+                        "timestamp": "2026-09-05T09:01:00Z",
+                        "type": "event_msg",
+                        "payload": {
+                            "type": "token_count",
+                            "info": {"last_token_usage": {"total_tokens": 30}},
+                        },
+                    },
+                ],
+            )
+
+            argv = [
+                "sync_model_usage.py",
+                "--snapshot",
+                str(snapshot_path),
+                "--claude-root",
+                str(root / "claude"),
+                "--codex-root",
+                str(codex_root),
+            ]
+            with patch.object(sys, "argv", argv):
+                self.assertEqual(main(), 0)
+            updated = json.loads(snapshot_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(updated["unallocated_token_baseline"], 100)
+        self.assertEqual(sum(model["tokens"] for model in updated["models"]), 40)
+        self.assertEqual(updated["total_tokens"], 140)
+
 
 if __name__ == "__main__":
     unittest.main()

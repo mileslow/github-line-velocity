@@ -175,6 +175,16 @@ def source_after(
     return fallback
 
 
+def unallocated_token_baseline(snapshot: dict[str, Any]) -> int:
+    try:
+        baseline = int(snapshot.get("unallocated_token_baseline", 0) or 0)
+    except (TypeError, ValueError) as error:
+        raise ValueError("model snapshot unallocated_token_baseline must be an integer") from error
+    if baseline < 0:
+        raise ValueError("model snapshot unallocated_token_baseline must not be negative")
+    return baseline
+
+
 def update_source(
     snapshot: dict[str, Any],
     name: str,
@@ -230,7 +240,7 @@ def apply_events(
         {"name": name, "tokens": tokens}
         for name, tokens in sorted(models.items(), key=lambda item: (-item[1], item[0]))
     ]
-    snapshot["total_tokens"] = sum(models.values())
+    snapshot["total_tokens"] = sum(models.values()) + unallocated_token_baseline(snapshot)
     newest = max(timestamp for _, timestamp, _ in events)
     end = max(dt.date.fromisoformat(snapshot["end_date"]), newest.date())
     snapshot["end_date"] = end.isoformat()

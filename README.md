@@ -42,13 +42,16 @@ Repository coverage is checked immediately after repository discovery. The
 coverage baseline stores one-way fingerprints of the last complete repository
 inventory, so a missing repository is remembered without publishing its name.
 Overlap is permanently inaccessible: its last known history is always carried
-forward as a backfill, while each newly scanned day adds additions plus deletions
-from the repositories that remain accessible. If another repository is temporarily
-incomplete, the generator keeps the previous daily totals and backfills newly
-available repository history when access returns. The first changed-lines refresh
-can also carry forward the old additions-only snapshot as historical backfill;
-it never invents deletions for an inaccessible repository. A malformed baseline or
-failed commit-detail request remains a blocked safe no-op rather than a corrupt update.
+forward as a headline-total backfill, while each newly scanned day adds additions
+plus deletions from the repositories that remain accessible. That additive
+baseline is not written into `daily_lines_changed`, so the active-day count and
+activity graph continue to reflect the real carried/scanned daily series. If
+another repository is temporarily incomplete, the generator keeps the previous
+daily totals and backfills newly available repository history when access
+returns. The first changed-lines refresh can also carry forward the old
+additions-only snapshot as historical backfill; it never invents deletions for an
+inaccessible repository. A malformed baseline or failed commit-detail request
+remains a blocked safe no-op rather than a corrupt update.
 
 The regression tests run in the scheduled workflow before the scan:
 
@@ -62,10 +65,8 @@ The model panel is backed by the checked-in `data/model_usage.json` snapshot.
 The current snapshot covers a 365-day window using exact local Codex and Claude
 Code session token records plus the exact recoverable portion of the historical
 Cursor CSV export. The original Cursor account and raw CSV rows are no longer
-available, so the exact Cursor subtotal is allocated across model names using
-the proportions from the preserved, previously published 365-day model
-breakdown. The snapshot metadata documents that allocation and the incomplete
-Cursor coverage.
+available, so the preserved Cursor subtotal contributes only to the headline
+token count. The model breakdown uses only token records with known model names.
 
 The local `scripts/sync_model_usage.py` updater reads aggregate token usage from
 the machine's model-session JSONL records, counts only completed responses,

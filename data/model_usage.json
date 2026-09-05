@@ -1,21 +1,22 @@
 {
-  "source": "exact local Codex and Claude Code token records plus a preserved exact Cursor export subtotal",
+  "source": "exact local Codex and Claude Code token records plus a preserved unallocated Cursor export subtotal",
   "window_days": 365,
   "start_date": "2025-09-06",
   "end_date": "2026-09-05",
   "coverage_status": "Exact known Codex and Claude Code records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
-  "allocation_method": "Codex last-token usage and Claude Code request usage are grouped by recorded model; the preserved Cursor subtotal is allocated across model names using the exact proportions from the previously published 365-day model snapshot.",
-  "total_tokens": 21384851394,
+  "allocation_method": "Codex last-token usage and Claude Code request usage are grouped by recorded model; the preserved Cursor subtotal contributes only to the headline token total because the raw rows are unavailable.",
+  "total_tokens": 21390471613,
+  "unallocated_token_baseline": 6039350707,
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2025-08-29",
       "end_date": "2026-09-05",
       "session_files": 2056,
-      "token_events": 140557,
+      "token_events": 140607,
       "malformed_lines": 0,
       "unattributed_model_events": 1,
-      "total_tokens": 14777150552
+      "total_tokens": 14782770771
     },
     {
       "name": "local Claude Code token records",
@@ -30,7 +31,7 @@
       "name": "preserved Cursor CSV export subtotal",
       "start_date": "2026-01-01",
       "end_date": "2026-05-04",
-      "model_allocation": "proportional to the preserved published 2025-05-05 through 2026-05-04 model mix",
+      "model_allocation": "not allocated into model totals; preserved only as an unallocated headline-token baseline",
       "total_tokens": 6039350707
     }
   ],
@@ -66,7 +67,7 @@
         "tokens": 2884874404
       }
     ],
-    "note": "Only the preserved January 1-May 4, 2026 subtotal is included because every included event falls within the current 365-day window. The unavailable raw rows prevent an exact August 29-December 31, 2025 subtotal or a direct per-row model allocation."
+    "note": "Only the preserved January 1-May 4, 2026 subtotal is included because every included event falls within the current 365-day window. The unavailable raw rows prevent an exact August 29-December 31, 2025 subtotal or a direct per-row model breakdown."
   },
   "models": [
     {
@@ -75,19 +76,7 @@
     },
     {
       "name": "gpt-5.6-luna",
-      "tokens": 3119322891
-    },
-    {
-      "name": "claude-4.5-sonnet-thinking",
-      "tokens": 1721703412
-    },
-    {
-      "name": "other models",
-      "tokens": 1631288363
-    },
-    {
-      "name": "gpt-5.4-medium",
-      "tokens": 1022704285
+      "tokens": 3123877981
     },
     {
       "name": "gpt-5.2-codex",
@@ -95,27 +84,15 @@
     },
     {
       "name": "gpt-5.5",
-      "tokens": 947624849
+      "tokens": 948689978
     },
     {
       "name": "gpt-5.4",
       "tokens": 861956065
     },
     {
-      "name": "claude-opus-4-6",
-      "tokens": 653182477
-    },
-    {
-      "name": "claude-4-sonnet-thinking",
-      "tokens": 627417851
-    },
-    {
       "name": "claude-opus-5",
       "tokens": 419416079
-    },
-    {
-      "name": "gpt-5.3-codex",
-      "tokens": 402110578
     },
     {
       "name": "gpt-5.4-mini",
@@ -134,6 +111,10 @@
       "tokens": 20953387
     },
     {
+      "name": "gpt-5.3-codex",
+      "tokens": 18887366
+    },
+    {
       "name": "claude-haiku-4-5-20251001",
       "tokens": 12540618
     },
@@ -146,12 +127,16 @@
       "tokens": 2800793
     },
     {
+      "name": "claude-opus-4-6",
+      "tokens": 168893
+    },
+    {
       "name": "Unattributed legacy event",
       "tokens": 3909
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-05T20:13:07.880000Z",
+    "last_processed_at": "2026-09-05T20:21:31.411000Z",
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
@@ -159,7 +144,7 @@
     "previous_processed_at": "2026-09-05T20:00:03.307000Z",
     "source_watermarks": {
       "claude_code": "2026-09-05T19:49:42.686000Z",
-      "codex": "2026-09-05T20:13:07.880000Z"
+      "codex": "2026-09-05T20:21:31.411000Z"
     }
   }
 }

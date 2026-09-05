@@ -1,6 +1,9 @@
 import unittest
 import datetime as dt
+import json
+import tempfile
 from collections import Counter
+from pathlib import Path
 from unittest.mock import patch
 
 from scripts.generate_profile import (
@@ -8,6 +11,8 @@ from scripts.generate_profile import (
     carried_daily_changed,
     commit_detail_stats,
     compact_number,
+    line_total_with_historical_backfill,
+    load_model_usage,
     merge_rolling_changed,
     partial_scan_start,
     render_svg,
@@ -47,6 +52,52 @@ class GraphRenderingTests(unittest.TestCase):
         self.assertIn('x1="964.00" y1="284.0" x2="964.00" y2="204.0"', svg)
         self.assertNotIn("additions", svg)
         self.assertNotIn("lines changed", svg)
+
+    def test_headline_total_can_be_backfilled_without_changing_graph_or_active_days(self):
+        daily = Counter(
+            {
+                "2026-09-01": 10,
+                "2026-09-02": 0,
+                "2026-09-03": 20,
+            }
+        )
+
+        svg = render_svg(
+            dt.date(2026, 9, 1),
+            dt.date(2026, 9, 3),
+            daily,
+            Counter({"Python": 30}),
+            3,
+            [],
+            0,
+            display_line_total=1_000,
+        )
+
+        self.assertIn("1.0K lines / 3 days", svg)
+        self.assertIn("3 commits · 2 active days · 0 tokens", svg)
+        self.assertIn("2026-09-01 to 2026-09-02: 10 lines", svg)
+        self.assertIn("2026-09-03: 20 lines", svg)
+
+
+class ModelUsageRenderingTests(unittest.TestCase):
+    def test_unallocated_token_baseline_counts_only_in_token_total(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "model_usage.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "total_tokens": 130,
+                        "unallocated_token_baseline": 30,
+                        "models": [{"name": "Known model", "tokens": 100}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            segments, total_tokens = load_model_usage(path)
+
+        self.assertEqual(total_tokens, 130)
+        self.assertEqual(segments, [("Known model", 100.0, "#111")])
 
 
 class CommitDetailStatsTests(unittest.TestCase):
@@ -163,7 +214,7 @@ class ScanValidationTests(unittest.TestCase):
         self.assertEqual(sum(merged.values()), 400)
         self.assertEqual(merged["2026-09-04"], 100)
 
-    def test_uniform_historical_backfill_uses_prior_total_before_recent_window(self):
+    def test_historical_backfill_changes_only_the_headline_total(self):
         previous = {
             "start_date": "2025-09-06",
             "end_date": "2026-09-05",
@@ -183,9 +234,18 @@ class ScanValidationTests(unittest.TestCase):
             dt.date(2026, 9, 5),
         )
 
-        self.assertEqual(merged["2026-08-10"], 1_922_531 // 365)
+        self.assertEqual(merged["2026-08-10"], 1)
         self.assertEqual(merged["2026-08-20"], 200)
         self.assertEqual(merged["2026-09-05"], 1_000)
+        self.assertEqual(
+            line_total_with_historical_backfill(
+                previous,
+                merged,
+                dt.date(2025, 9, 6),
+                dt.date(2026, 9, 5),
+            ),
+            (1_922_531 // 365) * 344 + 1_200,
+        )
 
     def test_additive_partial_refresh_keeps_old_data_and_adds_changed_lines(self):
         previous = {

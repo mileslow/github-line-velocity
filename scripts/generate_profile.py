@@ -567,12 +567,12 @@ def carried_daily_changed(
     )
 
 
-def uniform_historical_backfill(
+def historical_backfill_line_total(
     previous: dict[str, Any] | None,
     start: dt.date,
     end: dt.date,
-) -> Counter[str] | None:
-    """Spread the prior aggregate evenly across days outside the recent window."""
+) -> int | None:
+    """Return the synthetic headline total for days before the recent window."""
     if previous is None:
         return None
     raw_total = previous.get("historical_backfill_total")
@@ -589,13 +589,30 @@ def uniform_historical_backfill(
     daily_value = total // window_days
     historical_end = min(end, cutoff - dt.timedelta(days=1))
     if historical_end < start:
-        return Counter()
-    return Counter(
-        {
-            (start + dt.timedelta(days=offset)).isoformat(): daily_value
-            for offset in range((historical_end - start).days + 1)
-        }
-    )
+        return 0
+    historical_days = (historical_end - start).days + 1
+    return daily_value * historical_days
+
+
+def recent_window_line_total(daily: Counter[str], end: dt.date) -> int:
+    cutoff = end - dt.timedelta(days=UNIFORM_BACKFILL_RECENT_DAYS - 1)
+    total = 0
+    for day, changed in daily.items():
+        if cutoff <= dt.date.fromisoformat(day) <= end:
+            total += changed
+    return total
+
+
+def line_total_with_historical_backfill(
+    previous: dict[str, Any] | None,
+    daily: Counter[str],
+    start: dt.date,
+    end: dt.date,
+) -> int:
+    backfill_total = historical_backfill_line_total(previous, start, end)
+    if backfill_total is None:
+        return sum(daily.values())
+    return backfill_total + recent_window_line_total(daily, end)
 
 
 def merge_rolling_changed(
@@ -605,16 +622,7 @@ def merge_rolling_changed(
     end: dt.date,
     allow_legacy_backfill: bool = False,
 ) -> Counter[str]:
-    uniform_backfill = uniform_historical_backfill(previous, start, end)
-    if uniform_backfill is None:
-        merged = carried_daily_changed(previous, start, end, allow_legacy_backfill)
-    else:
-        cutoff = end - dt.timedelta(days=UNIFORM_BACKFILL_RECENT_DAYS - 1)
-        merged = uniform_backfill
-        for day, changed in carried_daily_changed(
-            previous, max(start, cutoff), end, allow_legacy_backfill
-        ).items():
-            merged[day] = changed
+    merged = carried_daily_changed(previous, start, end, allow_legacy_backfill)
     for day, changed in new_daily.items():
         parsed_day = dt.date.fromisoformat(day)
         if not start <= parsed_day <= end:
@@ -675,10 +683,17 @@ def validate_scan(
 def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
     snapshot = json.loads(path.read_text(encoding="utf-8"))
     total_tokens = int(snapshot["total_tokens"])
+    try:
+        unallocated_token_baseline = int(snapshot.get("unallocated_token_baseline", 0) or 0)
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"Model usage snapshot baseline must be an integer: {path}") from error
+    if unallocated_token_baseline < 0:
+        raise ValueError(f"Model usage snapshot baseline must not be negative: {path}")
     raw_models = [
         (str(model["name"]), int(model["tokens"]))
         for model in snapshot["models"]
     ]
+    model_token_total = sum(tokens for _, tokens in raw_models)
     explicit_other_tokens = sum(
         tokens for name, tokens in raw_models if name.strip().lower() == "other models"
     )
@@ -690,19 +705,19 @@ def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
         ),
         key=lambda item: (-item[1], item[0]),
     )
-    if total_tokens <= 0 or not raw_models:
+    if total_tokens <= 0 or model_token_total <= 0 or not raw_models:
         raise ValueError(f"Model usage snapshot must contain positive token totals: {path}")
-    if sum(tokens for _, tokens in raw_models) != total_tokens:
+    if model_token_total + unallocated_token_baseline != total_tokens:
         raise ValueError(f"Model usage snapshot totals do not match: {path}")
 
     colors = ("#111", "#444", "#666", "#888", "#aaa")
     segments = [
-        (name, tokens / total_tokens * 100, colors[index])
+        (name, tokens / model_token_total * 100, colors[index])
         for index, (name, tokens) in enumerate(models[:5])
     ]
     other_tokens = explicit_other_tokens + sum(tokens for _, tokens in models[5:])
     if other_tokens:
-        segments.append(("other models", other_tokens / total_tokens * 100, "#ccc"))
+        segments.append(("other models", other_tokens / model_token_total * 100, "#ccc"))
     return segments, total_tokens
 
 
@@ -714,8 +729,9 @@ def render_svg(
     commits: int,
     model_segments: list[tuple[str, float, str]],
     model_tokens: int,
+    display_line_total: int | None = None,
 ) -> str:
-    total = sum(daily.values())
+    total = sum(daily.values()) if display_line_total is None else display_line_total
     active_days = sum(1 for value in daily.values() if value)
     days = [start + dt.timedelta(days=offset) for offset in range((end - start).days + 1)]
     language_rows = sorted(languages.items(), key=lambda item: (-item[1], item[0]))
@@ -906,10 +922,16 @@ def main() -> int:
         truncated_file_lists = (
             snapshot_count(previous_stats, "commits_with_truncated_file_lists") or 0
         )
-        print(
-            f"Coverage is partial: carrying forward {len(missing_hashes):,} previously "
-            f"scanned repositories and scanning accessible changes from {scan_start} through {end}."
-        )
+        if scan_start > end:
+            print(
+                f"Coverage is partial: carrying forward {len(missing_hashes):,} previously "
+                f"scanned repositories; snapshot already covers through {end}."
+            )
+        else:
+            print(
+                f"Coverage is partial: carrying forward {len(missing_hashes):,} previously "
+                f"scanned repositories and scanning accessible changes from {scan_start} through {end}."
+            )
         if permanent_missing_hashes:
             print(
                 "Permanent repository access gap detected; its last known history "
@@ -928,36 +950,39 @@ def main() -> int:
         truncated_file_lists = 0
     failed_commit_details = 0
     skipped: list[str] = []
-    print(
-        f"Scanning {len(repos)} accessible non-fork repositories from "
-        f"{scan_start} through {end}."
-    )
     previous_hashes = baseline_repository_hashes(previous_stats) if previous_stats else None
-    for index, repo in enumerate(repos, start=1):
-        full_name = repo["full_name"]
-        repo_start = scan_start
-        if partial_coverage and previous_hashes is not None:
-            repo_hash = repository_name_hash(full_name)
-            if repo_hash not in previous_hashes:
-                repo_start = start
-        if repo_start > end:
-            continue
-        try:
-            repo_token = public_token if not repo.get("private", False) else token
-            repo_daily, repo_languages, repo_commits, repo_truncated, repo_failed = collect_repo_stats(
-                repo, repo_start, end, args.username, repo_token, args.workers
-            )
-        except RuntimeError as error:
-            skipped.append(full_name)
-            print(f"[{index}/{len(repos)}] skipped {full_name}: {error}")
-            continue
-        daily.update(repo_daily)
-        languages.update(repo_languages)
-        commits += repo_commits
-        truncated_file_lists += repo_truncated
-        failed_commit_details += repo_failed
-        detail_note = f", {repo_failed} detail failures" if repo_failed else ""
-        print(f"[{index}/{len(repos)}] {full_name}: {repo_commits} commits{detail_note}")
+    if scan_start > end:
+        print(f"No new GitHub days to scan; snapshot already covers through {end}.")
+    else:
+        print(
+            f"Scanning {len(repos)} accessible non-fork repositories from "
+            f"{scan_start} through {end}."
+        )
+        for index, repo in enumerate(repos, start=1):
+            full_name = repo["full_name"]
+            repo_start = scan_start
+            if partial_coverage and previous_hashes is not None:
+                repo_hash = repository_name_hash(full_name)
+                if repo_hash not in previous_hashes:
+                    repo_start = start
+            if repo_start > end:
+                continue
+            try:
+                repo_token = public_token if not repo.get("private", False) else token
+                repo_daily, repo_languages, repo_commits, repo_truncated, repo_failed = collect_repo_stats(
+                    repo, repo_start, end, args.username, repo_token, args.workers
+                )
+            except RuntimeError as error:
+                skipped.append(full_name)
+                print(f"[{index}/{len(repos)}] skipped {full_name}: {error}")
+                continue
+            daily.update(repo_daily)
+            languages.update(repo_languages)
+            commits += repo_commits
+            truncated_file_lists += repo_truncated
+            failed_commit_details += repo_failed
+            detail_note = f", {repo_failed} detail failures" if repo_failed else ""
+            print(f"[{index}/{len(repos)}] {full_name}: {repo_commits} commits{detail_note}")
 
     if partial_coverage:
         daily = merge_rolling_changed(
@@ -976,13 +1001,21 @@ def main() -> int:
     )
     current_repository_hashes = repository_inventory_hashes(repository_names)
     covered_repository_hashes = (previous_repository_hashes or set()) | current_repository_hashes
+    daily_line_total = sum(daily.values())
+    headline_line_total = line_total_with_historical_backfill(
+        previous_stats,
+        daily,
+        start,
+        end,
+    )
     stats = {
         "username": args.username,
         "scan_mode": scan_mode,
         "window_days": args.days,
         "start_date": start.isoformat(),
         "end_date": end.isoformat(),
-        "code_lines_changed": sum(daily.values()),
+        "code_lines_changed": headline_line_total,
+        "code_lines_observed": daily_line_total,
         "authored_commits": commits,
         "active_days": sum(1 for value in daily.values() if value),
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
@@ -1007,6 +1040,9 @@ def main() -> int:
             previous_stats.get("historical_backfill_window_days", 365)
         )
         stats["historical_backfill_recent_days"] = UNIFORM_BACKFILL_RECENT_DAYS
+        stats["historical_backfill_applied_lines"] = (
+            historical_backfill_line_total(previous_stats, start, end) or 0
+        )
     stats["coverage_baseline"] = {
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
         "repository_hashes": sorted(covered_repository_hashes),
@@ -1025,6 +1061,7 @@ def main() -> int:
         commits,
         model_segments,
         model_tokens,
+        headline_line_total,
     )
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

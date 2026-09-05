@@ -2,6 +2,7 @@
   "active_days": 365,
   "authored_commits": 4231,
   "code_lines_changed": 2246120,
+  "code_lines_observed": 2246120,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -532,6 +533,7 @@
   },
   "end_date": "2026-09-05",
   "historical_backfill": "uniform-prior-snapshot",
+  "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
   "historical_backfill_total": 1922531,
   "historical_backfill_window_days": 365,

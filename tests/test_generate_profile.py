@@ -7,6 +7,7 @@ from scripts.generate_profile import (
     ScanRegressionError,
     carried_daily_changed,
     commit_detail_stats,
+    compact_number,
     merge_rolling_changed,
     partial_scan_start,
     render_svg,
@@ -17,6 +18,9 @@ from scripts.generate_profile import (
 
 
 class GraphRenderingTests(unittest.TestCase):
+    def test_million_line_counts_keep_two_decimal_places(self):
+        self.assertEqual(compact_number(2_017_708), "2.02M")
+
     def test_graph_buckets_reconcile_to_total_and_use_linear_scale(self):
         daily = Counter(
             {

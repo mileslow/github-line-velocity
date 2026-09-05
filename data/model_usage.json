@@ -5,16 +5,16 @@
   "end_date": "2026-09-05",
   "coverage_status": "Exact known Codex records and Claude Code cost-state/request records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; Claude Code sessions without cost-state summaries fall back to completed request usage. The preserved Cursor subtotal contributes only to the headline token total because the raw rows are unavailable.",
-  "total_tokens": 29660962386,
+  "total_tokens": 29672034377,
   "unallocated_token_baseline": 6039350707,
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2026-02-18",
       "end_date": "2026-09-05",
-      "session_files": 2882,
-      "token_events": 206973,
-      "total_tokens": 22972898035,
+      "session_files": 2883,
+      "token_events": 207118,
+      "total_tokens": 22983970026,
       "malformed_lines": 0,
       "unattributed_model_events": 7
     },
@@ -76,7 +76,7 @@
     },
     {
       "name": "gpt-5.6-luna",
-      "tokens": 7371742276
+      "tokens": 7379601628
     },
     {
       "name": "gpt-5.2-codex",
@@ -84,7 +84,7 @@
     },
     {
       "name": "gpt-5.5",
-      "tokens": 962574444
+      "tokens": 965787083
     },
     {
       "name": "gpt-5.4",
@@ -148,16 +148,16 @@
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-05T20:56:58.030000Z",
+    "last_processed_at": "2026-09-05T21:04:17.466000Z",
     "sync_mode": "full_local_rescan",
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
     ],
-    "previous_processed_at": "2026-09-05T20:41:14.537000Z",
+    "previous_processed_at": "2026-09-05T20:56:58.030000Z",
     "source_watermarks": {
       "claude_code": "2026-09-04T10:40:47.087000Z",
-      "codex": "2026-09-05T20:56:58.030000Z"
+      "codex": "2026-09-05T21:04:17.466000Z"
     }
   }
 }

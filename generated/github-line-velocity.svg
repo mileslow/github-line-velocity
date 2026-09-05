@@ -12,27 +12,27 @@
 </style>
 <rect width="1000" height="320" fill="#fff"/>
 <text x="54" y="52" class="title">2.0M lines / 365 days</text>
-<text x="54" y="84" class="body">4,219 commits · 293 active days · 20.26B tokens</text>
+<text x="54" y="84" class="body">4,231 commits · 293 active days · 21.36B tokens · $500 Claude Code</text>
 <text x="54" y="122" class="small">languages</text>
 <text x="54" y="144" class="small">TypeScript</text><text x="150" y="144" class="small">1.0M</text><rect x="198" y="135" width="170" height="8" fill="#111"/>
 <text x="54" y="162" class="small">Python</text><text x="150" y="162" class="small">579.1K</text><rect x="198" y="153" width="95" height="8" fill="#111"/>
 <text x="54" y="180" class="small">JavaScript</text><text x="150" y="180" class="small">84.9K</text><rect x="198" y="171" width="14" height="8" fill="#111"/>
 <text x="384" y="144" class="small">CSS</text><text x="440" y="144" class="small">64.7K</text><rect x="480" y="135" width="11" height="8" fill="#111"/>
-<text x="384" y="162" class="small">Shell</text><text x="440" y="162" class="small">57.8K</text><rect x="480" y="153" width="10" height="8" fill="#111"/>
-<text x="384" y="180" class="small">Other</text><text x="440" y="180" class="small">205.9K</text><rect x="480" y="171" width="34" height="8" fill="#111"/>
+<text x="384" y="162" class="small">Shell</text><text x="440" y="162" class="small">57.8K</text><rect x="480" y="153" width="9" height="8" fill="#111"/>
+<text x="384" y="180" class="small">Other</text><text x="440" y="180" class="small">206.0K</text><rect x="480" y="171" width="34" height="8" fill="#111"/>
 <text x="660" y="62" class="body">model breakdown</text>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="41.0 59.0" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>gpt-5.6-sol: 41.0%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="13.1 86.9" stroke-dashoffset="-41.0" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 13.1%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="8.5 91.5" stroke-dashoffset="-54.1" transform="rotate(-90 718 132)"><title>claude-4.5-sonnet-thinking: 8.5%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="5.0 95.0" stroke-dashoffset="-62.6" transform="rotate(-90 718 132)"><title>gpt-5.4-medium: 5.0%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#aaa" stroke-width="22" pathLength="100" stroke-dasharray="5.0 95.0" stroke-dashoffset="-67.6" transform="rotate(-90 718 132)"><title>gpt-5.2-codex: 5.0%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#ccc" stroke-width="22" pathLength="100" stroke-dasharray="27.4 72.6" stroke-dashoffset="-72.6" transform="rotate(-90 718 132)"><title>other models: 27.4%</title></circle>
-<text x="806" y="84" class="tiny">gpt-5.6-sol 41.0%</text>
-<text x="806" y="104" class="tiny">gpt-5.6-luna 13.1%</text>
-<text x="806" y="124" class="tiny">claude-4.5-sonnet-thinking 8.5%</text>
-<text x="806" y="144" class="tiny">gpt-5.4-medium 5.0%</text>
-<text x="806" y="164" class="tiny">gpt-5.2-codex 5.0%</text>
-<text x="806" y="184" class="tiny">other models 27.4%</text>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="39.2 60.8" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>gpt-5.6-sol: 39.2%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="14.5 85.5" stroke-dashoffset="-39.2" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 14.5%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="8.1 91.9" stroke-dashoffset="-53.7" transform="rotate(-90 718 132)"><title>claude-4.5-sonnet-thinking: 8.1%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="4.8 95.2" stroke-dashoffset="-61.7" transform="rotate(-90 718 132)"><title>gpt-5.4-medium: 4.8%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#aaa" stroke-width="22" pathLength="100" stroke-dasharray="4.7 95.3" stroke-dashoffset="-66.5" transform="rotate(-90 718 132)"><title>gpt-5.2-codex: 4.7%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#ccc" stroke-width="22" pathLength="100" stroke-dasharray="28.8 71.2" stroke-dashoffset="-71.2" transform="rotate(-90 718 132)"><title>other models: 28.8%</title></circle>
+<text x="806" y="84" class="tiny">gpt-5.6-sol 39.2%</text>
+<text x="806" y="104" class="tiny">gpt-5.6-luna 14.5%</text>
+<text x="806" y="124" class="tiny">claude-4.5-sonnet-thinking 8.1%</text>
+<text x="806" y="144" class="tiny">gpt-5.4-medium 4.8%</text>
+<text x="806" y="164" class="tiny">gpt-5.2-codex 4.7%</text>
+<text x="806" y="184" class="tiny">other models 28.8%</text>
 <line x1="54.00" y1="284.0" x2="54.00" y2="284.0" class="bar"><title>2025-09-06 to 2025-09-07: 0 lines</title></line>
 <line x1="59.00" y1="284.0" x2="59.00" y2="280.0" class="bar"><title>2025-09-08 to 2025-09-09: 7,777 lines</title></line>
 <line x1="64.00" y1="284.0" x2="64.00" y2="281.8" class="bar"><title>2025-09-10 to 2025-09-11: 4,353 lines</title></line>
@@ -205,18 +205,18 @@
 <line x1="899.00" y1="284.0" x2="899.00" y2="283.1" class="bar"><title>2026-08-10 to 2026-08-11: 1,745 lines</title></line>
 <line x1="904.00" y1="284.0" x2="904.00" y2="283.3" class="bar"><title>2026-08-12 to 2026-08-13: 1,396 lines</title></line>
 <line x1="909.00" y1="284.0" x2="909.00" y2="280.7" class="bar"><title>2026-08-14 to 2026-08-15: 6,364 lines</title></line>
-<line x1="914.00" y1="284.0" x2="914.00" y2="273.4" class="bar"><title>2026-08-16 to 2026-08-17: 20,523 lines</title></line>
-<line x1="919.00" y1="284.0" x2="919.00" y2="283.0" class="bar"><title>2026-08-18 to 2026-08-19: 1,868 lines</title></line>
+<line x1="914.00" y1="284.0" x2="914.00" y2="273.4" class="bar"><title>2026-08-16 to 2026-08-17: 20,582 lines</title></line>
+<line x1="919.00" y1="284.0" x2="919.00" y2="283.0" class="bar"><title>2026-08-18 to 2026-08-19: 1,909 lines</title></line>
 <line x1="924.00" y1="284.0" x2="924.00" y2="279.7" class="bar"><title>2026-08-20 to 2026-08-21: 8,282 lines</title></line>
 <line x1="929.00" y1="284.0" x2="929.00" y2="242.6" class="bar"><title>2026-08-22 to 2026-08-23: 80,291 lines</title></line>
 <line x1="934.00" y1="284.0" x2="934.00" y2="261.4" class="bar"><title>2026-08-24 to 2026-08-25: 43,734 lines</title></line>
-<line x1="939.00" y1="284.0" x2="939.00" y2="260.4" class="bar"><title>2026-08-26 to 2026-08-27: 45,734 lines</title></line>
+<line x1="939.00" y1="284.0" x2="939.00" y2="260.3" class="bar"><title>2026-08-26 to 2026-08-27: 46,040 lines</title></line>
 <line x1="944.00" y1="284.0" x2="944.00" y2="222.8" class="bar"><title>2026-08-28 to 2026-08-29: 118,683 lines</title></line>
 <line x1="949.00" y1="284.0" x2="949.00" y2="273.1" class="bar"><title>2026-08-30 to 2026-08-31: 21,061 lines</title></line>
 <line x1="954.00" y1="284.0" x2="954.00" y2="261.8" class="bar"><title>2026-09-01 to 2026-09-02: 43,121 lines</title></line>
 <line x1="959.00" y1="284.0" x2="959.00" y2="259.2" class="bar"><title>2026-09-03 to 2026-09-04: 48,058 lines</title></line>
-<line x1="964.00" y1="284.0" x2="964.00" y2="283.6" class="bar"><title>2026-09-05: 849 lines</title></line>
-<polyline points="54.0,284.0 59.0,280.0 64.0,281.8 69.0,280.9 74.0,277.4 79.0,282.3 84.0,282.2 89.0,283.9 94.0,282.1 99.0,283.4 104.0,283.4 109.0,282.8 114.0,262.3 119.0,283.8 124.0,284.0 129.0,284.0 134.0,284.0 139.0,284.0 144.0,283.9 149.0,281.1 154.0,283.9 159.0,279.3 164.0,280.3 169.0,283.3 174.0,283.0 179.0,278.4 184.0,261.0 189.0,279.9 194.0,283.7 199.0,279.7 204.0,271.4 209.0,281.1 214.0,266.9 219.0,279.5 224.0,274.0 229.0,282.1 234.0,273.4 239.0,277.7 244.0,283.7 249.0,283.8 254.0,280.7 259.0,280.9 264.0,282.5 269.0,282.9 274.0,283.6 279.0,267.5 284.0,282.9 289.0,283.6 294.0,282.1 299.0,284.0 304.0,282.9 309.0,280.5 314.0,283.8 319.0,284.0 324.0,284.0 329.0,284.0 334.0,283.1 339.0,283.4 344.0,283.9 349.0,284.0 354.0,283.1 359.0,281.4 364.0,283.0 369.0,283.6 374.0,277.9 379.0,282.3 384.0,283.6 389.0,284.0 394.0,284.0 399.0,274.8 404.0,278.1 409.0,281.6 414.0,283.7 419.0,244.9 424.0,283.8 429.0,282.8 434.0,283.0 439.0,284.0 444.0,282.9 449.0,204.0 454.0,283.9 459.0,283.3 464.0,282.5 469.0,278.3 474.0,281.0 479.0,282.5 484.0,279.7 489.0,282.2 494.0,280.6 499.0,278.4 504.0,276.5 509.0,283.1 514.0,281.7 519.0,282.4 524.0,282.3 529.0,283.5 534.0,267.8 539.0,283.6 544.0,282.4 549.0,282.5 554.0,282.5 559.0,276.5 564.0,283.5 569.0,280.6 574.0,281.5 579.0,280.7 584.0,277.6 589.0,279.7 594.0,283.6 599.0,281.4 604.0,258.8 609.0,281.6 614.0,284.0 619.0,281.2 624.0,280.8 629.0,280.5 634.0,278.9 639.0,278.8 644.0,251.2 649.0,283.9 654.0,223.5 659.0,280.1 664.0,271.9 669.0,283.9 674.0,282.8 679.0,275.4 684.0,282.9 689.0,282.8 694.0,279.7 699.0,282.3 704.0,284.0 709.0,282.9 714.0,273.0 719.0,284.0 724.0,281.7 729.0,279.1 734.0,282.5 739.0,283.4 744.0,275.2 749.0,282.1 754.0,283.7 759.0,283.9 764.0,281.8 769.0,284.0 774.0,283.2 779.0,283.1 784.0,283.7 789.0,280.8 794.0,283.7 799.0,284.0 804.0,284.0 809.0,281.9 814.0,283.6 819.0,273.9 824.0,281.0 829.0,275.6 834.0,283.9 839.0,255.3 844.0,280.3 849.0,235.9 854.0,278.0 859.0,265.9 864.0,269.5 869.0,282.8 874.0,281.8 879.0,284.0 884.0,281.1 889.0,282.6 894.0,284.0 899.0,283.1 904.0,283.3 909.0,280.7 914.0,273.4 919.0,283.0 924.0,279.7 929.0,242.6 934.0,261.4 939.0,260.4 944.0,222.8 949.0,273.1 954.0,261.8 959.0,259.2 964.0,283.6" fill="none" stroke="#111" stroke-width="1.4"/>
+<line x1="964.00" y1="284.0" x2="964.00" y2="282.7" class="bar"><title>2026-09-05: 2,511 lines</title></line>
+<polyline points="54.0,284.0 59.0,280.0 64.0,281.8 69.0,280.9 74.0,277.4 79.0,282.3 84.0,282.2 89.0,283.9 94.0,282.1 99.0,283.4 104.0,283.4 109.0,282.8 114.0,262.3 119.0,283.8 124.0,284.0 129.0,284.0 134.0,284.0 139.0,284.0 144.0,283.9 149.0,281.1 154.0,283.9 159.0,279.3 164.0,280.3 169.0,283.3 174.0,283.0 179.0,278.4 184.0,261.0 189.0,279.9 194.0,283.7 199.0,279.7 204.0,271.4 209.0,281.1 214.0,266.9 219.0,279.5 224.0,274.0 229.0,282.1 234.0,273.4 239.0,277.7 244.0,283.7 249.0,283.8 254.0,280.7 259.0,280.9 264.0,282.5 269.0,282.9 274.0,283.6 279.0,267.5 284.0,282.9 289.0,283.6 294.0,282.1 299.0,284.0 304.0,282.9 309.0,280.5 314.0,283.8 319.0,284.0 324.0,284.0 329.0,284.0 334.0,283.1 339.0,283.4 344.0,283.9 349.0,284.0 354.0,283.1 359.0,281.4 364.0,283.0 369.0,283.6 374.0,277.9 379.0,282.3 384.0,283.6 389.0,284.0 394.0,284.0 399.0,274.8 404.0,278.1 409.0,281.6 414.0,283.7 419.0,244.9 424.0,283.8 429.0,282.8 434.0,283.0 439.0,284.0 444.0,282.9 449.0,204.0 454.0,283.9 459.0,283.3 464.0,282.5 469.0,278.3 474.0,281.0 479.0,282.5 484.0,279.7 489.0,282.2 494.0,280.6 499.0,278.4 504.0,276.5 509.0,283.1 514.0,281.7 519.0,282.4 524.0,282.3 529.0,283.5 534.0,267.8 539.0,283.6 544.0,282.4 549.0,282.5 554.0,282.5 559.0,276.5 564.0,283.5 569.0,280.6 574.0,281.5 579.0,280.7 584.0,277.6 589.0,279.7 594.0,283.6 599.0,281.4 604.0,258.8 609.0,281.6 614.0,284.0 619.0,281.2 624.0,280.8 629.0,280.5 634.0,278.9 639.0,278.8 644.0,251.2 649.0,283.9 654.0,223.5 659.0,280.1 664.0,271.9 669.0,283.9 674.0,282.8 679.0,275.4 684.0,282.9 689.0,282.8 694.0,279.7 699.0,282.3 704.0,284.0 709.0,282.9 714.0,273.0 719.0,284.0 724.0,281.7 729.0,279.1 734.0,282.5 739.0,283.4 744.0,275.2 749.0,282.1 754.0,283.7 759.0,283.9 764.0,281.8 769.0,284.0 774.0,283.2 779.0,283.1 784.0,283.7 789.0,280.8 794.0,283.7 799.0,284.0 804.0,284.0 809.0,281.9 814.0,283.6 819.0,273.9 824.0,281.0 829.0,275.6 834.0,283.9 839.0,255.3 844.0,280.3 849.0,235.9 854.0,278.0 859.0,265.9 864.0,269.5 869.0,282.8 874.0,281.8 879.0,284.0 884.0,281.1 889.0,282.6 894.0,284.0 899.0,283.1 904.0,283.3 909.0,280.7 914.0,273.4 919.0,283.0 924.0,279.7 929.0,242.6 934.0,261.4 939.0,260.3 944.0,222.8 949.0,273.1 954.0,261.8 959.0,259.2 964.0,282.7" fill="none" stroke="#111" stroke-width="1.4"/>
 <text x="54.0" y="306" class="tiny">sep</text>
 <text x="119.0" y="306" class="tiny">oct</text>
 <text x="194.0" y="306" class="tiny">nov</text>

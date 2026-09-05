@@ -6,6 +6,7 @@
     <string>com.mileslow.github-line-velocity</string>
     <key>ProgramArguments</key>
     <array>
+        <string>/bin/sh</string>
         <string>/Users/miles/Documents/Codex/2026-08-31/https-github-com-mileslow-tab-overview/work/github-line-velocity/scripts/run_local_model_usage_sync.sh</string>
     </array>
     <key>RunAtLoad</key>

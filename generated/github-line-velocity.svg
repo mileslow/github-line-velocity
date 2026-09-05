@@ -12,7 +12,7 @@
 </style>
 <rect width="1000" height="320" fill="#fff"/>
 <text x="54" y="52" class="title">2.25M lines / 365 days</text>
-<text x="54" y="84" class="body">4,231 commits · 365 active days · 21.37B tokens</text>
+<text x="54" y="84" class="body">4,231 commits · 365 active days · 21.38B tokens</text>
 <text x="54" y="122" class="small">languages</text>
 <text x="54" y="144" class="small">TypeScript</text><text x="150" y="144" class="small">1.04M</text><rect x="198" y="135" width="170" height="8" fill="#111"/>
 <text x="54" y="162" class="small">Python</text><text x="150" y="162" class="small">579.1K</text><rect x="198" y="153" width="95" height="8" fill="#111"/>
@@ -22,13 +22,13 @@
 <text x="384" y="180" class="small">Other</text><text x="440" y="180" class="small">206.0K</text><rect x="480" y="171" width="34" height="8" fill="#111"/>
 <text x="660" y="62" class="body">model breakdown</text>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="39.2 60.8" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>gpt-5.6-sol: 39.2%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="14.5 85.5" stroke-dashoffset="-39.2" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 14.5%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="14.6 85.4" stroke-dashoffset="-39.2" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 14.6%</title></circle>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="8.1 91.9" stroke-dashoffset="-53.7" transform="rotate(-90 718 132)"><title>claude-4.5-sonnet-thinking: 8.1%</title></circle>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="4.8 95.2" stroke-dashoffset="-61.8" transform="rotate(-90 718 132)"><title>gpt-5.4-medium: 4.8%</title></circle>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#aaa" stroke-width="22" pathLength="100" stroke-dasharray="4.7 95.3" stroke-dashoffset="-66.6" transform="rotate(-90 718 132)"><title>gpt-5.2-codex: 4.7%</title></circle>
 <circle cx="718" cy="132" r="48" fill="none" stroke="#ccc" stroke-width="22" pathLength="100" stroke-dasharray="28.7 71.3" stroke-dashoffset="-71.3" transform="rotate(-90 718 132)"><title>other models: 28.7%</title></circle>
 <text x="806" y="84" class="tiny">gpt-5.6-sol 39.2%</text>
-<text x="806" y="104" class="tiny">gpt-5.6-luna 14.5%</text>
+<text x="806" y="104" class="tiny">gpt-5.6-luna 14.6%</text>
 <text x="806" y="124" class="tiny">claude-4.5-sonnet-thinking 8.1%</text>
 <text x="806" y="144" class="tiny">gpt-5.4-medium 4.8%</text>
 <text x="806" y="164" class="tiny">gpt-5.2-codex 4.7%</text>

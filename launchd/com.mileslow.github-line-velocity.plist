@@ -7,7 +7,7 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/sh</string>
-        <string>/Users/miles/Library/Application Support/github-line-velocity/run_local_model_usage_sync.sh</string>
+        <string>/Users/miles/Library/Application Support/github-line-velocity/repo/scripts/run_local_model_usage_sync.sh</string>
     </array>
     <key>RunAtLoad</key>
     <true/>

@@ -72,9 +72,10 @@ the user. It is displayed alongside tokens and is intentionally not converted
 into invented tokens, because spend alone does not identify the model mix,
 cache usage, or billing period needed for an exact token count. The local
 `scripts/sync_model_usage.py` updater reads aggregate token usage from the
-machine's Claude Code and Codex JSONL records, deduplicates Claude streaming
-rows, and advances a watermark after each successful update. Raw prompts,
-responses, and session contents are never written to the repository.
+machine's Claude Code and Codex JSONL records, counts only completed Claude
+responses, deduplicates streaming rows, and advances per-source watermarks
+after each successful update. Raw prompts, responses, and session contents are
+never written to the repository.
 
 GitHub Actions cannot read local home-directory records. The installed macOS
 LaunchAgent in `launchd/com.mileslow.github-line-velocity.plist` runs the local

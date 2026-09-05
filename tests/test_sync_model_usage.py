@@ -46,6 +46,7 @@ class LocalUsageParsingTests(unittest.TestCase):
                         "message": {
                             "id": "message-1",
                             "model": "claude-opus-5",
+                            "stop_reason": "end_turn",
                             "usage": {
                                 "input_tokens": 10,
                                 "cache_creation_input_tokens": 20,
@@ -60,7 +61,17 @@ class LocalUsageParsingTests(unittest.TestCase):
                         "message": {
                             "id": "message-2",
                             "model": "claude-haiku-4-5-20251001",
+                            "stop_reason": "tool_use",
                             "usage": {"total_tokens": 7},
+                        },
+                    },
+                    {
+                        "timestamp": "2026-09-05T09:00:03Z",
+                        "requestId": "request-3",
+                        "message": {
+                            "id": "message-3",
+                            "model": "claude-opus-5",
+                            "usage": {"total_tokens": 999},
                         },
                     },
                 ],
@@ -145,6 +156,7 @@ class LocalUsageSyncTests(unittest.TestCase):
                         "message": {
                             "id": "claude-message",
                             "model": "claude-opus-5",
+                            "stop_reason": "end_turn",
                             "usage": {"total_tokens": 20},
                         },
                     }
@@ -181,6 +193,13 @@ class LocalUsageSyncTests(unittest.TestCase):
             self.assertEqual(updated["total_tokens"], 60)
             self.assertEqual(updated["end_date"], "2026-09-05")
             self.assertEqual(updated["usage_sync"]["last_processed_at"], "2026-09-05T09:01:00Z")
+            self.assertEqual(
+                updated["usage_sync"]["source_watermarks"],
+                {
+                    "claude_code": "2026-09-05T09:00:00Z",
+                    "codex": "2026-09-05T09:01:00Z",
+                },
+            )
             self.assertEqual(
                 {
                     source["name"]: source["total_tokens"]

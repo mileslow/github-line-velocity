@@ -20,6 +20,8 @@ from typing import Any, Iterator
 DEFAULT_SNAPSHOT = Path("data/model_usage.json")
 DEFAULT_CLAUDE_ROOT = Path("/Users/miles/.claude/projects")
 DEFAULT_CODEX_ROOT = Path("/Users/miles/.codex")
+CLAUDE_SOURCE_KEY = "claude_code"
+CODEX_SOURCE_KEY = "codex"
 
 
 def parse_timestamp(value: object) -> dt.datetime | None:
@@ -84,6 +86,11 @@ def claude_usage_events(
             usage = message.get("usage")
             if not isinstance(usage, dict):
                 continue
+            # Claude writes several streaming rows for one response. Only a
+            # terminal response is safe to count across separate sync runs;
+            # an unfinished row may later be replaced with a larger total.
+            if message.get("stop_reason") is None:
+                continue
             timestamp = parse_timestamp(item.get("timestamp"))
             if timestamp is None or timestamp <= after:
                 continue
@@ -139,6 +146,19 @@ def snapshot_after(snapshot: dict[str, Any]) -> dt.datetime:
     if parsed_end is None:
         raise ValueError("model snapshot must contain an ISO end_date")
     return parsed_end
+
+
+def source_after(
+    snapshot: dict[str, Any], source_key: str, fallback: dt.datetime
+) -> dt.datetime:
+    sync = snapshot.get("usage_sync")
+    if isinstance(sync, dict):
+        watermarks = sync.get("source_watermarks")
+        if isinstance(watermarks, dict):
+            timestamp = parse_timestamp(watermarks.get(source_key))
+            if timestamp is not None:
+                return timestamp
+    return fallback
 
 
 def update_source(
@@ -209,6 +229,39 @@ def apply_events(
     return sum(tokens for _, _, tokens in events)
 
 
+def update_usage_watermarks(
+    snapshot: dict[str, Any],
+    claude_after: dt.datetime,
+    codex_after: dt.datetime,
+    claude_events: list[tuple[str, dt.datetime, int]],
+    codex_events: list[tuple[str, dt.datetime, int]],
+    previous_after: dt.datetime,
+) -> None:
+    sync = snapshot.setdefault("usage_sync", {})
+    if not isinstance(sync, dict):
+        raise ValueError("model snapshot usage_sync must be an object")
+    watermarks = sync.setdefault("source_watermarks", {})
+    if not isinstance(watermarks, dict):
+        raise ValueError("model snapshot source_watermarks must be an object")
+    watermarks[CLAUDE_SOURCE_KEY] = (
+        max(timestamp for _, timestamp, _ in claude_events)
+        if claude_events
+        else claude_after
+    ).isoformat().replace("+00:00", "Z")
+    watermarks[CODEX_SOURCE_KEY] = (
+        max(timestamp for _, timestamp, _ in codex_events)
+        if codex_events
+        else codex_after
+    ).isoformat().replace("+00:00", "Z")
+    parsed_watermarks = [parse_timestamp(value) for value in watermarks.values()]
+    valid_watermarks = [value for value in parsed_watermarks if value is not None]
+    if valid_watermarks:
+        sync["last_processed_at"] = max(valid_watermarks).isoformat().replace(
+            "+00:00", "Z"
+        )
+    sync["previous_processed_at"] = previous_after.isoformat().replace("+00:00", "Z")
+
+
 def write_snapshot(path: Path, snapshot: dict[str, Any]) -> None:
     """Replace the snapshot atomically so an interrupted sync cannot corrupt it."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -251,8 +304,10 @@ def main() -> int:
     after = parse_timestamp(args.since) if args.since else snapshot_after(snapshot)
     if after is None:
         raise SystemExit("--since must be an ISO timestamp")
-    claude_events = list(claude_usage_events(args.claude_root, after))
-    codex_events = list(codex_usage_events(args.codex_root, after))
+    claude_after = source_after(snapshot, CLAUDE_SOURCE_KEY, after)
+    codex_after = source_after(snapshot, CODEX_SOURCE_KEY, after)
+    claude_events = list(claude_usage_events(args.claude_root, claude_after))
+    codex_events = list(codex_usage_events(args.codex_root, codex_after))
     events = sorted(claude_events + codex_events, key=lambda value: value[1])
     added = apply_events(snapshot, events, after)
     if not events:
@@ -260,6 +315,14 @@ def main() -> int:
         return 0
     update_source(snapshot, "local Claude Code token records", claude_events)
     update_source(snapshot, "local Codex session token records", codex_events)
+    update_usage_watermarks(
+        snapshot,
+        claude_after,
+        codex_after,
+        claude_events,
+        codex_events,
+        after,
+    )
     print(f"Found {len(events):,} new usage records totaling {added:,} tokens.")
     if args.dry_run:
         return 0

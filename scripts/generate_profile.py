@@ -450,31 +450,122 @@ def minimum_repository_baseline(snapshot: dict[str, Any]) -> int | None:
     return snapshot_count(snapshot, "repositories_scanned")
 
 
+def missing_repository_hashes(
+    previous: dict[str, Any] | None, current_repository_names: list[str]
+) -> set[str]:
+    if previous is None:
+        return set()
+    previous_hashes = baseline_repository_hashes(previous)
+    if previous_hashes is None:
+        return set()
+    return previous_hashes - repository_inventory_hashes(current_repository_names)
+
+
 def validate_repository_inventory(
     current_repositories: int,
     previous: dict[str, Any] | None,
     current_repository_names: list[str] | None = None,
-) -> None:
+) -> set[str]:
     if previous is None:
-        return
-    previous_hashes = baseline_repository_hashes(previous)
-    if previous_hashes is not None and current_repository_names is not None:
-        current_hashes = repository_inventory_hashes(current_repository_names)
-        missing = previous_hashes - current_hashes
-        if missing:
+        return set()
+    if current_repository_names is None:
+        previous_repositories = minimum_repository_baseline(previous)
+        if (
+            previous_repositories
+            and current_repositories < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
+        ):
             raise ScanRegressionError(
-                f"{len(missing):,} previously scanned repositories are no longer accessible; "
-                "refusing to publish until repository access is restored"
+                f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
+                f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
             )
-    previous_repositories = minimum_repository_baseline(previous)
-    if (
-        previous_repositories
-        and current_repositories < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
-    ):
+        return set()
+    previous_hashes = baseline_repository_hashes(previous)
+    if previous_hashes is None:
+        previous_repositories = minimum_repository_baseline(previous)
+        if (
+            previous_repositories
+            and current_repositories < math.ceil(previous_repositories * MIN_PREVIOUS_COVERAGE_RATIO)
+        ):
+            raise ScanRegressionError(
+                "repository access is incomplete but the previous snapshot has no "
+                "repository inventory to carry forward"
+            )
+        return set()
+    missing = missing_repository_hashes(previous, current_repository_names)
+    if missing and not isinstance(previous.get("daily_additions"), dict):
         raise ScanRegressionError(
-            f"repositories dropped from {previous_repositories:,} to {current_repositories:,}; "
-            f"refusing to publish a scan below {MIN_PREVIOUS_COVERAGE_RATIO:.0%} of the previous coverage"
+            "repository access is incomplete and the previous snapshot has no daily totals to carry forward"
         )
+    return missing
+
+
+def parse_snapshot_date(value: object, field: str) -> dt.date:
+    if not isinstance(value, str):
+        raise ValueError(f"stats snapshot field {field!r} must be an ISO date")
+    try:
+        return dt.date.fromisoformat(value)
+    except ValueError as error:
+        raise ValueError(f"stats snapshot field {field!r} must be an ISO date") from error
+
+
+def snapshot_daily_additions(snapshot: dict[str, Any]) -> Counter[str]:
+    raw_daily = snapshot.get("daily_additions", {})
+    if not isinstance(raw_daily, dict):
+        raise ValueError("stats snapshot field 'daily_additions' must be an object")
+    daily: Counter[str] = Counter()
+    for day, value in raw_daily.items():
+        if not isinstance(day, str):
+            raise ValueError("stats snapshot daily additions must use ISO date keys")
+        try:
+            parsed_day = dt.date.fromisoformat(day)
+            additions = int(value)
+        except (TypeError, ValueError) as error:
+            raise ValueError("stats snapshot daily additions must contain dates and integers") from error
+        if additions < 0:
+            raise ValueError("stats snapshot daily additions must not be negative")
+        daily[parsed_day.isoformat()] = additions
+    return daily
+
+
+def carried_daily_additions(
+    previous: dict[str, Any] | None, start: dt.date, end: dt.date
+) -> Counter[str]:
+    if previous is None:
+        return Counter()
+    previous_daily = snapshot_daily_additions(previous)
+    return Counter(
+        {
+            day: additions
+            for day, additions in previous_daily.items()
+            if start <= dt.date.fromisoformat(day) <= end
+        }
+    )
+
+
+def merge_rolling_additions(
+    previous: dict[str, Any] | None,
+    new_daily: Counter[str],
+    start: dt.date,
+    end: dt.date,
+) -> Counter[str]:
+    merged = carried_daily_additions(previous, start, end)
+    for day, additions in new_daily.items():
+        parsed_day = dt.date.fromisoformat(day)
+        if not start <= parsed_day <= end:
+            raise ValueError(f"new daily additions contain {day} outside the rolling window")
+        if additions < 0:
+            raise ValueError("new daily additions must not be negative")
+        merged[day] += additions
+    return merged
+
+
+def partial_scan_start(
+    previous: dict[str, Any] | None, current_start: dt.date, current_end: dt.date
+) -> dt.date:
+    if previous is None:
+        return current_start
+    previous_end = parse_snapshot_date(previous.get("end_date"), "end_date")
+    return max(current_start, previous_end + dt.timedelta(days=1))
 
 
 def validate_scan(
@@ -489,7 +580,11 @@ def validate_scan(
     if previous is None:
         return
 
-    if previous.get("scan_mode") == "authenticated" and current.get("scan_mode") != "authenticated":
+    if (
+        previous.get("scan_mode") == "authenticated"
+        and current.get("scan_mode")
+        not in {"authenticated", "authenticated-partial", "public-fallback-partial"}
+    ):
         raise ScanRegressionError(
             "scan downgraded from authenticated to public fallback; refusing to publish a partial scan"
         )
@@ -704,30 +799,59 @@ def main() -> int:
         repos = list_public_repositories(
             public_token, args.username, excluded, tuple(args.organization)
         )
+    repository_names = [repo["full_name"] for repo in repos]
     try:
-        validate_repository_inventory(
+        missing_hashes = validate_repository_inventory(
             len(repos),
             previous_stats,
-            [repo["full_name"] for repo in repos],
+            repository_names,
         )
     except (ScanRegressionError, ValueError) as error:
         raise SystemExit(
             "SCAN_BLOCKED: refusing to scan with incomplete repository access: "
             f"{error} Check PROFILE_REPO_TOKEN access to all source repositories."
         ) from error
-    daily: Counter[str] = Counter()
-    languages: Counter[str] = Counter()
-    commits = 0
-    truncated_file_lists = 0
+
+    partial_coverage = bool(missing_hashes)
+    if partial_coverage:
+        scan_mode = f"{scan_mode}-partial"
+        scan_start = partial_scan_start(previous_stats, start, end)
+        daily = Counter()
+        languages = Counter(previous_stats.get("languages", {}))
+        commits = snapshot_count(previous_stats, "authored_commits") or 0
+        truncated_file_lists = (
+            snapshot_count(previous_stats, "commits_with_truncated_file_lists") or 0
+        )
+        print(
+            f"Coverage is partial: carrying forward {len(missing_hashes):,} previously "
+            f"scanned repositories and scanning accessible changes from {scan_start} through {end}."
+        )
+    else:
+        scan_start = start
+        daily = Counter()
+        languages = Counter()
+        commits = 0
+        truncated_file_lists = 0
     failed_commit_details = 0
     skipped: list[str] = []
-    print(f"Scanning {len(repos)} accessible non-fork repositories from {start} through {end}.")
+    print(
+        f"Scanning {len(repos)} accessible non-fork repositories from "
+        f"{scan_start} through {end}."
+    )
+    previous_hashes = baseline_repository_hashes(previous_stats) if previous_stats else None
     for index, repo in enumerate(repos, start=1):
         full_name = repo["full_name"]
+        repo_start = scan_start
+        if partial_coverage and previous_hashes is not None:
+            repo_hash = repository_name_hash(full_name)
+            if repo_hash not in previous_hashes:
+                repo_start = start
+        if repo_start > end:
+            continue
         try:
             repo_token = public_token if not repo.get("private", False) else token
             repo_daily, repo_languages, repo_commits, repo_truncated, repo_failed = collect_repo_stats(
-                repo, start, end, args.username, repo_token, args.workers
+                repo, repo_start, end, args.username, repo_token, args.workers
             )
         except RuntimeError as error:
             skipped.append(full_name)
@@ -741,6 +865,17 @@ def main() -> int:
         detail_note = f", {repo_failed} detail failures" if repo_failed else ""
         print(f"[{index}/{len(repos)}] {full_name}: {repo_commits} commits{detail_note}")
 
+    if partial_coverage:
+        daily = merge_rolling_additions(previous_stats, daily, start, end)
+
+    previous_repository_baseline = (
+        minimum_repository_baseline(previous_stats) if previous_stats else None
+    )
+    previous_repository_hashes = (
+        baseline_repository_hashes(previous_stats) if previous_stats else None
+    )
+    current_repository_hashes = repository_inventory_hashes(repository_names)
+    covered_repository_hashes = (previous_repository_hashes or set()) | current_repository_hashes
     stats = {
         "username": args.username,
         "scan_mode": scan_mode,
@@ -750,25 +885,18 @@ def main() -> int:
         "code_lines_added": sum(daily.values()),
         "authored_commits": commits,
         "active_days": sum(1 for value in daily.values() if value),
-        "repositories_scanned": len(repos),
+        "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
+        "repositories_accessible": len(repos),
+        "repositories_carried_forward": len(missing_hashes),
         "repositories_skipped": len(skipped),
         "commits_with_truncated_file_lists": truncated_file_lists,
         "commit_detail_failures": failed_commit_details,
         "languages": dict(sorted(languages.items(), key=lambda item: (-item[1], item[0]))),
         "daily_additions": {day.isoformat(): daily[day.isoformat()] for day in (start + dt.timedelta(days=i) for i in range(args.days))},
     }
-    previous_repository_baseline = (
-        minimum_repository_baseline(previous_stats) if previous_stats else None
-    )
-    previous_repository_hashes = (
-        baseline_repository_hashes(previous_stats) if previous_stats else None
-    )
-    current_repository_hashes = repository_inventory_hashes(
-        [repo["full_name"] for repo in repos]
-    )
     stats["coverage_baseline"] = {
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
-        "repository_hashes": sorted((previous_repository_hashes or set()) | current_repository_hashes),
+        "repository_hashes": sorted(covered_repository_hashes),
     }
     try:
         validate_scan(stats, previous_stats)

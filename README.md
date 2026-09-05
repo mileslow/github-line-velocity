@@ -37,14 +37,14 @@ snapshot, the generator also rejects a sudden drop in repository coverage or
 active days and rejects any failed commit-detail requests. GitHub caps the file
 list returned for an individual very large commit; the aggregate snapshot
 records how many such commits were encountered in `data/latest.json`.
-Repository coverage is checked immediately after repository discovery, before
-the more expensive commit-detail scan begins, so a token with reduced access
-fails fast and leaves the previous snapshot in place. The coverage baseline also
-stores one-way fingerprints of the last complete repository inventory, so even a
-single previously scanned repository (such as an Overlap repository) disappearing
-from the token's access cannot silently pass the count threshold. The workflow
-treats this expected blocked-scan result as a successful no-op with a warning;
-unexpected generator failures still fail the workflow.
+Repository coverage is checked immediately after repository discovery. The
+coverage baseline stores one-way fingerprints of the last complete repository
+inventory, so a missing repository (such as an Overlap repository) is remembered
+without publishing its name. If access is temporarily incomplete, the generator
+keeps the previous daily totals, scans newly available days for accessible
+repositories, and adds those new lines to the rolling total. When access returns,
+the next run recomputes the full 365-day window. A malformed baseline or failed
+commit-detail request remains a blocked safe no-op rather than a corrupt update.
 
 The regression tests run in the scheduled workflow before the scan:
 

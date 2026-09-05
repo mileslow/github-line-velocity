@@ -34,9 +34,11 @@ class GraphRenderingTests(unittest.TestCase):
             3,
             [],
             0,
+            500,
         )
 
         self.assertIn("35 lines / 3 days", svg)
+        self.assertIn("500 Claude Code", svg)
         self.assertIn("2026-09-01 to 2026-09-02: 15 lines", svg)
         self.assertIn("2026-09-03: 20 lines", svg)
         self.assertIn('x1="54.00" y1="284.0" x2="54.00" y2="224.0"', svg)

@@ -1,21 +1,39 @@
 {
-  "source": "exact local Codex token records plus a preserved exact Cursor export subtotal",
+  "source": "exact local Codex and Claude Code token records plus a preserved exact Cursor export subtotal",
   "window_days": 365,
-  "start_date": "2025-08-29",
-  "end_date": "2026-08-28",
-  "coverage_status": "Exact known records; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
-  "allocation_method": "Codex last-token usage grouped by the model recorded for each token event; the preserved Cursor subtotal is allocated across model names using the exact proportions from the previously published 365-day model snapshot.",
-  "total_tokens": 20264937606,
+  "start_date": "2025-09-06",
+  "end_date": "2026-09-05",
+  "coverage_status": "Exact known Codex and Claude Code records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
+  "allocation_method": "Codex last-token usage and Claude Code request usage are grouped by recorded model; the preserved Cursor subtotal is allocated across model names using the exact proportions from the previously published 365-day model snapshot.",
+  "total_tokens": 21350619134,
+  "claude_code_spend_usd": 500,
+  "spend_sources": [
+    {
+      "name": "Claude Code",
+      "spend_usd": 500,
+      "source": "user-provided cumulative spend",
+      "as_of": "2026-09-05"
+    }
+  ],
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2025-08-29",
-      "end_date": "2026-08-28",
+      "end_date": "2026-09-05",
       "session_files": 2056,
-      "token_events": 136038,
+      "token_events": 140237,
       "malformed_lines": 0,
       "unattributed_model_events": 1,
-      "total_tokens": 14225586899
+      "total_tokens": 14742918292
+    },
+    {
+      "name": "local Claude Code token records",
+      "start_date": "2026-09-04",
+      "end_date": "2026-09-04",
+      "session_files": 62,
+      "token_events": 3530,
+      "token_count_method": "input + cache creation + cache read + output tokens, deduplicated by request",
+      "total_tokens": 568350135
     },
     {
       "name": "preserved Cursor CSV export subtotal",
@@ -62,11 +80,23 @@
   "models": [
     {
       "name": "gpt-5.6-sol",
-      "tokens": 8310090786
+      "tokens": 8373882763
     },
     {
       "name": "gpt-5.6-luna",
-      "tokens": 2652504602
+      "tokens": 3085090631
+    },
+    {
+      "name": "claude-4.5-sonnet-thinking",
+      "tokens": 1721703412
+    },
+    {
+      "name": "other models",
+      "tokens": 1631288363
+    },
+    {
+      "name": "gpt-5.4-medium",
+      "tokens": 1022704285
     },
     {
       "name": "gpt-5.2-codex",
@@ -81,6 +111,22 @@
       "tokens": 861956065
     },
     {
+      "name": "claude-opus-4-6",
+      "tokens": 653182477
+    },
+    {
+      "name": "claude-4-sonnet-thinking",
+      "tokens": 627417851
+    },
+    {
+      "name": "claude-opus-5",
+      "tokens": 419416079
+    },
+    {
+      "name": "gpt-5.3-codex",
+      "tokens": 402110578
+    },
+    {
       "name": "gpt-5.4-mini",
       "tokens": 250946457
     },
@@ -89,8 +135,16 @@
       "tokens": 174686575
     },
     {
-      "name": "gpt-5.3-codex",
-      "tokens": 402110578
+      "name": "claude-fable-5-1",
+      "tokens": 136224545
+    },
+    {
+      "name": "gpt-6-astra",
+      "tokens": 20953387
+    },
+    {
+      "name": "claude-haiku-4-5-20251001",
+      "tokens": 12540618
     },
     {
       "name": "gpt-5.3-codex-spark",
@@ -103,26 +157,14 @@
     {
       "name": "Unattributed legacy event",
       "tokens": 3909
-    },
-    {
-      "name": "claude-4.5-sonnet-thinking",
-      "tokens": 1721703412
-    },
-    {
-      "name": "gpt-5.4-medium",
-      "tokens": 1022704285
-    },
-    {
-      "name": "claude-opus-4-6",
-      "tokens": 653013584
-    },
-    {
-      "name": "claude-4-sonnet-thinking",
-      "tokens": 627417851
-    },
-    {
-      "name": "other models",
-      "tokens": 1631288363
     }
-  ]
+  ],
+  "usage_sync": {
+    "last_processed_at": "2026-09-05T19:44:36.272000Z",
+    "sources": [
+      "local Claude Code session records",
+      "local Codex session records"
+    ],
+    "previous_processed_at": "2026-09-04T10:52:55.633000Z"
+  }
 }

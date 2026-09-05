@@ -59,12 +59,26 @@ python -m unittest discover --start-directory tests --verbose
 ## Audit notes
 
 The model panel is backed by the checked-in `data/model_usage.json` snapshot.
-The current snapshot covers a 365-day window using exact local Codex session
-token records plus the exact recoverable portion of the historical Cursor CSV
-export. The original Cursor account and raw CSV rows are no longer available,
-so the exact Cursor subtotal is allocated across model names using the
-proportions from the preserved, previously published 365-day model breakdown.
-The snapshot metadata documents that allocation and the incomplete Cursor
-coverage. GitHub Actions cannot read the local Codex records, so the daily job
-refreshes the 365-day GitHub-derived metrics while preserving the latest
-audited model snapshot.
+The current snapshot covers a 365-day window using exact local Codex and Claude
+Code session token records plus the exact recoverable portion of the historical
+Cursor CSV export. The original Cursor account and raw CSV rows are no longer
+available, so the exact Cursor subtotal is allocated across model names using
+the proportions from the preserved, previously published 365-day model
+breakdown. The snapshot metadata documents that allocation and the incomplete
+Cursor coverage.
+
+The `$500 Claude Code` value is a separate cumulative spend value supplied by
+the user. It is displayed alongside tokens and is intentionally not converted
+into invented tokens, because spend alone does not identify the model mix,
+cache usage, or billing period needed for an exact token count. The local
+`scripts/sync_model_usage.py` updater reads aggregate token usage from the
+machine's Claude Code and Codex JSONL records, deduplicates Claude streaming
+rows, and advances a watermark after each successful update. Raw prompts,
+responses, and session contents are never written to the repository.
+
+GitHub Actions cannot read local home-directory records. The installed macOS
+LaunchAgent in `launchd/com.mileslow.github-line-velocity.plist` runs the local
+updater at login and hourly, commits and pushes only changed aggregate data,
+and dispatches the profile workflow when new tokens are found. The GitHub
+workflow still runs daily as a fallback and preserves the latest synced model
+snapshot when no local machine is available.

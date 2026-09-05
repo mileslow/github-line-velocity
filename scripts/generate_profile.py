@@ -631,9 +631,18 @@ def validate_scan(
         )
 
 
-def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
+def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int, float]:
     snapshot = json.loads(path.read_text(encoding="utf-8"))
     total_tokens = int(snapshot["total_tokens"])
+    spend_usd = snapshot.get("claude_code_spend_usd", 0)
+    if isinstance(spend_usd, bool):
+        raise ValueError(f"Claude Code spend must be a non-negative number: {path}")
+    try:
+        spend_usd = float(spend_usd)
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"Claude Code spend must be a non-negative number: {path}") from error
+    if spend_usd < 0:
+        raise ValueError(f"Claude Code spend must be a non-negative number: {path}")
     raw_models = [
         (str(model["name"]), int(model["tokens"]))
         for model in snapshot["models"]
@@ -662,7 +671,7 @@ def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
     other_tokens = explicit_other_tokens + sum(tokens for _, tokens in models[5:])
     if other_tokens:
         segments.append(("other models", other_tokens / total_tokens * 100, "#ccc"))
-    return segments, total_tokens
+    return segments, total_tokens, spend_usd
 
 
 def render_svg(
@@ -673,6 +682,7 @@ def render_svg(
     commits: int,
     model_segments: list[tuple[str, float, str]],
     model_tokens: int,
+    model_spend_usd: float = 0,
 ) -> str:
     total = sum(daily.values())
     active_days = sum(1 for value in daily.values() if value)
@@ -725,7 +735,8 @@ def render_svg(
         "</style>",
         '<rect width="1000" height="320" fill="#fff"/>',
         f'<text x="54" y="52" class="title">{compact_number(total)} lines / {len(days)} days</text>',
-        f'<text x="54" y="84" class="body">{commits:,} commits · {active_days} active days · {compact_token_count(model_tokens)} tokens</text>',
+        f'<text x="54" y="84" class="body">{commits:,} commits · {active_days} active days · {compact_token_count(model_tokens)} tokens'
+        f'{f" · ${model_spend_usd:,.0f} Claude Code" if model_spend_usd else ""}</text>',
         '<text x="54" y="122" class="small">languages</text>',
     ]
     lines.extend(
@@ -816,7 +827,7 @@ def main() -> int:
         raise SystemExit(f"Could not load previous stats snapshot: {error}") from error
     model_usage_path = Path(args.model_usage_path)
     try:
-        model_segments, model_tokens = load_model_usage(model_usage_path)
+        model_segments, model_tokens, model_spend_usd = load_model_usage(model_usage_path)
     except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
         raise SystemExit(f"Could not load model usage snapshot: {error}") from error
 
@@ -966,7 +977,16 @@ def main() -> int:
         raise SystemExit(
             f"SCAN_BLOCKED: refusing to publish GitHub line-velocity snapshot: {error}"
         ) from error
-    svg = render_svg(start, end, daily, languages, commits, model_segments, model_tokens)
+    svg = render_svg(
+        start,
+        end,
+        daily,
+        languages,
+        commits,
+        model_segments,
+        model_tokens,
+        model_spend_usd,
+    )
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "github-line-velocity.svg").write_text(svg, encoding="utf-8")

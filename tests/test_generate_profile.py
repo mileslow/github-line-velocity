@@ -163,6 +163,30 @@ class ScanValidationTests(unittest.TestCase):
         self.assertEqual(sum(merged.values()), 400)
         self.assertEqual(merged["2026-09-04"], 100)
 
+    def test_uniform_historical_backfill_uses_prior_total_before_recent_window(self):
+        previous = {
+            "start_date": "2025-09-06",
+            "end_date": "2026-09-05",
+            "window_days": 365,
+            "historical_backfill_total": 1_922_531,
+            "historical_backfill_window_days": 365,
+            "daily_lines_changed": {
+                "2026-08-10": 1,
+                "2026-08-20": 200,
+            },
+        }
+
+        merged = merge_rolling_changed(
+            previous,
+            Counter({"2026-09-05": 1_000}),
+            dt.date(2025, 9, 6),
+            dt.date(2026, 9, 5),
+        )
+
+        self.assertEqual(merged["2026-08-10"], 1_922_531 // 365)
+        self.assertEqual(merged["2026-08-20"], 200)
+        self.assertEqual(merged["2026-09-05"], 1_000)
+
     def test_additive_partial_refresh_keeps_old_data_and_adds_changed_lines(self):
         previous = {
             "end_date": "2026-09-04",

@@ -4,6 +4,10 @@
   "code_lines_changed": 2017708,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
+  "historical_backfill": "uniform-prior-snapshot",
+  "historical_backfill_recent_days": 21,
+  "historical_backfill_total": 1922531,
+  "historical_backfill_window_days": 365,
   "coverage_baseline": {
     "repositories_scanned": 153,
     "repository_hashes": [

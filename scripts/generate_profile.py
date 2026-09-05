@@ -24,6 +24,7 @@ API_TIMEOUT_SECONDS = 20
 API_MAX_RETRIES = 8
 MIN_PREVIOUS_COVERAGE_RATIO = 0.8
 MAX_ACTIVE_DAYS_DROP = 25
+UNIFORM_BACKFILL_RECENT_DAYS = 21
 DEFAULT_PROFILE_REPO = "mileslow/mileslow"
 DEFAULT_GENERATOR_REPO = "mileslow/github-line-velocity"
 DEFAULT_PUBLIC_ORGANIZATIONS = ("Vastly-Podcasts",)
@@ -566,6 +567,37 @@ def carried_daily_changed(
     )
 
 
+def uniform_historical_backfill(
+    previous: dict[str, Any] | None,
+    start: dt.date,
+    end: dt.date,
+) -> Counter[str] | None:
+    """Spread the prior aggregate evenly across days outside the recent window."""
+    if previous is None:
+        return None
+    raw_total = previous.get("historical_backfill_total")
+    if raw_total is None:
+        return None
+    try:
+        total = int(raw_total)
+        window_days = int(previous.get("historical_backfill_window_days", 365))
+    except (TypeError, ValueError) as error:
+        raise ValueError("historical backfill metadata must contain integers") from error
+    if total < 0 or window_days <= 0:
+        raise ValueError("historical backfill metadata must be non-negative")
+    cutoff = end - dt.timedelta(days=UNIFORM_BACKFILL_RECENT_DAYS - 1)
+    daily_value = total // window_days
+    historical_end = min(end, cutoff - dt.timedelta(days=1))
+    if historical_end < start:
+        return Counter()
+    return Counter(
+        {
+            (start + dt.timedelta(days=offset)).isoformat(): daily_value
+            for offset in range((historical_end - start).days + 1)
+        }
+    )
+
+
 def merge_rolling_changed(
     previous: dict[str, Any] | None,
     new_daily: Counter[str],
@@ -573,7 +605,16 @@ def merge_rolling_changed(
     end: dt.date,
     allow_legacy_backfill: bool = False,
 ) -> Counter[str]:
-    merged = carried_daily_changed(previous, start, end, allow_legacy_backfill)
+    uniform_backfill = uniform_historical_backfill(previous, start, end)
+    if uniform_backfill is None:
+        merged = carried_daily_changed(previous, start, end, allow_legacy_backfill)
+    else:
+        cutoff = end - dt.timedelta(days=UNIFORM_BACKFILL_RECENT_DAYS - 1)
+        merged = uniform_backfill
+        for day, changed in carried_daily_changed(
+            previous, max(start, cutoff), end, allow_legacy_backfill
+        ).items():
+            merged[day] = changed
     for day, changed in new_daily.items():
         parsed_day = dt.date.fromisoformat(day)
         if not start <= parsed_day <= end:
@@ -956,6 +997,16 @@ def main() -> int:
     }
     if legacy_backfill:
         stats["historical_backfill"] = "previous-additions-only-snapshot"
+    uniform_backfill_total = (
+        previous_stats.get("historical_backfill_total") if previous_stats else None
+    )
+    if uniform_backfill_total is not None:
+        stats["historical_backfill"] = "uniform-prior-snapshot"
+        stats["historical_backfill_total"] = int(uniform_backfill_total)
+        stats["historical_backfill_window_days"] = int(
+            previous_stats.get("historical_backfill_window_days", 365)
+        )
+        stats["historical_backfill_recent_days"] = UNIFORM_BACKFILL_RECENT_DAYS
     stats["coverage_baseline"] = {
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
         "repository_hashes": sorted(covered_repository_hashes),

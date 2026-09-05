@@ -1,7 +1,7 @@
 {
   "active_days": 293,
   "authored_commits": 4219,
-  "code_lines_added": 2015640,
+  "code_lines_changed": 2015640,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -162,7 +162,7 @@
       "ff3ec9080a450f36e7820141478818c9ccd2083abd5bf4b5a24da4478ad1cec6"
     ]
   },
-  "daily_additions": {
+  "daily_lines_changed": {
     "2025-09-06": 0,
     "2025-09-07": 0,
     "2025-09-08": 6889,
@@ -530,6 +530,7 @@
     "2026-09-05": 849
   },
   "end_date": "2026-09-05",
+  "historical_backfill": "previous-additions-only-snapshot",
   "languages": {
     "C": 176,
     "C/C++": 42,
@@ -546,8 +547,9 @@
   },
   "repositories_accessible": 59,
   "repositories_carried_forward": 94,
+  "repositories_permanently_inaccessible": 1,
   "repositories_scanned": 153,
-  "repositories_skipped": 3,
+  "repositories_skipped": 0,
   "scan_mode": "authenticated-partial",
   "start_date": "2025-09-06",
   "username": "mileslow",

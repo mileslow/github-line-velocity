@@ -9,10 +9,39 @@ from scripts.generate_profile import (
     commit_detail_stats,
     merge_rolling_changed,
     partial_scan_start,
+    render_svg,
     repository_name_hash,
     validate_repository_inventory,
     validate_scan,
 )
+
+
+class GraphRenderingTests(unittest.TestCase):
+    def test_graph_buckets_reconcile_to_total_and_use_linear_scale(self):
+        daily = Counter(
+            {
+                "2026-09-01": 10,
+                "2026-09-02": 5,
+                "2026-09-03": 20,
+            }
+        )
+
+        svg = render_svg(
+            dt.date(2026, 9, 1),
+            dt.date(2026, 9, 3),
+            daily,
+            Counter({"Python": 35}),
+            3,
+            [],
+            0,
+        )
+
+        self.assertIn("35 lines changed / 3 days", svg)
+        self.assertIn("2026-09-01 to 2026-09-02: 15 lines changed", svg)
+        self.assertIn("2026-09-03: 20 lines changed", svg)
+        self.assertIn('x1="54.00" y1="284.0" x2="54.00" y2="224.0"', svg)
+        self.assertIn('x1="964.00" y1="284.0" x2="964.00" y2="204.0"', svg)
+        self.assertNotIn("additions", svg)
 
 
 class CommitDetailStatsTests(unittest.TestCase):

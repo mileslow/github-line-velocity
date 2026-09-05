@@ -667,12 +667,18 @@ def render_svg(
         top_languages.append(("Other", other))
     language_max = max((value for _, value in top_languages), default=1)
 
-    graph_points: list[tuple[dt.date, int]] = []
+    graph_points: list[tuple[dt.date, dt.date, int]] = []
     for offset in range(0, len(days), 2):
         bucket = days[offset : offset + 2]
-        graph_points.append((bucket[0], sum(daily[day.isoformat()] for day in bucket)))
-    max_value = max((value for _, value in graph_points), default=0)
-    log_max = math.log1p(max_value) if max_value else 1
+        graph_points.append(
+            (
+                bucket[0],
+                bucket[-1],
+                sum(daily[day.isoformat()] for day in bucket),
+            )
+        )
+    max_value = max((value for _, _, value in graph_points), default=0)
+    graph_height = 80.0
 
     def esc(value: object) -> str:
         return html.escape(str(value), quote=True)
@@ -689,7 +695,7 @@ def render_svg(
     lines = [
         '<svg width="1000" height="320" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">',
         '<title id="title">Miles Low GitHub velocity, languages, and model split</title>',
-        f'<desc id="desc">Last 365 days of changed code lines through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
+        f'<desc id="desc">Last {len(days)} days of changed code lines through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
         "<style>",
         '  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }',
         "  .title { font-size: 28px; font-weight: 700; }",
@@ -700,7 +706,7 @@ def render_svg(
         "  .bar { stroke: #111; stroke-width: 2; opacity: 0.42; shape-rendering: crispEdges; }",
         "</style>",
         '<rect width="1000" height="320" fill="#fff"/>',
-        f'<text x="54" y="52" class="title">{compact_number(total)} lines / 365 days</text>',
+        f'<text x="54" y="52" class="title">{compact_number(total)} lines changed / {len(days)} days</text>',
         f'<text x="54" y="84" class="body">{commits:,} commits · {active_days} active days · {compact_token_count(model_tokens)} tokens</text>',
         '<text x="54" y="122" class="small">languages</text>',
     ]
@@ -730,18 +736,23 @@ def render_svg(
     x0, x1, baseline = 54.0, 964.0, 284.0
     step = (x1 - x0) / max(1, len(graph_points) - 1)
     points: list[str] = []
-    for index, (day, value) in enumerate(graph_points):
-        height = 0 if not value else 8 + 66 * math.log1p(value) / log_max
+    for index, (bucket_start, bucket_end, value) in enumerate(graph_points):
+        height = graph_height * value / max_value if max_value else 0
         x = x0 + index * step
         y = baseline - height
+        bucket_label = (
+            bucket_start.isoformat()
+            if bucket_start == bucket_end
+            else f"{bucket_start.isoformat()} to {bucket_end.isoformat()}"
+        )
         lines.append(
             f'<line x1="{x:.2f}" y1="{baseline:.1f}" x2="{x:.2f}" y2="{y:.1f}" class="bar">'
-            f'<title>{esc(day.isoformat())}: {value:,} lines changed</title></line>'
+            f'<title>{esc(bucket_label)}: {value:,} lines changed</title></line>'
         )
         points.append(f"{x:.1f},{y:.1f}")
     lines.append(f'<polyline points="{" ".join(points)}" fill="none" stroke="#111" stroke-width="1.4"/>')
     seen_months: set[tuple[int, int]] = set()
-    for index, (day, _) in enumerate(graph_points):
+    for index, (day, _, _) in enumerate(graph_points):
         month = (day.year, day.month)
         if month in seen_months:
             continue

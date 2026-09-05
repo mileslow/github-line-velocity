@@ -5,7 +5,7 @@
   "end_date": "2026-09-05",
   "coverage_status": "Exact known Codex and Claude Code records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code request usage are grouped by recorded model; the preserved Cursor subtotal is allocated across model names using the exact proportions from the previously published 365-day model snapshot.",
-  "total_tokens": 21356619609,
+  "total_tokens": 21358627425,
   "claude_code_spend_usd": 500,
   "spend_sources": [
     {
@@ -21,10 +21,10 @@
       "start_date": "2025-08-29",
       "end_date": "2026-09-05",
       "session_files": 2056,
-      "token_events": 140280,
+      "token_events": 140300,
       "malformed_lines": 0,
       "unattributed_model_events": 1,
-      "total_tokens": 14748918767
+      "total_tokens": 14750926583
     },
     {
       "name": "local Claude Code token records",
@@ -84,7 +84,7 @@
     },
     {
       "name": "gpt-5.6-luna",
-      "tokens": 3091091106
+      "tokens": 3093098922
     },
     {
       "name": "claude-4.5-sonnet-thinking",
@@ -160,11 +160,11 @@
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-05T19:46:27.286000Z",
+    "last_processed_at": "2026-09-05T19:49:42.686000Z",
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
     ],
-    "previous_processed_at": "2026-09-05T19:44:36.272000Z"
+    "previous_processed_at": "2026-09-05T19:46:27.286000Z"
   }
 }

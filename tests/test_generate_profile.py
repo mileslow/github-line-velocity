@@ -122,7 +122,7 @@ class ScanValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ScanRegressionError, "no repository inventory"):
             validate_repository_inventory(59, previous, ["mileslow/repository"])
 
-    def test_blocks_partial_refresh_until_legacy_additions_are_recomputed(self):
+    def test_allows_legacy_additions_to_backfill_a_permanently_missing_repository(self):
         previous = {
             "coverage_baseline": {
                 "repositories_scanned": 2,
@@ -134,12 +134,29 @@ class ScanValidationTests(unittest.TestCase):
             "daily_additions": {"2026-09-04": 100},
         }
 
-        with self.assertRaisesRegex(ScanRegressionError, "daily changed-line totals"):
-            validate_repository_inventory(
-                1,
-                previous,
-                ["mileslow/another-repository"],
-            )
+        missing = validate_repository_inventory(
+            1,
+            previous,
+            ["mileslow/another-repository"],
+        )
+        self.assertEqual(missing, {repository_name_hash("Vastly-Podcasts/Overlap")})
+
+    def test_legacy_additions_are_only_used_when_explicitly_backfilling(self):
+        previous = {
+            "end_date": "2026-09-04",
+            "daily_additions": {"2026-09-04": 100},
+        }
+
+        merged = merge_rolling_changed(
+            previous,
+            Counter({"2026-09-05": 300}),
+            dt.date(2025, 9, 6),
+            dt.date(2026, 9, 5),
+            allow_legacy_backfill=True,
+        )
+
+        self.assertEqual(sum(merged.values()), 400)
+        self.assertEqual(merged["2026-09-04"], 100)
 
     def test_additive_partial_refresh_keeps_old_data_and_adds_changed_lines(self):
         previous = {

@@ -40,12 +40,15 @@ list returned for an individual very large commit; the aggregate snapshot
 records how many such commits were encountered in `data/latest.json`.
 Repository coverage is checked immediately after repository discovery. The
 coverage baseline stores one-way fingerprints of the last complete repository
-inventory, so a missing repository (such as an Overlap repository) is remembered
-without publishing its name. If access is temporarily incomplete, the generator
-keeps the previous daily totals, scans newly available days for accessible
-repositories, and adds those changed lines to the rolling total. When access returns,
-the next run recomputes the full 365-day window. A malformed baseline or failed
-commit-detail request remains a blocked safe no-op rather than a corrupt update.
+inventory, so a missing repository is remembered without publishing its name.
+Overlap is permanently inaccessible: its last known history is always carried
+forward as a backfill, while each newly scanned day adds additions plus deletions
+from the repositories that remain accessible. If another repository is temporarily
+incomplete, the generator keeps the previous daily totals and backfills newly
+available repository history when access returns. The first changed-lines refresh
+can also carry forward the old additions-only snapshot as historical backfill;
+it never invents deletions for an inaccessible repository. A malformed baseline or
+failed commit-detail request remains a blocked safe no-op rather than a corrupt update.
 
 The regression tests run in the scheduled workflow before the scan:
 

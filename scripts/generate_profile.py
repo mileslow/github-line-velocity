@@ -27,6 +27,9 @@ MAX_ACTIVE_DAYS_DROP = 25
 DEFAULT_PROFILE_REPO = "mileslow/mileslow"
 DEFAULT_GENERATOR_REPO = "mileslow/github-line-velocity"
 DEFAULT_PUBLIC_ORGANIZATIONS = ("Vastly-Podcasts",)
+# This repository is permanently unavailable to PROFILE_REPO_TOKEN. Its last
+# known aggregate history must remain a backfill instead of blocking refreshes.
+PERMANENTLY_INACCESSIBLE_REPOSITORIES = frozenset({"Vastly-Podcasts/Overlap"})
 
 EXCLUDED_EXTENSIONS = {
     ".avif",
@@ -419,6 +422,10 @@ def repository_inventory_hashes(names: list[str]) -> set[str]:
     return {repository_name_hash(name) for name in names}
 
 
+def permanently_inaccessible_repository_hashes() -> set[str]:
+    return repository_inventory_hashes(list(PERMANENTLY_INACCESSIBLE_REPOSITORIES))
+
+
 def baseline_repository_hashes(snapshot: dict[str, Any]) -> set[str] | None:
     configured_baseline = snapshot.get("coverage_baseline")
     if configured_baseline is None:
@@ -500,9 +507,10 @@ def validate_repository_inventory(
         return set()
     missing = missing_repository_hashes(previous, current_repository_names)
     if missing and not isinstance(previous.get("daily_lines_changed"), dict):
-        raise ScanRegressionError(
-            "repository access is incomplete and the previous snapshot has no daily changed-line totals to carry forward"
-        )
+        if "daily_lines_changed" in previous or not isinstance(previous.get("daily_additions"), dict):
+            raise ScanRegressionError(
+                "repository access is incomplete and the previous snapshot has no daily changed-line totals to carry forward"
+            )
     return missing
 
 
@@ -515,31 +523,40 @@ def parse_snapshot_date(value: object, field: str) -> dt.date:
         raise ValueError(f"stats snapshot field {field!r} must be an ISO date") from error
 
 
-def snapshot_daily_changed(snapshot: dict[str, Any]) -> Counter[str]:
-    raw_daily = snapshot.get("daily_lines_changed", {})
+def snapshot_daily_changed(
+    snapshot: dict[str, Any], allow_legacy_backfill: bool = False
+) -> Counter[str]:
+    field = "daily_lines_changed"
+    raw_daily = snapshot.get(field)
+    if raw_daily is None and allow_legacy_backfill:
+        field = "daily_additions"
+        raw_daily = snapshot.get(field, {})
     if not isinstance(raw_daily, dict):
-        raise ValueError("stats snapshot field 'daily_lines_changed' must be an object")
+        raise ValueError(f"stats snapshot field {field!r} must be an object")
     daily: Counter[str] = Counter()
     for day, value in raw_daily.items():
         if not isinstance(day, str):
-            raise ValueError("stats snapshot daily changed lines must use ISO date keys")
+            raise ValueError(f"stats snapshot {field} must use ISO date keys")
         try:
             parsed_day = dt.date.fromisoformat(day)
             changed = int(value)
         except (TypeError, ValueError) as error:
-            raise ValueError("stats snapshot daily changed lines must contain dates and integers") from error
+            raise ValueError(f"stats snapshot {field} must contain dates and integers") from error
         if changed < 0:
-            raise ValueError("stats snapshot daily changed lines must not be negative")
+            raise ValueError(f"stats snapshot {field} must not be negative")
         daily[parsed_day.isoformat()] = changed
     return daily
 
 
 def carried_daily_changed(
-    previous: dict[str, Any] | None, start: dt.date, end: dt.date
+    previous: dict[str, Any] | None,
+    start: dt.date,
+    end: dt.date,
+    allow_legacy_backfill: bool = False,
 ) -> Counter[str]:
     if previous is None:
         return Counter()
-    previous_daily = snapshot_daily_changed(previous)
+    previous_daily = snapshot_daily_changed(previous, allow_legacy_backfill)
     return Counter(
         {
             day: changed
@@ -554,8 +571,9 @@ def merge_rolling_changed(
     new_daily: Counter[str],
     start: dt.date,
     end: dt.date,
+    allow_legacy_backfill: bool = False,
 ) -> Counter[str]:
-    merged = carried_daily_changed(previous, start, end)
+    merged = carried_daily_changed(previous, start, end, allow_legacy_backfill)
     for day, changed in new_daily.items():
         parsed_day = dt.date.fromisoformat(day)
         if not start <= parsed_day <= end:
@@ -831,6 +849,13 @@ def main() -> int:
         ) from error
 
     partial_coverage = bool(missing_hashes)
+    permanent_missing_hashes = missing_hashes & permanently_inaccessible_repository_hashes()
+    legacy_backfill = bool(
+        partial_coverage
+        and previous_stats
+        and "daily_lines_changed" not in previous_stats
+        and isinstance(previous_stats.get("daily_additions"), dict)
+    )
     if partial_coverage:
         scan_mode = f"{scan_mode}-partial"
         scan_start = partial_scan_start(previous_stats, start, end)
@@ -844,6 +869,16 @@ def main() -> int:
             f"Coverage is partial: carrying forward {len(missing_hashes):,} previously "
             f"scanned repositories and scanning accessible changes from {scan_start} through {end}."
         )
+        if permanent_missing_hashes:
+            print(
+                "Permanent repository access gap detected; its last known history "
+                "will remain a backfill on every refresh."
+            )
+        if legacy_backfill:
+            print(
+                "Using the previous additions-only snapshot as a historical backfill; "
+                "newly scanned days use additions plus deletions."
+            )
     else:
         scan_start = start
         daily = Counter()
@@ -884,7 +919,13 @@ def main() -> int:
         print(f"[{index}/{len(repos)}] {full_name}: {repo_commits} commits{detail_note}")
 
     if partial_coverage:
-        daily = merge_rolling_changed(previous_stats, daily, start, end)
+        daily = merge_rolling_changed(
+            previous_stats,
+            daily,
+            start,
+            end,
+            allow_legacy_backfill=legacy_backfill,
+        )
 
     previous_repository_baseline = (
         minimum_repository_baseline(previous_stats) if previous_stats else None
@@ -906,12 +947,15 @@ def main() -> int:
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
         "repositories_accessible": len(repos),
         "repositories_carried_forward": len(missing_hashes),
+        "repositories_permanently_inaccessible": len(permanent_missing_hashes),
         "repositories_skipped": len(skipped),
         "commits_with_truncated_file_lists": truncated_file_lists,
         "commit_detail_failures": failed_commit_details,
         "languages": dict(sorted(languages.items(), key=lambda item: (-item[1], item[0]))),
         "daily_lines_changed": {day.isoformat(): daily[day.isoformat()] for day in (start + dt.timedelta(days=i) for i in range(args.days))},
     }
+    if legacy_backfill:
+        stats["historical_backfill"] = "previous-additions-only-snapshot"
     stats["coverage_baseline"] = {
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
         "repository_hashes": sorted(covered_repository_hashes),

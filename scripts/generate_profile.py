@@ -301,7 +301,7 @@ def commit_detail_stats(
     commit_date = (commit.get("commit", {}).get("author", {}).get("date") or "")[:10]
     if not commit_date:
         raise ApiError(f"GitHub commit listing returned a commit without an author date in {repo_name}")
-    additions_by_language: Counter[str] = Counter()
+    changed_by_language: Counter[str] = Counter()
     files = details.get("files")
     if not isinstance(files, list):
         raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had no file list")
@@ -312,15 +312,22 @@ def commit_detail_stats(
         if not isinstance(path, str) or not path:
             raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had a file without a path")
         try:
-            added = int(changed_file.get("additions", 0) or 0)
+            additions = int(changed_file.get("additions", 0) or 0)
         except (TypeError, ValueError) as error:
             raise ApiError(
                 f"GitHub commit detail for {repo_name}/{sha} had invalid additions"
             ) from error
-        if added <= 0 or should_exclude(path):
+        try:
+            deletions = int(changed_file.get("deletions", 0) or 0)
+        except (TypeError, ValueError) as error:
+            raise ApiError(
+                f"GitHub commit detail for {repo_name}/{sha} had invalid deletions"
+            ) from error
+        changed = additions + deletions
+        if changed <= 0 or should_exclude(path):
             continue
-        additions_by_language[language_for(path)] += added
-    return commit_date, additions_by_language, int(len(files) >= 300)
+        changed_by_language[language_for(path)] += changed
+    return commit_date, changed_by_language, int(len(files) >= 300)
 
 
 def collect_repo_stats(
@@ -492,9 +499,9 @@ def validate_repository_inventory(
             )
         return set()
     missing = missing_repository_hashes(previous, current_repository_names)
-    if missing and not isinstance(previous.get("daily_additions"), dict):
+    if missing and not isinstance(previous.get("daily_lines_changed"), dict):
         raise ScanRegressionError(
-            "repository access is incomplete and the previous snapshot has no daily totals to carry forward"
+            "repository access is incomplete and the previous snapshot has no daily changed-line totals to carry forward"
         )
     return missing
 
@@ -508,54 +515,54 @@ def parse_snapshot_date(value: object, field: str) -> dt.date:
         raise ValueError(f"stats snapshot field {field!r} must be an ISO date") from error
 
 
-def snapshot_daily_additions(snapshot: dict[str, Any]) -> Counter[str]:
-    raw_daily = snapshot.get("daily_additions", {})
+def snapshot_daily_changed(snapshot: dict[str, Any]) -> Counter[str]:
+    raw_daily = snapshot.get("daily_lines_changed", {})
     if not isinstance(raw_daily, dict):
-        raise ValueError("stats snapshot field 'daily_additions' must be an object")
+        raise ValueError("stats snapshot field 'daily_lines_changed' must be an object")
     daily: Counter[str] = Counter()
     for day, value in raw_daily.items():
         if not isinstance(day, str):
-            raise ValueError("stats snapshot daily additions must use ISO date keys")
+            raise ValueError("stats snapshot daily changed lines must use ISO date keys")
         try:
             parsed_day = dt.date.fromisoformat(day)
-            additions = int(value)
+            changed = int(value)
         except (TypeError, ValueError) as error:
-            raise ValueError("stats snapshot daily additions must contain dates and integers") from error
-        if additions < 0:
-            raise ValueError("stats snapshot daily additions must not be negative")
-        daily[parsed_day.isoformat()] = additions
+            raise ValueError("stats snapshot daily changed lines must contain dates and integers") from error
+        if changed < 0:
+            raise ValueError("stats snapshot daily changed lines must not be negative")
+        daily[parsed_day.isoformat()] = changed
     return daily
 
 
-def carried_daily_additions(
+def carried_daily_changed(
     previous: dict[str, Any] | None, start: dt.date, end: dt.date
 ) -> Counter[str]:
     if previous is None:
         return Counter()
-    previous_daily = snapshot_daily_additions(previous)
+    previous_daily = snapshot_daily_changed(previous)
     return Counter(
         {
-            day: additions
-            for day, additions in previous_daily.items()
+            day: changed
+            for day, changed in previous_daily.items()
             if start <= dt.date.fromisoformat(day) <= end
         }
     )
 
 
-def merge_rolling_additions(
+def merge_rolling_changed(
     previous: dict[str, Any] | None,
     new_daily: Counter[str],
     start: dt.date,
     end: dt.date,
 ) -> Counter[str]:
-    merged = carried_daily_additions(previous, start, end)
-    for day, additions in new_daily.items():
+    merged = carried_daily_changed(previous, start, end)
+    for day, changed in new_daily.items():
         parsed_day = dt.date.fromisoformat(day)
         if not start <= parsed_day <= end:
-            raise ValueError(f"new daily additions contain {day} outside the rolling window")
-        if additions < 0:
-            raise ValueError("new daily additions must not be negative")
-        merged[day] += additions
+            raise ValueError(f"new daily changed lines contain {day} outside the rolling window")
+        if changed < 0:
+            raise ValueError("new daily changed lines must not be negative")
+        merged[day] += changed
     return merged
 
 
@@ -682,7 +689,7 @@ def render_svg(
     lines = [
         '<svg width="1000" height="320" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">',
         '<title id="title">Miles Low GitHub velocity, languages, and model split</title>',
-        f'<desc id="desc">Last 365 days of code additions through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
+        f'<desc id="desc">Last 365 days of changed code lines through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
         "<style>",
         '  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }',
         "  .title { font-size: 28px; font-weight: 700; }",
@@ -729,7 +736,7 @@ def render_svg(
         y = baseline - height
         lines.append(
             f'<line x1="{x:.2f}" y1="{baseline:.1f}" x2="{x:.2f}" y2="{y:.1f}" class="bar">'
-            f'<title>{esc(day.isoformat())}: {value:,} additions</title></line>'
+            f'<title>{esc(day.isoformat())}: {value:,} lines changed</title></line>'
         )
         points.append(f"{x:.1f},{y:.1f}")
     lines.append(f'<polyline points="{" ".join(points)}" fill="none" stroke="#111" stroke-width="1.4"/>')
@@ -866,7 +873,7 @@ def main() -> int:
         print(f"[{index}/{len(repos)}] {full_name}: {repo_commits} commits{detail_note}")
 
     if partial_coverage:
-        daily = merge_rolling_additions(previous_stats, daily, start, end)
+        daily = merge_rolling_changed(previous_stats, daily, start, end)
 
     previous_repository_baseline = (
         minimum_repository_baseline(previous_stats) if previous_stats else None
@@ -882,7 +889,7 @@ def main() -> int:
         "window_days": args.days,
         "start_date": start.isoformat(),
         "end_date": end.isoformat(),
-        "code_lines_added": sum(daily.values()),
+        "code_lines_changed": sum(daily.values()),
         "authored_commits": commits,
         "active_days": sum(1 for value in daily.values() if value),
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
@@ -892,7 +899,7 @@ def main() -> int:
         "commits_with_truncated_file_lists": truncated_file_lists,
         "commit_detail_failures": failed_commit_details,
         "languages": dict(sorted(languages.items(), key=lambda item: (-item[1], item[0]))),
-        "daily_additions": {day.isoformat(): daily[day.isoformat()] for day in (start + dt.timedelta(days=i) for i in range(args.days))},
+        "daily_lines_changed": {day.isoformat(): daily[day.isoformat()] for day in (start + dt.timedelta(days=i) for i in range(args.days))},
     }
     stats["coverage_baseline"] = {
         "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
@@ -911,7 +918,7 @@ def main() -> int:
     stats_path.parent.mkdir(parents=True, exist_ok=True)
     stats_path.write_text(json.dumps(stats, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(
-        f"Generated {compact_number(stats['code_lines_added'])} code lines across "
+        f"Generated {compact_number(stats['code_lines_changed'])} changed code lines across "
         f"{commits:,} authored commits; skipped {len(skipped)} repositories."
     )
     return 0

@@ -1,16 +1,42 @@
 import unittest
 import datetime as dt
 from collections import Counter
+from unittest.mock import patch
 
 from scripts.generate_profile import (
     ScanRegressionError,
-    carried_daily_additions,
-    merge_rolling_additions,
+    carried_daily_changed,
+    commit_detail_stats,
+    merge_rolling_changed,
     partial_scan_start,
     repository_name_hash,
     validate_repository_inventory,
     validate_scan,
 )
+
+
+class CommitDetailStatsTests(unittest.TestCase):
+    @patch("scripts.generate_profile.github_request")
+    def test_counts_additions_and_deletions_as_changed_lines(self, request):
+        request.return_value = {
+            "files": [
+                {"filename": "src/app.py", "additions": 3, "deletions": 4},
+                {"filename": "README.md", "additions": 100, "deletions": 100},
+                {"filename": "src/removed.py", "additions": 0, "deletions": 2},
+            ]
+        }
+        commit = {
+            "sha": "abc123",
+            "commit": {"author": {"date": "2026-09-05T12:00:00Z"}},
+        }
+
+        day, changed_by_language, truncated = commit_detail_stats(
+            "token", "mileslow/example", commit
+        )
+
+        self.assertEqual(day, "2026-09-05")
+        self.assertEqual(changed_by_language["Python"], 9)
+        self.assertEqual(truncated, 0)
 
 
 class ScanValidationTests(unittest.TestCase):
@@ -41,7 +67,7 @@ class ScanValidationTests(unittest.TestCase):
 
     def test_remembers_a_missing_known_repository_for_carry_forward(self):
         previous = {
-            "daily_additions": {"2026-09-04": 100},
+            "daily_lines_changed": {"2026-09-04": 100},
             "coverage_baseline": {
                 "repositories_scanned": 2,
                 "repository_hashes": [
@@ -61,21 +87,40 @@ class ScanValidationTests(unittest.TestCase):
     def test_blocks_an_old_snapshot_without_inventory_when_coverage_drops(self):
         previous = {
             "repositories_scanned": 153,
-            "daily_additions": {"2026-09-04": 100},
+            "daily_lines_changed": {"2026-09-04": 100},
         }
 
         with self.assertRaisesRegex(ScanRegressionError, "no repository inventory"):
             validate_repository_inventory(59, previous, ["mileslow/repository"])
 
-    def test_additive_partial_refresh_keeps_old_data_and_adds_new_lines(self):
+    def test_blocks_partial_refresh_until_legacy_additions_are_recomputed(self):
+        previous = {
+            "coverage_baseline": {
+                "repositories_scanned": 2,
+                "repository_hashes": [
+                    repository_name_hash("Vastly-Podcasts/Overlap"),
+                    repository_name_hash("mileslow/another-repository"),
+                ],
+            },
+            "daily_additions": {"2026-09-04": 100},
+        }
+
+        with self.assertRaisesRegex(ScanRegressionError, "daily changed-line totals"):
+            validate_repository_inventory(
+                1,
+                previous,
+                ["mileslow/another-repository"],
+            )
+
+    def test_additive_partial_refresh_keeps_old_data_and_adds_changed_lines(self):
         previous = {
             "end_date": "2026-09-04",
-            "daily_additions": {
+            "daily_lines_changed": {
                 "2026-09-03": 100,
                 "2026-09-04": 200,
             },
         }
-        merged = merge_rolling_additions(
+        merged = merge_rolling_changed(
             previous,
             Counter({"2026-09-05": 300_000}),
             dt.date(2025, 9, 6),
@@ -88,13 +133,13 @@ class ScanValidationTests(unittest.TestCase):
     def test_partial_refresh_trims_only_days_that_left_the_window(self):
         previous = {
             "end_date": "2026-09-04",
-            "daily_additions": {
+            "daily_lines_changed": {
                 "2025-09-05": 50,
                 "2025-09-06": 100,
                 "2026-09-04": 200,
             },
         }
-        carried = carried_daily_additions(
+        carried = carried_daily_changed(
             previous,
             dt.date(2025, 9, 6),
             dt.date(2026, 9, 5),

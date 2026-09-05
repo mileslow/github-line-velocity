@@ -6,7 +6,8 @@ profile README.
 
 It scans the authenticated user's accessible, non-fork, non-archived default
 branches through GitHub's commit and commit-stat APIs for authored commits in
-the last 365 days. It counts added lines in code-like files, excludes
+the last 365 days. It counts changed lines in code-like files—GitHub additions
+plus deletions—so editing one existing line counts as two changed lines. It excludes
 documentation/data/media/generated artifacts, and publishes only aggregate
 totals, languages, and daily activity. Repository names are never written to
 the generated public files.
@@ -42,7 +43,7 @@ coverage baseline stores one-way fingerprints of the last complete repository
 inventory, so a missing repository (such as an Overlap repository) is remembered
 without publishing its name. If access is temporarily incomplete, the generator
 keeps the previous daily totals, scans newly available days for accessible
-repositories, and adds those new lines to the rolling total. When access returns,
+repositories, and adds those changed lines to the rolling total. When access returns,
 the next run recomputes the full 365-day window. A malformed baseline or failed
 commit-detail request remains a blocked safe no-op rather than a corrupt update.
 

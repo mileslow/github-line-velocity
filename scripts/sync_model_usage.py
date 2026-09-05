@@ -18,7 +18,10 @@ from typing import Any, Iterator
 
 
 DEFAULT_SNAPSHOT = Path("data/model_usage.json")
-DEFAULT_CLAUDE_ROOT = Path("/Users/miles/.claude/projects")
+DEFAULT_CLAUDE_ROOTS = (
+    Path("/Users/miles/.claude"),
+    Path("/Users/miles/Library/Application Support/Claude/local-agent-mode-sessions"),
+)
 DEFAULT_CODEX_ROOT = Path("/Users/miles/.codex")
 CLAUDE_SOURCE_KEY = "claude_code"
 CODEX_SOURCE_KEY = "codex"
@@ -91,10 +94,89 @@ def changed_jsonl_paths(root: Path, after: dt.datetime | None = None) -> Iterato
         yield path
 
 
-def claude_usage_events(
+def timestamp_from_epoch_millis(value: object) -> dt.datetime | None:
+    if isinstance(value, bool):
+        return None
+    try:
+        millis = int(value)
+    except (TypeError, ValueError):
+        return None
+    if millis <= 0:
+        return None
+    try:
+        return dt.datetime.fromtimestamp(millis / 1000, tz=dt.timezone.utc)
+    except (OverflowError, OSError, ValueError):
+        return None
+
+
+def claude_cost_state_token_total(usage: dict[str, Any]) -> int:
+    fields = (
+        "inputTokens",
+        "cacheCreationInputTokens",
+        "cacheReadInputTokens",
+        "outputTokens",
+        "thinkingTokens",
+    )
+    try:
+        total = sum(int(usage.get(field, 0) or 0) for field in fields)
+    except (TypeError, ValueError) as error:
+        raise ValueError("Claude cost-state token fields must be integers") from error
+    if total < 0:
+        raise ValueError("Claude cost-state tokens must not be negative")
+    return total
+
+
+def claude_cost_state_events(
     root: Path, after: dt.datetime | None = None
-) -> Iterator[tuple[str, dt.datetime, int]]:
-    latest_by_request: dict[str, tuple[str, dt.datetime, dict[str, Any]]] = {}
+) -> tuple[list[tuple[str, dt.datetime, int]], set[str]]:
+    latest_by_session: dict[str, tuple[tuple[int, int], dict[str, Any]]] = {}
+    for path in changed_jsonl_paths(root, after):
+        for item in load_json_lines(path):
+            if item.get("type") != "cost-state":
+                continue
+            session_id = item.get("sessionId") or item.get("session_id")
+            if not isinstance(session_id, str) or not session_id:
+                continue
+            timestamp = timestamp_from_epoch_millis(item.get("startTime"))
+            if timestamp is None or (after is not None and timestamp <= after):
+                continue
+            try:
+                marker = (int(item.get("startTime", 0) or 0), int(item.get("totalDuration", 0) or 0))
+            except (TypeError, ValueError):
+                marker = (int(timestamp.timestamp() * 1000), 0)
+            previous = latest_by_session.get(session_id)
+            if previous is None or marker > previous[0]:
+                latest_by_session[session_id] = (marker, item)
+
+    events: list[tuple[str, dt.datetime, int]] = []
+    counted_session_ids: set[str] = set()
+    for _, item in latest_by_session.values():
+        timestamp = timestamp_from_epoch_millis(item.get("startTime"))
+        if timestamp is None:
+            continue
+        session_id = item.get("sessionId") or item.get("session_id")
+        if not isinstance(session_id, str) or not session_id:
+            continue
+        model_usage = item.get("modelUsage")
+        if not isinstance(model_usage, dict):
+            continue
+        session_tokens = 0
+        for model, usage in model_usage.items():
+            if not isinstance(model, str) or not model or not isinstance(usage, dict):
+                continue
+            tokens = claude_cost_state_token_total(usage)
+            if tokens:
+                events.append((model, timestamp, tokens))
+                session_tokens += tokens
+        if session_tokens:
+            counted_session_ids.add(session_id)
+    return sorted(events, key=lambda value: value[1]), counted_session_ids
+
+
+def claude_message_usage_events(
+    root: Path, after: dt.datetime | None = None
+) -> Iterator[tuple[str, dt.datetime, int, str | None]]:
+    latest_by_request: dict[str, tuple[str, dt.datetime, dict[str, Any], str | None]] = {}
     for path in changed_jsonl_paths(root, after):
         for item in load_json_lines(path):
             message = item.get("message")
@@ -117,13 +199,43 @@ def claude_usage_events(
             model = message.get("model") or "Unattributed Claude Code"
             if not isinstance(model, str) or not model:
                 model = "Unattributed Claude Code"
+            session_id = item.get("sessionId") or item.get("session_id")
+            if not isinstance(session_id, str) or not session_id:
+                session_id = None
             previous = latest_by_request.get(request_id)
             if previous is None or timestamp > previous[1]:
-                latest_by_request[request_id] = (model, timestamp, usage)
-    for model, timestamp, usage in sorted(latest_by_request.values(), key=lambda value: value[1]):
+                latest_by_request[request_id] = (model, timestamp, usage, session_id)
+    for model, timestamp, usage, session_id in sorted(
+        latest_by_request.values(), key=lambda value: value[1]
+    ):
         tokens = usage_tokens(usage)
         if tokens:
-            yield model, timestamp, tokens
+            yield model, timestamp, tokens, session_id
+
+
+def claude_usage_events(
+    root: Path, after: dt.datetime | None = None
+) -> Iterator[tuple[str, dt.datetime, int]]:
+    cost_events, cost_state_session_ids = claude_cost_state_events(root, after)
+    yield from cost_events
+    for model, timestamp, tokens, session_id in claude_message_usage_events(root, after):
+        if session_id is not None and session_id in cost_state_session_ids:
+            continue
+        yield model, timestamp, tokens
+
+
+def combined_claude_usage_events(
+    roots: tuple[Path, ...], after: dt.datetime | None = None
+) -> list[tuple[str, dt.datetime, int]]:
+    events: list[tuple[str, dt.datetime, int]] = []
+    seen_roots: set[Path] = set()
+    for root in roots:
+        canonical_root = root.expanduser().resolve(strict=False)
+        if canonical_root in seen_roots:
+            continue
+        seen_roots.add(canonical_root)
+        events.extend(claude_usage_events(canonical_root, after))
+    return sorted(events, key=lambda value: value[1])
 
 
 def codex_usage_events(
@@ -181,6 +293,18 @@ def unallocated_token_baseline(snapshot: dict[str, Any]) -> int:
 
 def jsonl_file_count(root: Path) -> int:
     return sum(1 for _ in root.glob("**/*.jsonl"))
+
+
+def jsonl_file_count_many(roots: tuple[Path, ...]) -> int:
+    count = 0
+    seen_roots: set[Path] = set()
+    for root in roots:
+        canonical_root = root.expanduser().resolve(strict=False)
+        if canonical_root in seen_roots:
+            continue
+        seen_roots.add(canonical_root)
+        count += jsonl_file_count(canonical_root)
+    return count
 
 
 def event_model_totals(
@@ -283,13 +407,31 @@ def rebuild_from_local_sources(
         claude_events,
         claude_session_files,
         {
-            "token_count_method": "input + cache creation + cache read + output tokens, deduplicated by request",
+            "token_count_method": (
+                "Claude cost-state input + cache creation + cache read + output + thinking tokens "
+                "when available; otherwise completed request usage deduplicated by request"
+            ),
         },
     )
     if claude_source is not None:
         insert_at = 1 if codex_source is not None else 0
         sources.insert(insert_at, claude_source)
     snapshot["sources"] = sources
+    snapshot["source"] = (
+        "exact local Codex token records, Claude Code cost-state/request token records, "
+        "plus a preserved unallocated Cursor export subtotal"
+    )
+    snapshot["coverage_status"] = (
+        "Exact known Codex records and Claude Code cost-state/request records plus a preserved Cursor "
+        "subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no "
+        "longer available."
+    )
+    snapshot["allocation_method"] = (
+        "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; "
+        "Claude Code sessions without cost-state summaries fall back to completed request usage. The "
+        "preserved Cursor subtotal contributes only to the headline token total because the raw rows "
+        "are unavailable."
+    )
 
     snapshot["usage_sync"] = {
         "last_processed_at": newest.isoformat().replace("+00:00", "Z"),
@@ -347,7 +489,16 @@ def write_snapshot(path: Path, snapshot: dict[str, Any]) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--snapshot", type=Path, default=DEFAULT_SNAPSHOT)
-    parser.add_argument("--claude-root", type=Path, default=DEFAULT_CLAUDE_ROOT)
+    parser.add_argument(
+        "--claude-root",
+        dest="claude_roots",
+        action="append",
+        type=Path,
+        help=(
+            "Claude JSONL root to scan. May be passed more than once; defaults to both "
+            "~/.claude and Claude Desktop local-agent-mode sessions."
+        ),
+    )
     parser.add_argument("--codex-root", type=Path, default=DEFAULT_CODEX_ROOT)
     parser.add_argument("--since", type=str)
     parser.add_argument("--dry-run", action="store_true")
@@ -363,13 +514,14 @@ def main() -> int:
     after = parse_timestamp(args.since) if args.since else snapshot_after(snapshot)
     if after is None:
         raise SystemExit("--since must be an ISO timestamp")
-    claude_events = list(claude_usage_events(args.claude_root))
+    claude_roots = tuple(args.claude_roots or DEFAULT_CLAUDE_ROOTS)
+    claude_events = combined_claude_usage_events(claude_roots)
     codex_events = list(codex_usage_events(args.codex_root))
     added = rebuild_from_local_sources(
         snapshot,
         claude_events,
         codex_events,
-        jsonl_file_count(args.claude_root),
+        jsonl_file_count_many(claude_roots),
         jsonl_file_count(args.codex_root),
         after,
     )

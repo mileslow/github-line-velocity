@@ -98,6 +98,75 @@ class LocalUsageParsingTests(unittest.TestCase):
             [("claude-opus-5", 100), ("claude-haiku-4-5-20251001", 7)],
         )
 
+    def test_claude_events_prefer_latest_cost_state_and_fallback_to_messages(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            start_time = int(
+                dt.datetime(2026, 9, 5, 9, tzinfo=dt.timezone.utc).timestamp() * 1000
+            )
+            write_json_lines(
+                root / "project" / "session.jsonl",
+                [
+                    {
+                        "timestamp": "2026-09-05T09:00:00Z",
+                        "sessionId": "costed-session",
+                        "message": {
+                            "id": "ignored-message",
+                            "model": "claude-opus-5",
+                            "stop_reason": "end_turn",
+                            "usage": {"total_tokens": 5},
+                        },
+                    },
+                    {
+                        "type": "cost-state",
+                        "sessionId": "costed-session",
+                        "startTime": start_time,
+                        "totalDuration": 1_000,
+                        "modelUsage": {
+                            "claude-opus-5": {
+                                "inputTokens": 1,
+                                "cacheCreationInputTokens": 2,
+                                "cacheReadInputTokens": 3,
+                                "outputTokens": 4,
+                                "thinkingTokens": 5,
+                            }
+                        },
+                    },
+                    {
+                        "type": "cost-state",
+                        "sessionId": "costed-session",
+                        "startTime": start_time,
+                        "totalDuration": 2_000,
+                        "modelUsage": {
+                            "claude-opus-5": {
+                                "inputTokens": 10,
+                                "cacheCreationInputTokens": 20,
+                                "cacheReadInputTokens": 30,
+                                "outputTokens": 40,
+                                "thinkingTokens": 50,
+                            }
+                        },
+                    },
+                    {
+                        "timestamp": "2026-09-05T09:01:00Z",
+                        "sessionId": "message-only-session",
+                        "message": {
+                            "id": "fallback-message",
+                            "model": "claude-haiku-4-5-20251001",
+                            "stop_reason": "end_turn",
+                            "usage": {"total_tokens": 7},
+                        },
+                    },
+                ],
+            )
+
+            events = list(claude_usage_events(root))
+
+        self.assertEqual(
+            [(model, tokens) for model, _, tokens in events],
+            [("claude-opus-5", 150), ("claude-haiku-4-5-20251001", 7)],
+        )
+
     def test_codex_events_scan_active_and_archived_style_subdirectories(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "sessions" / "rollout.jsonl"
@@ -288,6 +357,95 @@ class LocalUsageSyncTests(unittest.TestCase):
         self.assertEqual(updated["unallocated_token_baseline"], 100)
         self.assertEqual(sum(model["tokens"] for model in updated["models"]), 30)
         self.assertEqual(updated["total_tokens"], 130)
+
+    def test_main_combines_multiple_claude_roots(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            snapshot_path = root / "data" / "model_usage.json"
+            first_claude_root = root / "claude-primary"
+            second_claude_root = root / "claude-desktop"
+            snapshot_path.parent.mkdir()
+            snapshot_path.write_text(
+                json.dumps(
+                    {
+                        "window_days": 365,
+                        "start_date": "2026-09-04",
+                        "end_date": "2026-09-04",
+                        "total_tokens": 10,
+                        "unallocated_token_baseline": 10,
+                        "models": [],
+                        "usage_sync": {
+                            "last_processed_at": "2026-09-04T23:59:59Z"
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            write_json_lines(
+                first_claude_root / "session.jsonl",
+                [
+                    {
+                        "timestamp": "2026-09-05T09:00:00Z",
+                        "sessionId": "first-session",
+                        "message": {
+                            "id": "first-message",
+                            "model": "claude-opus-5",
+                            "stop_reason": "end_turn",
+                            "usage": {"total_tokens": 20},
+                        },
+                    }
+                ],
+            )
+            write_json_lines(
+                second_claude_root / "session.jsonl",
+                [
+                    {
+                        "timestamp": "2026-09-05T09:01:00Z",
+                        "sessionId": "second-session",
+                        "message": {
+                            "id": "second-message",
+                            "model": "claude-sonnet-5",
+                            "stop_reason": "end_turn",
+                            "usage": {"total_tokens": 30},
+                        },
+                    }
+                ],
+            )
+
+            argv = [
+                "sync_model_usage.py",
+                "--snapshot",
+                str(snapshot_path),
+                "--claude-root",
+                str(first_claude_root),
+                "--claude-root",
+                str(second_claude_root),
+                "--codex-root",
+                str(root / "missing-codex"),
+            ]
+            with patch.object(sys, "argv", argv):
+                self.assertEqual(main(), 0)
+            updated = json.loads(snapshot_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(updated["total_tokens"], 60)
+        self.assertEqual(
+            {
+                model["name"]: model["tokens"]
+                for model in updated["models"]
+            },
+            {
+                "claude-opus-5": 20,
+                "claude-sonnet-5": 30,
+            },
+        )
+        self.assertEqual(
+            next(
+                source
+                for source in updated["sources"]
+                if source["name"] == "local Claude Code token records"
+            )["session_files"],
+            2,
+        )
 
     def test_main_full_rescan_counts_records_before_a_bad_watermark(self):
         with tempfile.TemporaryDirectory() as directory:

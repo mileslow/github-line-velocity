@@ -1,4 +1,9 @@
 {
+  "active_days": 293,
+  "authored_commits": 4219,
+  "code_lines_added": 2015640,
+  "commit_detail_failures": 0,
+  "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
     "repositories_scanned": 153,
     "repository_hashes": [
@@ -157,18 +162,7 @@
       "ff3ec9080a450f36e7820141478818c9ccd2083abd5bf4b5a24da4478ad1cec6"
     ]
   },
-  "active_days": 292,
-  "authored_commits": 3728,
-  "code_lines_added": 1922531,
-  "commit_detail_failures": 0,
-  "commits_with_truncated_file_lists": 19,
   "daily_additions": {
-    "2025-08-31": 336,
-    "2025-09-01": 0,
-    "2025-09-02": 4048,
-    "2025-09-03": 1821,
-    "2025-09-04": 1131,
-    "2025-09-05": 2691,
     "2025-09-06": 0,
     "2025-09-07": 0,
     "2025-09-08": 6889,
@@ -527,27 +521,35 @@
     "2026-08-27": 22281,
     "2026-08-28": 80545,
     "2026-08-29": 38138,
-    "2026-08-30": 9953
+    "2026-08-30": 9953,
+    "2026-08-31": 11108,
+    "2026-09-01": 28548,
+    "2026-09-02": 14573,
+    "2026-09-03": 19646,
+    "2026-09-04": 28412,
+    "2026-09-05": 849
   },
-  "end_date": "2026-08-30",
+  "end_date": "2026-09-05",
   "languages": {
     "C": 176,
     "C/C++": 42,
-    "CSS": 64522,
-    "HTML": 4115,
+    "CSS": 64727,
+    "HTML": 4235,
     "JavaScript": 84895,
-    "Other": 163987,
+    "Other": 164473,
     "Python": 579108,
-    "SQL": 25414,
+    "SQL": 31664,
     "Shell": 57805,
-    "TypeScript": 937936,
+    "TypeScript": 1033268,
     "Vue": 206,
-    "YAML": 4325
+    "YAML": 5068
   },
+  "repositories_accessible": 59,
+  "repositories_carried_forward": 94,
   "repositories_scanned": 153,
-  "repositories_skipped": 5,
-  "scan_mode": "authenticated",
-  "start_date": "2025-08-31",
+  "repositories_skipped": 3,
+  "scan_mode": "authenticated-partial",
+  "start_date": "2025-09-06",
   "username": "mileslow",
   "window_days": 365
 }

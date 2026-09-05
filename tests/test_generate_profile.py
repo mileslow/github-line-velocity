@@ -36,12 +36,13 @@ class GraphRenderingTests(unittest.TestCase):
             0,
         )
 
-        self.assertIn("35 lines changed / 3 days", svg)
-        self.assertIn("2026-09-01 to 2026-09-02: 15 lines changed", svg)
-        self.assertIn("2026-09-03: 20 lines changed", svg)
+        self.assertIn("35 lines / 3 days", svg)
+        self.assertIn("2026-09-01 to 2026-09-02: 15 lines", svg)
+        self.assertIn("2026-09-03: 20 lines", svg)
         self.assertIn('x1="54.00" y1="284.0" x2="54.00" y2="224.0"', svg)
         self.assertIn('x1="964.00" y1="284.0" x2="964.00" y2="204.0"', svg)
         self.assertNotIn("additions", svg)
+        self.assertNotIn("lines changed", svg)
 
 
 class CommitDetailStatsTests(unittest.TestCase):

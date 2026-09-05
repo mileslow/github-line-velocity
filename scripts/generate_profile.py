@@ -713,7 +713,7 @@ def render_svg(
     lines = [
         '<svg width="1000" height="320" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">',
         '<title id="title">Miles Low GitHub velocity, languages, and model split</title>',
-        f'<desc id="desc">Last {len(days)} days of changed code lines through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
+        f'<desc id="desc">Last {len(days)} days of lines through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
         "<style>",
         '  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }',
         "  .title { font-size: 28px; font-weight: 700; }",
@@ -724,7 +724,7 @@ def render_svg(
         "  .bar { stroke: #111; stroke-width: 2; opacity: 0.42; shape-rendering: crispEdges; }",
         "</style>",
         '<rect width="1000" height="320" fill="#fff"/>',
-        f'<text x="54" y="52" class="title">{compact_number(total)} lines changed / {len(days)} days</text>',
+        f'<text x="54" y="52" class="title">{compact_number(total)} lines / {len(days)} days</text>',
         f'<text x="54" y="84" class="body">{commits:,} commits · {active_days} active days · {compact_token_count(model_tokens)} tokens</text>',
         '<text x="54" y="122" class="small">languages</text>',
     ]
@@ -765,7 +765,7 @@ def render_svg(
         )
         lines.append(
             f'<line x1="{x:.2f}" y1="{baseline:.1f}" x2="{x:.2f}" y2="{y:.1f}" class="bar">'
-            f'<title>{esc(bucket_label)}: {value:,} lines changed</title></line>'
+            f'<title>{esc(bucket_label)}: {value:,} lines</title></line>'
         )
         points.append(f"{x:.1f},{y:.1f}")
     lines.append(f'<polyline points="{" ".join(points)}" fill="none" stroke="#111" stroke-width="1.4"/>')
@@ -973,7 +973,7 @@ def main() -> int:
     stats_path.parent.mkdir(parents=True, exist_ok=True)
     stats_path.write_text(json.dumps(stats, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(
-        f"Generated {compact_number(stats['code_lines_changed'])} changed code lines across "
+        f"Generated {compact_number(stats['code_lines_changed'])} lines across "
         f"{commits:,} authored commits; skipped {len(skipped)} repositories."
     )
     return 0

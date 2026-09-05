@@ -2,7 +2,7 @@
 
 set -eu
 
-REPO_DIR="/Users/miles/Documents/Codex/2026-08-31/https-github-com-mileslow-tab-overview/work/github-line-velocity"
+REPO_DIR="${GITHUB_LINE_VELOCITY_REPO_DIR:-/Users/miles/Documents/Codex/2026-08-31/https-github-com-mileslow-tab-overview/work/github-line-velocity}"
 GIT="/usr/bin/git"
 PYTHON="/opt/homebrew/bin/python3"
 GH="/opt/homebrew/bin/gh"

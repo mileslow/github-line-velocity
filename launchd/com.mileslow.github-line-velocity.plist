@@ -17,6 +17,11 @@
     <string>Background</string>
     <key>LowPriorityIO</key>
     <true/>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>GITHUB_LINE_VELOCITY_REPO_DIR</key>
+        <string>/Users/miles/Library/Application Support/github-line-velocity/repo</string>
+    </dict>
     <key>StandardOutPath</key>
     <string>/Users/miles/Library/Logs/github-line-velocity.log</string>
     <key>StandardErrorPath</key>

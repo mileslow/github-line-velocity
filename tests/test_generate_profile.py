@@ -361,6 +361,29 @@ class ScanValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ScanRegressionError, "active days dropped"):
             validate_scan(current, previous)
 
+    def test_rejects_historical_backfill_written_into_daily_series(self):
+        start = dt.date(2025, 9, 6)
+        end = dt.date(2026, 9, 5)
+        cutoff = end - dt.timedelta(days=20)
+        daily = {}
+        day = start
+        while day <= end:
+            daily[day.isoformat()] = 5_267 if day < cutoff else 0
+            day += dt.timedelta(days=1)
+        current = {
+            "scan_mode": "authenticated-partial",
+            "start_date": start.isoformat(),
+            "end_date": end.isoformat(),
+            "window_days": 365,
+            "historical_backfill_total": 1_922_531,
+            "historical_backfill_window_days": 365,
+            "daily_lines_changed": daily,
+            "commit_detail_failures": 0,
+        }
+
+        with self.assertRaisesRegex(ScanRegressionError, "synthetic activity graph"):
+            validate_scan(current, None)
+
     def test_rejects_an_authenticated_to_public_fallback_downgrade(self):
         previous = {"scan_mode": "authenticated"}
         current = {

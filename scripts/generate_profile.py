@@ -615,6 +615,33 @@ def line_total_with_historical_backfill(
     return backfill_total + recent_window_line_total(daily, end)
 
 
+def historical_backfill_is_in_daily_series(snapshot: dict[str, Any]) -> bool:
+    if snapshot.get("historical_backfill_total") is None:
+        return False
+    total = historical_backfill_line_total(
+        snapshot,
+        parse_snapshot_date(snapshot.get("start_date"), "start_date"),
+        parse_snapshot_date(snapshot.get("end_date"), "end_date"),
+    )
+    if total is None or total == 0:
+        return False
+    raw_total = int(snapshot["historical_backfill_total"])
+    window_days = int(snapshot.get("historical_backfill_window_days", 365))
+    daily_value = raw_total // window_days
+    start = parse_snapshot_date(snapshot.get("start_date"), "start_date")
+    end = parse_snapshot_date(snapshot.get("end_date"), "end_date")
+    cutoff = end - dt.timedelta(days=UNIFORM_BACKFILL_RECENT_DAYS - 1)
+    historical_end = min(end, cutoff - dt.timedelta(days=1))
+    if historical_end < start:
+        return False
+    daily = snapshot_daily_changed(snapshot)
+    days = [
+        (start + dt.timedelta(days=offset)).isoformat()
+        for offset in range((historical_end - start).days + 1)
+    ]
+    return bool(days) and all(daily.get(day) == daily_value for day in days)
+
+
 def merge_rolling_changed(
     previous: dict[str, Any] | None,
     new_daily: Counter[str],
@@ -650,6 +677,10 @@ def validate_scan(
     if current_failures:
         raise ScanRegressionError(
             f"{current_failures} commit detail request(s) failed; refusing to publish a partial scan"
+        )
+    if historical_backfill_is_in_daily_series(current):
+        raise ScanRegressionError(
+            "historical backfill appears in daily_lines_changed; refusing to publish a synthetic activity graph"
         )
     if previous is None:
         return

@@ -530,7 +530,6 @@
     "2026-09-05": 849
   },
   "end_date": "2026-09-05",
-  "historical_backfill": "previous-additions-only-snapshot",
   "languages": {
     "C": 176,
     "C/C++": 42,

@@ -22,6 +22,8 @@ DEFAULT_CLAUDE_ROOT = Path("/Users/miles/.claude/projects")
 DEFAULT_CODEX_ROOT = Path("/Users/miles/.codex")
 CLAUDE_SOURCE_KEY = "claude_code"
 CODEX_SOURCE_KEY = "codex"
+CLAUDE_SOURCE_NAME = "local Claude Code token records"
+CODEX_SOURCE_NAME = "local Codex session token records"
 
 
 def parse_timestamp(value: object) -> dt.datetime | None:
@@ -74,22 +76,23 @@ def load_json_lines(path: Path) -> Iterator[dict[str, Any]]:
         return
 
 
-def changed_jsonl_paths(root: Path, after: dt.datetime) -> Iterator[Path]:
-    """Yield files that could contain records newer than the source watermark."""
-    after_epoch = after.timestamp()
+def changed_jsonl_paths(root: Path, after: dt.datetime | None = None) -> Iterator[Path]:
+    """Yield JSONL files, optionally limited by a source watermark."""
+    after_epoch = after.timestamp() if after is not None else None
     for path in sorted(root.glob("**/*.jsonl")):
-        try:
-            if path.stat().st_mtime <= after_epoch:
-                continue
-        except OSError:
-            # A file can disappear while a session is being rotated. Let the
-            # reader handle that case instead of making the whole sync fail.
-            pass
+        if after_epoch is not None:
+            try:
+                if path.stat().st_mtime <= after_epoch:
+                    continue
+            except OSError:
+                # A file can disappear while a session is being rotated. Let the
+                # reader handle that case instead of making the whole sync fail.
+                pass
         yield path
 
 
 def claude_usage_events(
-    root: Path, after: dt.datetime
+    root: Path, after: dt.datetime | None = None
 ) -> Iterator[tuple[str, dt.datetime, int]]:
     latest_by_request: dict[str, tuple[str, dt.datetime, dict[str, Any]]] = {}
     for path in changed_jsonl_paths(root, after):
@@ -106,7 +109,7 @@ def claude_usage_events(
             if message.get("stop_reason") is None:
                 continue
             timestamp = parse_timestamp(item.get("timestamp"))
-            if timestamp is None or timestamp <= after:
+            if timestamp is None or (after is not None and timestamp <= after):
                 continue
             request_id = message.get("id") or item.get("requestId")
             if not isinstance(request_id, str) or not request_id:
@@ -118,11 +121,13 @@ def claude_usage_events(
             if previous is None or timestamp > previous[1]:
                 latest_by_request[request_id] = (model, timestamp, usage)
     for model, timestamp, usage in sorted(latest_by_request.values(), key=lambda value: value[1]):
-        yield model, timestamp, usage_tokens(usage)
+        tokens = usage_tokens(usage)
+        if tokens:
+            yield model, timestamp, tokens
 
 
 def codex_usage_events(
-    root: Path, after: dt.datetime
+    root: Path, after: dt.datetime | None = None
 ) -> Iterator[tuple[str, dt.datetime, int]]:
     for path in changed_jsonl_paths(root, after):
         current_model = "Unattributed Codex"
@@ -138,7 +143,7 @@ def codex_usage_events(
             if payload.get("type") != "token_count":
                 continue
             timestamp = parse_timestamp(item.get("timestamp"))
-            if timestamp is None or timestamp <= after:
+            if timestamp is None or (after is not None and timestamp <= after):
                 continue
             info = payload.get("info")
             if not isinstance(info, dict):
@@ -146,7 +151,9 @@ def codex_usage_events(
             usage = info.get("last_token_usage")
             if not isinstance(usage, dict):
                 continue
-            yield current_model, timestamp, usage_tokens(usage)
+            tokens = usage_tokens(usage)
+            if tokens:
+                yield current_model, timestamp, tokens
 
 
 def snapshot_after(snapshot: dict[str, Any]) -> dt.datetime:
@@ -162,19 +169,6 @@ def snapshot_after(snapshot: dict[str, Any]) -> dt.datetime:
     return parsed_end
 
 
-def source_after(
-    snapshot: dict[str, Any], source_key: str, fallback: dt.datetime
-) -> dt.datetime:
-    sync = snapshot.get("usage_sync")
-    if isinstance(sync, dict):
-        watermarks = sync.get("source_watermarks")
-        if isinstance(watermarks, dict):
-            timestamp = parse_timestamp(watermarks.get(source_key))
-            if timestamp is not None:
-                return timestamp
-    return fallback
-
-
 def unallocated_token_baseline(snapshot: dict[str, Any]) -> int:
     try:
         baseline = int(snapshot.get("unallocated_token_baseline", 0) or 0)
@@ -185,105 +179,145 @@ def unallocated_token_baseline(snapshot: dict[str, Any]) -> int:
     return baseline
 
 
-def update_source(
-    snapshot: dict[str, Any],
-    name: str,
-    events: list[tuple[str, dt.datetime, int]],
-) -> None:
-    if not events:
-        return
-    sources = snapshot.setdefault("sources", [])
-    if not isinstance(sources, list):
-        raise ValueError("model snapshot sources must be a list")
-    source = next(
-        (item for item in sources if isinstance(item, dict) and item.get("name") == name),
-        None,
-    )
-    if source is None:
-        source = {"name": name, "total_tokens": 0, "token_events": 0}
-        sources.append(source)
-    source["total_tokens"] = int(source.get("total_tokens", 0)) + sum(value for _, _, value in events)
-    source["token_events"] = int(source.get("token_events", 0)) + len(events)
-    dates = [timestamp.date() for _, timestamp, _ in events]
-    existing_start = (
-        [dt.date.fromisoformat(source["start_date"])]
-        if isinstance(source.get("start_date"), str)
-        else []
-    )
-    existing_end = (
-        [dt.date.fromisoformat(source["end_date"])]
-        if isinstance(source.get("end_date"), str)
-        else []
-    )
-    source["start_date"] = min(existing_start + dates).isoformat()
-    source["end_date"] = max(existing_end + dates).isoformat()
+def jsonl_file_count(root: Path) -> int:
+    return sum(1 for _ in root.glob("**/*.jsonl"))
 
 
-def apply_events(
-    snapshot: dict[str, Any],
-    events: list[tuple[str, dt.datetime, int]],
-    after: dt.datetime,
-) -> int:
-    if not events:
-        return 0
+def event_model_totals(
+    events: list[tuple[str, dt.datetime, int]]
+) -> Counter[str]:
     models: Counter[str] = Counter()
-    for item in snapshot.get("models", []):
-        if not isinstance(item, dict):
-            raise ValueError("model snapshot models must contain objects")
-        name = item.get("name")
-        if not isinstance(name, str) or not name:
-            raise ValueError("model snapshot model names must be non-empty strings")
-        models[name] += int(item.get("tokens", 0))
     for model, _, tokens in events:
         models[model] += tokens
+    return models
+
+
+def source_record(
+    name: str,
+    events: list[tuple[str, dt.datetime, int]],
+    session_files: int,
+    extra: dict[str, Any] | None = None,
+) -> dict[str, Any] | None:
+    if not events:
+        return None
+    dates = [timestamp.date() for _, timestamp, _ in events]
+    record: dict[str, Any] = {
+        "name": name,
+        "start_date": min(dates).isoformat(),
+        "end_date": max(dates).isoformat(),
+        "session_files": session_files,
+        "token_events": len(events),
+        "total_tokens": sum(tokens for _, _, tokens in events),
+    }
+    if extra:
+        record.update(extra)
+    return record
+
+
+def non_local_sources(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
+    sources = snapshot.get("sources", [])
+    if not isinstance(sources, list):
+        raise ValueError("model snapshot sources must be a list")
+    return [
+        source
+        for source in sources
+        if isinstance(source, dict)
+        and source.get("name") not in {CLAUDE_SOURCE_NAME, CODEX_SOURCE_NAME}
+    ]
+
+
+def rebuild_from_local_sources(
+    snapshot: dict[str, Any],
+    claude_events: list[tuple[str, dt.datetime, int]],
+    codex_events: list[tuple[str, dt.datetime, int]],
+    claude_session_files: int,
+    codex_session_files: int,
+    previous_after: dt.datetime,
+) -> int:
+    events = claude_events + codex_events
+    if not events:
+        return 0
+    previous_total = int(snapshot.get("total_tokens", 0) or 0)
+    baseline = unallocated_token_baseline(snapshot)
+    models = event_model_totals(claude_events + codex_events)
+    model_total = sum(models.values())
+    rebuilt_total = baseline + model_total
+    if previous_total > rebuilt_total:
+        baseline += previous_total - rebuilt_total
+        snapshot["unallocated_token_baseline"] = baseline
+        rebuilt_total = previous_total
+    elif baseline:
+        snapshot["unallocated_token_baseline"] = baseline
+    elif "unallocated_token_baseline" in snapshot:
+        del snapshot["unallocated_token_baseline"]
+
     snapshot["models"] = [
         {"name": name, "tokens": tokens}
         for name, tokens in sorted(models.items(), key=lambda item: (-item[1], item[0]))
     ]
-    snapshot["total_tokens"] = sum(models.values()) + unallocated_token_baseline(snapshot)
+    snapshot["total_tokens"] = rebuilt_total
+
     newest = max(timestamp for _, timestamp, _ in events)
+    oldest = min(timestamp for _, timestamp, _ in events)
     end = max(dt.date.fromisoformat(snapshot["end_date"]), newest.date())
     snapshot["end_date"] = end.isoformat()
-    snapshot["start_date"] = (end - dt.timedelta(days=int(snapshot.get("window_days", 365)) - 1)).isoformat()
+    snapshot["start_date"] = min(
+        dt.date.fromisoformat(snapshot["start_date"]),
+        oldest.date(),
+    ).isoformat()
+
+    sources = non_local_sources(snapshot)
+    codex_source = source_record(
+        CODEX_SOURCE_NAME,
+        codex_events,
+        codex_session_files,
+        {"malformed_lines": 0},
+    )
+    if codex_source is not None:
+        codex_source["unattributed_model_events"] = sum(
+            1 for model, _, _ in codex_events if model == "Unattributed Codex"
+        )
+        sources.insert(0, codex_source)
+    claude_source = source_record(
+        CLAUDE_SOURCE_NAME,
+        claude_events,
+        claude_session_files,
+        {
+            "token_count_method": "input + cache creation + cache read + output tokens, deduplicated by request",
+        },
+    )
+    if claude_source is not None:
+        insert_at = 1 if codex_source is not None else 0
+        sources.insert(insert_at, claude_source)
+    snapshot["sources"] = sources
+
     snapshot["usage_sync"] = {
         "last_processed_at": newest.isoformat().replace("+00:00", "Z"),
+        "sync_mode": "full_local_rescan",
         "sources": ["local Claude Code session records", "local Codex session records"],
-        "previous_processed_at": after.isoformat().replace("+00:00", "Z"),
+        "previous_processed_at": previous_after.isoformat().replace("+00:00", "Z"),
+        "source_watermarks": {
+            CLAUDE_SOURCE_KEY: (
+                max((timestamp for _, timestamp, _ in claude_events), default=previous_after)
+                .isoformat()
+                .replace("+00:00", "Z")
+            ),
+            CODEX_SOURCE_KEY: (
+                max((timestamp for _, timestamp, _ in codex_events), default=previous_after)
+                .isoformat()
+                .replace("+00:00", "Z")
+            ),
+        },
     }
-    return sum(tokens for _, _, tokens in events)
+    return max(0, rebuilt_total - previous_total)
 
 
-def update_usage_watermarks(
-    snapshot: dict[str, Any],
-    claude_after: dt.datetime,
-    codex_after: dt.datetime,
-    claude_events: list[tuple[str, dt.datetime, int]],
-    codex_events: list[tuple[str, dt.datetime, int]],
-    previous_after: dt.datetime,
-) -> None:
-    sync = snapshot.setdefault("usage_sync", {})
-    if not isinstance(sync, dict):
-        raise ValueError("model snapshot usage_sync must be an object")
-    watermarks = sync.setdefault("source_watermarks", {})
-    if not isinstance(watermarks, dict):
-        raise ValueError("model snapshot source_watermarks must be an object")
-    watermarks[CLAUDE_SOURCE_KEY] = (
-        max(timestamp for _, timestamp, _ in claude_events)
-        if claude_events
-        else claude_after
-    ).isoformat().replace("+00:00", "Z")
-    watermarks[CODEX_SOURCE_KEY] = (
-        max(timestamp for _, timestamp, _ in codex_events)
-        if codex_events
-        else codex_after
-    ).isoformat().replace("+00:00", "Z")
-    parsed_watermarks = [parse_timestamp(value) for value in watermarks.values()]
-    valid_watermarks = [value for value in parsed_watermarks if value is not None]
-    if valid_watermarks:
-        sync["last_processed_at"] = max(valid_watermarks).isoformat().replace(
-            "+00:00", "Z"
-        )
-    sync["previous_processed_at"] = previous_after.isoformat().replace("+00:00", "Z")
+def comparable_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
+    comparable = json.loads(json.dumps(snapshot))
+    sync = comparable.get("usage_sync")
+    if isinstance(sync, dict):
+        sync.pop("previous_processed_at", None)
+    return comparable
 
 
 def write_snapshot(path: Path, snapshot: dict[str, Any]) -> None:
@@ -325,29 +359,27 @@ def main() -> int:
     snapshot = json.loads(args.snapshot.read_text(encoding="utf-8"))
     if not isinstance(snapshot, dict):
         raise SystemExit("model snapshot must contain an object")
+    before = comparable_snapshot(snapshot)
     after = parse_timestamp(args.since) if args.since else snapshot_after(snapshot)
     if after is None:
         raise SystemExit("--since must be an ISO timestamp")
-    claude_after = source_after(snapshot, CLAUDE_SOURCE_KEY, after)
-    codex_after = source_after(snapshot, CODEX_SOURCE_KEY, after)
-    claude_events = list(claude_usage_events(args.claude_root, claude_after))
-    codex_events = list(codex_usage_events(args.codex_root, codex_after))
-    events = sorted(claude_events + codex_events, key=lambda value: value[1])
-    added = apply_events(snapshot, events, after)
-    if not events:
-        print("No new local model usage records found.")
-        return 0
-    update_source(snapshot, "local Claude Code token records", claude_events)
-    update_source(snapshot, "local Codex session token records", codex_events)
-    update_usage_watermarks(
+    claude_events = list(claude_usage_events(args.claude_root))
+    codex_events = list(codex_usage_events(args.codex_root))
+    added = rebuild_from_local_sources(
         snapshot,
-        claude_after,
-        codex_after,
         claude_events,
         codex_events,
+        jsonl_file_count(args.claude_root),
+        jsonl_file_count(args.codex_root),
         after,
     )
-    print(f"Found {len(events):,} new usage records totaling {added:,} tokens.")
+    if comparable_snapshot(snapshot) == before:
+        print("No local model usage changes found.")
+        return 0
+    print(
+        "Rebuilt local model usage from full local records; "
+        f"headline token total increased by {added:,} tokens."
+    )
     if args.dry_run:
         return 0
     write_snapshot(args.snapshot, snapshot)

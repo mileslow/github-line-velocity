@@ -74,6 +74,16 @@ class LocalUsageParsingTests(unittest.TestCase):
                             "usage": {"total_tokens": 999},
                         },
                     },
+                    {
+                        "timestamp": "2026-09-05T09:00:04Z",
+                        "requestId": "request-4",
+                        "message": {
+                            "id": "message-4",
+                            "model": "<synthetic>",
+                            "stop_reason": "end_turn",
+                            "usage": {"total_tokens": 0},
+                        },
+                    },
                 ],
             )
 
@@ -113,6 +123,14 @@ class LocalUsageParsingTests(unittest.TestCase):
                             },
                         },
                     },
+                    {
+                        "timestamp": "2026-09-05T10:01:00Z",
+                        "type": "event_msg",
+                        "payload": {
+                            "type": "token_count",
+                            "info": {"last_token_usage": {"total_tokens": 0}},
+                        },
+                    },
                 ],
             )
 
@@ -140,7 +158,8 @@ class LocalUsageSyncTests(unittest.TestCase):
                         "start_date": "2026-09-04",
                         "end_date": "2026-09-04",
                         "total_tokens": 10,
-                        "models": [{"name": "Existing model", "tokens": 10}],
+                        "unallocated_token_baseline": 10,
+                        "models": [],
                         "usage_sync": {
                             "last_processed_at": "2026-09-04T23:59:59Z"
                         },
@@ -228,9 +247,9 @@ class LocalUsageSyncTests(unittest.TestCase):
                         "window_days": 365,
                         "start_date": "2026-09-04",
                         "end_date": "2026-09-04",
-                        "total_tokens": 110,
+                        "total_tokens": 100,
                         "unallocated_token_baseline": 100,
-                        "models": [{"name": "Existing model", "tokens": 10}],
+                        "models": [],
                         "usage_sync": {
                             "last_processed_at": "2026-09-04T23:59:59Z"
                         },
@@ -267,8 +286,97 @@ class LocalUsageSyncTests(unittest.TestCase):
             updated = json.loads(snapshot_path.read_text(encoding="utf-8"))
 
         self.assertEqual(updated["unallocated_token_baseline"], 100)
-        self.assertEqual(sum(model["tokens"] for model in updated["models"]), 40)
-        self.assertEqual(updated["total_tokens"], 140)
+        self.assertEqual(sum(model["tokens"] for model in updated["models"]), 30)
+        self.assertEqual(updated["total_tokens"], 130)
+
+    def test_main_full_rescan_counts_records_before_a_bad_watermark(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            snapshot_path = root / "data" / "model_usage.json"
+            codex_root = root / "codex"
+            snapshot_path.parent.mkdir()
+            snapshot_path.write_text(
+                json.dumps(
+                    {
+                        "window_days": 365,
+                        "start_date": "2026-09-04",
+                        "end_date": "2026-09-05",
+                        "total_tokens": 10,
+                        "unallocated_token_baseline": 10,
+                        "models": [],
+                        "usage_sync": {
+                            "last_processed_at": "2026-09-05T23:59:59Z",
+                            "source_watermarks": {
+                                "codex": "2026-09-05T23:59:59Z",
+                            },
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            write_json_lines(
+                codex_root / "session.jsonl",
+                [
+                    {"type": "turn_context", "payload": {"model": "gpt-5.6-sol"}},
+                    {
+                        "timestamp": "2026-09-05T09:01:00Z",
+                        "type": "event_msg",
+                        "payload": {
+                            "type": "token_count",
+                            "info": {"last_token_usage": {"total_tokens": 30}},
+                        },
+                    },
+                ],
+            )
+
+            argv = [
+                "sync_model_usage.py",
+                "--snapshot",
+                str(snapshot_path),
+                "--claude-root",
+                str(root / "claude"),
+                "--codex-root",
+                str(codex_root),
+            ]
+            with patch.object(sys, "argv", argv):
+                self.assertEqual(main(), 0)
+            updated = json.loads(snapshot_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(updated["total_tokens"], 40)
+        self.assertEqual(updated["usage_sync"]["sync_mode"], "full_local_rescan")
+        self.assertEqual(updated["usage_sync"]["source_watermarks"]["codex"], "2026-09-05T09:01:00Z")
+
+    def test_main_keeps_snapshot_when_local_records_are_unavailable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            snapshot_path = root / "data" / "model_usage.json"
+            snapshot_path.parent.mkdir()
+            original = {
+                "window_days": 365,
+                "start_date": "2026-09-04",
+                "end_date": "2026-09-05",
+                "total_tokens": 110,
+                "unallocated_token_baseline": 100,
+                "models": [{"name": "Existing model", "tokens": 10}],
+                "usage_sync": {
+                    "last_processed_at": "2026-09-05T23:59:59Z",
+                },
+            }
+            snapshot_path.write_text(json.dumps(original), encoding="utf-8")
+
+            argv = [
+                "sync_model_usage.py",
+                "--snapshot",
+                str(snapshot_path),
+                "--claude-root",
+                str(root / "missing-claude"),
+                "--codex-root",
+                str(root / "missing-codex"),
+            ]
+            with patch.object(sys, "argv", argv):
+                self.assertEqual(main(), 0)
+
+            self.assertEqual(json.loads(snapshot_path.read_text(encoding="utf-8")), original)
 
 
 if __name__ == "__main__":

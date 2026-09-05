@@ -68,13 +68,15 @@ Cursor CSV export. The original Cursor account and raw CSV rows are no longer
 available, so the preserved Cursor subtotal contributes only to the headline
 token count. The model breakdown uses only token records with known model names.
 
-The local `scripts/sync_model_usage.py` updater reads aggregate token usage from
-the machine's model-session JSONL records, counts only completed responses,
-deduplicates streaming rows, and advances per-source watermarks after each
-successful update. Raw prompts, responses, and session contents are never
-written to the repository.
-Unchanged session files are skipped using their modification time, so hourly
-syncs inspect only files that could contain newer usage.
+The local `scripts/sync_model_usage.py` updater rebuilds aggregate token usage
+from the machine's full model-session JSONL history on each run, counts only
+completed responses, and deduplicates streaming rows. Raw prompts, responses,
+and session contents are never written to the repository. Per-source watermarks
+are kept only as audit metadata; they do not prevent the updater from backfilling
+older local records that were missed by an earlier run. The headline token total
+is monotonic: exact local Codex and Claude Code totals are added to preserved
+unallocated baselines, and the updater leaves the previous snapshot untouched if
+local records are temporarily unavailable.
 
 GitHub Actions cannot read local home-directory records. The installed macOS
 LaunchAgent in `launchd/com.mileslow.github-line-velocity.plist` runs the local

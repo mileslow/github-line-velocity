@@ -99,6 +99,45 @@ class ModelUsageRenderingTests(unittest.TestCase):
         self.assertEqual(total_tokens, 130)
         self.assertEqual(segments, [("Known model", 100.0, "#111")])
 
+    def test_archived_cursor_mix_keeps_historical_claude_visible(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "model_usage.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "total_tokens": 230,
+                        "unallocated_token_baseline": 120,
+                        "models": [
+                            {"name": "gpt-5.6-sol", "tokens": 100},
+                            {"name": "gpt-5.6-luna", "tokens": 10},
+                        ],
+                        "archived_cursor_export": {
+                            "included_in_current_total": 120,
+                            "published_model_mix_total_tokens": 4,
+                            "published_model_mix": [
+                                {"name": "claude-4.5-sonnet-thinking", "tokens": 3},
+                                {"name": "gpt-5.4-medium", "tokens": 1},
+                            ],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            segments, total_tokens = load_model_usage(path)
+
+        self.assertEqual(total_tokens, 230)
+        self.assertEqual(
+            [name for name, _, _ in segments],
+            [
+                "gpt-5.6-sol",
+                "claude-4.5-sonnet-thinking",
+                "gpt-5.4-medium",
+                "gpt-5.6-luna",
+            ],
+        )
+        self.assertAlmostEqual(segments[1][1], 90 / 230 * 100)
+
 
 class CommitDetailStatsTests(unittest.TestCase):
     @patch("scripts.generate_profile.github_request")

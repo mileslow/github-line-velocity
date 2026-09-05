@@ -711,6 +711,60 @@ def validate_scan(
         )
 
 
+OTHER_MODELS = "other models"
+
+
+def proportional_token_allocation(
+    total: int, weights: list[tuple[str, int]]
+) -> list[tuple[str, int]]:
+    positive_weights = [(name, tokens) for name, tokens in weights if tokens > 0]
+    weight_total = sum(tokens for _, tokens in positive_weights)
+    if total <= 0 or weight_total <= 0:
+        return []
+
+    allocations: list[list[object]] = []
+    remainders: list[tuple[int, int]] = []
+    assigned = 0
+    for index, (name, tokens) in enumerate(positive_weights):
+        weighted_total = total * tokens
+        allocated = weighted_total // weight_total
+        remainder = weighted_total % weight_total
+        allocations.append([name, allocated])
+        remainders.append((remainder, index))
+        assigned += allocated
+
+    for _, index in sorted(remainders, reverse=True)[: total - assigned]:
+        allocations[index][1] = int(allocations[index][1]) + 1
+
+    return [(str(name), int(tokens)) for name, tokens in allocations if int(tokens) > 0]
+
+
+def archived_cursor_model_allocation(
+    snapshot: dict[str, Any], baseline_tokens: int
+) -> list[tuple[str, int]]:
+    archived = snapshot.get("archived_cursor_export")
+    if baseline_tokens <= 0 or not isinstance(archived, dict):
+        return []
+    model_mix = archived.get("published_model_mix")
+    if not isinstance(model_mix, list):
+        return []
+
+    weights: list[tuple[str, int]] = []
+    for model in model_mix:
+        if not isinstance(model, dict):
+            continue
+        name = str(model.get("name", "")).strip()
+        if not name:
+            continue
+        try:
+            tokens = int(model.get("tokens", 0) or 0)
+        except (TypeError, ValueError):
+            continue
+        if tokens > 0:
+            weights.append((name, tokens))
+    return proportional_token_allocation(baseline_tokens, weights)
+
+
 def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
     snapshot = json.loads(path.read_text(encoding="utf-8"))
     total_tokens = int(snapshot["total_tokens"])
@@ -725,30 +779,34 @@ def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
         for model in snapshot["models"]
     ]
     model_token_total = sum(tokens for _, tokens in raw_models)
-    explicit_other_tokens = sum(
-        tokens for name, tokens in raw_models if name.strip().lower() == "other models"
-    )
-    models = sorted(
-        (
-            (name, tokens)
-            for name, tokens in raw_models
-            if name.strip().lower() != "other models"
-        ),
-        key=lambda item: (-item[1], item[0]),
-    )
     if total_tokens <= 0 or model_token_total <= 0 or not raw_models:
         raise ValueError(f"Model usage snapshot must contain positive token totals: {path}")
     if model_token_total + unallocated_token_baseline != total_tokens:
         raise ValueError(f"Model usage snapshot totals do not match: {path}")
 
+    chart_models = raw_models + archived_cursor_model_allocation(
+        snapshot, unallocated_token_baseline
+    )
+    explicit_other_tokens = sum(
+        tokens for name, tokens in chart_models if name.strip().lower() == OTHER_MODELS
+    )
+    named_model_totals: Counter[str] = Counter()
+    for name, tokens in chart_models:
+        if name.strip().lower() != OTHER_MODELS:
+            named_model_totals[name] += tokens
+    models = sorted(named_model_totals.items(), key=lambda item: (-item[1], item[0]))
+    chart_model_total = sum(named_model_totals.values()) + explicit_other_tokens
+    if chart_model_total <= 0:
+        raise ValueError(f"Model usage snapshot must contain positive chart totals: {path}")
+
     colors = ("#111", "#444", "#666", "#888", "#aaa")
     segments = [
-        (name, tokens / model_token_total * 100, colors[index])
+        (name, tokens / chart_model_total * 100, colors[index])
         for index, (name, tokens) in enumerate(models[:5])
     ]
     other_tokens = explicit_other_tokens + sum(tokens for _, tokens in models[5:])
     if other_tokens:
-        segments.append(("other models", other_tokens / model_token_total * 100, "#ccc"))
+        segments.append((OTHER_MODELS, other_tokens / chart_model_total * 100, "#ccc"))
     return segments, total_tokens
 
 

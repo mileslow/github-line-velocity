@@ -65,8 +65,11 @@ The model panel is backed by the checked-in `data/model_usage.json` snapshot.
 The current snapshot covers a 365-day window using exact local Codex and Claude
 Code session token records plus the exact recoverable portion of the historical
 Cursor CSV export. The original Cursor account and raw CSV rows are no longer
-available, so the preserved Cursor subtotal contributes only to the headline
-token count. The model breakdown uses only token records with known model names.
+available, so the preserved Cursor subtotal is carried as a historical baseline.
+When archived model-mix metadata exists, the rendered model breakdown allocates
+that baseline across the archived model names so historical Claude usage remains
+visible; exact local Codex and Claude Code records continue to use their recorded
+model names.
 
 The local `scripts/sync_model_usage.py` updater rebuilds aggregate token usage
 from the machine's full model-session JSONL history on each run. For Codex, it

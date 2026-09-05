@@ -429,7 +429,8 @@ def rebuild_from_local_sources(
     snapshot["allocation_method"] = (
         "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; "
         "Claude Code sessions without cost-state summaries fall back to completed request usage. The "
-        "preserved Cursor subtotal contributes only to the headline token total because the raw rows "
+        "preserved Cursor subtotal contributes to the headline token total and is allocated into the "
+        "rendered model breakdown from archived model-mix metadata when available because the raw rows "
         "are unavailable."
     )
 

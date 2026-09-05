@@ -21,18 +21,18 @@
 <text x="384" y="162" class="small">Shell</text><text x="440" y="162" class="small">57.8K</text><rect x="480" y="153" width="9" height="8" fill="#111"/>
 <text x="384" y="180" class="small">Other</text><text x="440" y="180" class="small">206.0K</text><rect x="480" y="171" width="34" height="8" fill="#111"/>
 <text x="660" y="62" class="body">model breakdown</text>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="52.0 48.0" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>gpt-5.6-sol: 52.0%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="31.2 68.8" stroke-dashoffset="-52.0" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 31.2%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="4.2 95.8" stroke-dashoffset="-83.2" transform="rotate(-90 718 132)"><title>gpt-5.2-codex: 4.2%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="4.1 95.9" stroke-dashoffset="-87.5" transform="rotate(-90 718 132)"><title>gpt-5.5: 4.1%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#aaa" stroke-width="22" pathLength="100" stroke-dasharray="3.6 96.4" stroke-dashoffset="-91.6" transform="rotate(-90 718 132)"><title>gpt-5.4: 3.6%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#ccc" stroke-width="22" pathLength="100" stroke-dasharray="4.8 95.2" stroke-dashoffset="-95.2" transform="rotate(-90 718 132)"><title>other models: 4.8%</title></circle>
-<text x="806" y="84" class="tiny">gpt-5.6-sol 52.0%</text>
-<text x="806" y="104" class="tiny">gpt-5.6-luna 31.2%</text>
-<text x="806" y="124" class="tiny">gpt-5.2-codex 4.2%</text>
-<text x="806" y="144" class="tiny">gpt-5.5 4.1%</text>
-<text x="806" y="164" class="tiny">gpt-5.4 3.6%</text>
-<text x="806" y="184" class="tiny">other models 4.8%</text>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="41.4 58.6" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>gpt-5.6-sol: 41.4%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="24.9 75.1" stroke-dashoffset="-41.4" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 24.9%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="5.8 94.2" stroke-dashoffset="-66.3" transform="rotate(-90 718 132)"><title>claude-4.5-sonnet-thinking: 5.8%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="3.4 96.6" stroke-dashoffset="-72.1" transform="rotate(-90 718 132)"><title>gpt-5.4-medium: 3.4%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#aaa" stroke-width="22" pathLength="100" stroke-dasharray="3.4 96.6" stroke-dashoffset="-75.5" transform="rotate(-90 718 132)"><title>gpt-5.2-codex: 3.4%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#ccc" stroke-width="22" pathLength="100" stroke-dasharray="21.1 78.9" stroke-dashoffset="-78.9" transform="rotate(-90 718 132)"><title>other models: 21.1%</title></circle>
+<text x="806" y="84" class="tiny">gpt-5.6-sol 41.4%</text>
+<text x="806" y="104" class="tiny">gpt-5.6-luna 24.9%</text>
+<text x="806" y="124" class="tiny">claude-4.5-sonnet-thinking 5.8%</text>
+<text x="806" y="144" class="tiny">gpt-5.4-medium 3.4%</text>
+<text x="806" y="164" class="tiny">gpt-5.2-codex 3.4%</text>
+<text x="806" y="184" class="tiny">other models 21.1%</text>
 <line x1="54.00" y1="284.0" x2="54.00" y2="284.0" class="bar"><title>2025-09-06 to 2025-09-07: 0 lines</title></line>
 <line x1="59.00" y1="284.0" x2="59.00" y2="280.0" class="bar"><title>2025-09-08 to 2025-09-09: 7,777 lines</title></line>
 <line x1="64.00" y1="284.0" x2="64.00" y2="281.8" class="bar"><title>2025-09-10 to 2025-09-11: 4,353 lines</title></line>

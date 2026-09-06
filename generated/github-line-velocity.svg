@@ -12,7 +12,7 @@
 </style>
 <rect width="1000" height="320" fill="#fff"/>
 <text x="54" y="52" class="title">2.24M lines / 365 days</text>
-<text x="54" y="84" class="body">4,231 commits · 293 active days · 30.15B tokens</text>
+<text x="54" y="84" class="body">4,231 commits · 293 active days · 30.28B tokens</text>
 <text x="54" y="122" class="small">languages</text>
 <text x="54" y="144" class="small">TypeScript</text><text x="150" y="144" class="small">1.04M</text><rect x="198" y="135" width="170" height="8" fill="#111"/>
 <text x="54" y="162" class="small">Python</text><text x="150" y="162" class="small">579.1K</text><rect x="198" y="153" width="95" height="8" fill="#111"/>
@@ -21,18 +21,18 @@
 <text x="384" y="162" class="small">Shell</text><text x="440" y="162" class="small">57.8K</text><rect x="480" y="153" width="9" height="8" fill="#111"/>
 <text x="384" y="180" class="small">Other</text><text x="440" y="180" class="small">206.0K</text><rect x="480" y="171" width="34" height="8" fill="#111"/>
 <text x="660" y="62" class="body">model breakdown</text>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="40.8 59.2" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>gpt-5.6-sol: 40.8%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="25.7 74.3" stroke-dashoffset="-40.8" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 25.7%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="5.7 94.3" stroke-dashoffset="-66.5" transform="rotate(-90 718 132)"><title>claude-4.5-sonnet-thinking: 5.7%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="3.4 96.6" stroke-dashoffset="-72.2" transform="rotate(-90 718 132)"><title>gpt-5.4-medium: 3.4%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#aaa" stroke-width="22" pathLength="100" stroke-dasharray="3.3 96.7" stroke-dashoffset="-75.6" transform="rotate(-90 718 132)"><title>gpt-5.2-codex: 3.3%</title></circle>
-<circle cx="718" cy="132" r="48" fill="none" stroke="#ccc" stroke-width="22" pathLength="100" stroke-dasharray="21.1 78.9" stroke-dashoffset="-78.9" transform="rotate(-90 718 132)"><title>other models: 21.1%</title></circle>
-<text x="806" y="84" class="tiny">gpt-5.6-sol 40.8%</text>
-<text x="806" y="104" class="tiny">gpt-5.6-luna 25.7%</text>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#111" stroke-width="22" pathLength="100" stroke-dasharray="40.6 59.4" stroke-dashoffset="-0.0" transform="rotate(-90 718 132)"><title>gpt-5.6-sol: 40.6%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#444" stroke-width="22" pathLength="100" stroke-dasharray="26.0 74.0" stroke-dashoffset="-40.6" transform="rotate(-90 718 132)"><title>gpt-5.6-luna: 26.0%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#666" stroke-width="22" pathLength="100" stroke-dasharray="5.7 94.3" stroke-dashoffset="-66.7" transform="rotate(-90 718 132)"><title>claude-4.5-sonnet-thinking: 5.7%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#888" stroke-width="22" pathLength="100" stroke-dasharray="3.4 96.6" stroke-dashoffset="-72.3" transform="rotate(-90 718 132)"><title>gpt-5.4-medium: 3.4%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#aaa" stroke-width="22" pathLength="100" stroke-dasharray="3.3 96.7" stroke-dashoffset="-75.7" transform="rotate(-90 718 132)"><title>gpt-5.2-codex: 3.3%</title></circle>
+<circle cx="718" cy="132" r="48" fill="none" stroke="#ccc" stroke-width="22" pathLength="100" stroke-dasharray="21.0 79.0" stroke-dashoffset="-79.0" transform="rotate(-90 718 132)"><title>other models: 21.0%</title></circle>
+<text x="806" y="84" class="tiny">gpt-5.6-sol 40.6%</text>
+<text x="806" y="104" class="tiny">gpt-5.6-luna 26.0%</text>
 <text x="806" y="124" class="tiny">claude-4.5-sonnet-thinking 5.7%</text>
 <text x="806" y="144" class="tiny">gpt-5.4-medium 3.4%</text>
 <text x="806" y="164" class="tiny">gpt-5.2-codex 3.3%</text>
-<text x="806" y="184" class="tiny">other models 21.1%</text>
+<text x="806" y="184" class="tiny">other models 21.0%</text>
 <line x1="54.00" y1="284.0" x2="54.00" y2="278.6" class="bar"><title>2025-09-07 to 2025-09-08: 6,889 lines</title></line>
 <line x1="59.00" y1="284.0" x2="59.00" y2="281.9" class="bar"><title>2025-09-09 to 2025-09-10: 2,745 lines</title></line>
 <line x1="64.00" y1="284.0" x2="64.00" y2="280.3" class="bar"><title>2025-09-11 to 2025-09-12: 4,698 lines</title></line>

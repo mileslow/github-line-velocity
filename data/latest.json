@@ -555,7 +555,7 @@
   "repositories_carried_forward": 94,
   "repositories_permanently_inaccessible": 1,
   "repositories_scanned": 153,
-  "repositories_skipped": 3,
+  "repositories_skipped": 0,
   "scan_mode": "authenticated-partial",
   "start_date": "2025-09-08",
   "username": "mileslow",

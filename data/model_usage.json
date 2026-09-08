@@ -6,17 +6,17 @@
   "coverage_status": "Exact known Codex records and Claude Code cost-state/request records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; Claude Code sessions without cost-state summaries fall back to completed request usage. The preserved Cursor subtotal contributes to the headline token total and is allocated into the rendered model breakdown from archived model-mix metadata when available because the raw rows are unavailable.",
   "total_tokens": 31690594777,
-  "unallocated_token_baseline": 6039350707,
+  "unallocated_token_baseline": 6484889642,
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2026-02-18",
       "end_date": "2026-09-08",
-      "session_files": 3045,
-      "token_events": 223612,
-      "total_tokens": 25002530426,
+      "session_files": 3049,
+      "token_events": 219765,
+      "total_tokens": 24556991491,
       "malformed_lines": 0,
-      "unattributed_model_events": 7
+      "unattributed_model_events": 11
     },
     {
       "name": "local Claude Code token records",
@@ -72,23 +72,23 @@
   "models": [
     {
       "name": "gpt-5.6-sol",
-      "tokens": 12295372040
+      "tokens": 11826016261
     },
     {
       "name": "gpt-5.6-luna",
-      "tokens": 9139634877
+      "tokens": 9155927042
     },
     {
       "name": "gpt-5.2-codex",
-      "tokens": 1003212939
+      "tokens": 1003064493
     },
     {
       "name": "gpt-5.5",
-      "tokens": 973218524
+      "tokens": 958397420
     },
     {
       "name": "gpt-5.4",
-      "tokens": 861956065
+      "tokens": 861282298
     },
     {
       "name": "claude-opus-5[1m]",
@@ -96,15 +96,15 @@
     },
     {
       "name": "gpt-6-astra",
-      "tokens": 272049097
+      "tokens": 295598754
     },
     {
       "name": "gpt-5.4-mini",
-      "tokens": 250946457
+      "tokens": 250899839
     },
     {
       "name": "gpt-5.6-terra",
-      "tokens": 181538985
+      "tokens": 181254441
     },
     {
       "name": "claude-fable-5-1",
@@ -112,7 +112,7 @@
     },
     {
       "name": "gpt-5.3-codex",
-      "tokens": 18887366
+      "tokens": 18804255
     },
     {
       "name": "claude-haiku-4-5-20251001",
@@ -144,20 +144,20 @@
     },
     {
       "name": "Unattributed Codex",
-      "tokens": 40725
+      "tokens": 73337
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-08T14:58:35.268000Z",
+    "last_processed_at": "2026-09-08T15:33:30.480000Z",
     "sync_mode": "full_local_rescan",
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
     ],
-    "previous_processed_at": "2026-09-08T07:04:12.801000Z",
+    "previous_processed_at": "2026-09-08T14:58:35.268000Z",
     "source_watermarks": {
       "claude_code": "2026-09-04T10:40:47.087000Z",
-      "codex": "2026-09-08T14:58:35.268000Z"
+      "codex": "2026-09-08T15:33:30.480000Z"
     }
   }
 }

@@ -5,16 +5,16 @@
   "end_date": "2026-09-08",
   "coverage_status": "Exact known Codex records and Claude Code cost-state/request records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; Claude Code sessions without cost-state summaries fall back to completed request usage. The preserved Cursor subtotal contributes to the headline token total and is allocated into the rendered model breakdown from archived model-mix metadata when available because the raw rows are unavailable.",
-  "total_tokens": 31416816873,
+  "total_tokens": 31456866753,
   "unallocated_token_baseline": 6039350707,
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2026-02-18",
       "end_date": "2026-09-08",
-      "session_files": 3026,
-      "token_events": 221419,
-      "total_tokens": 24728752522,
+      "session_files": 3030,
+      "token_events": 221755,
+      "total_tokens": 24768802402,
       "malformed_lines": 0,
       "unattributed_model_events": 7
     },
@@ -100,7 +100,7 @@
     },
     {
       "name": "gpt-6-astra",
-      "tokens": 189677677
+      "tokens": 229727557
     },
     {
       "name": "gpt-5.6-terra",
@@ -148,16 +148,16 @@
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-08T00:19:19.633000Z",
+    "last_processed_at": "2026-09-08T03:38:03.328000Z",
     "sync_mode": "full_local_rescan",
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
     ],
-    "previous_processed_at": "2026-09-07T23:17:33.676000Z",
+    "previous_processed_at": "2026-09-08T00:19:19.633000Z",
     "source_watermarks": {
       "claude_code": "2026-09-04T10:40:47.087000Z",
-      "codex": "2026-09-08T00:19:19.633000Z"
+      "codex": "2026-09-08T03:38:03.328000Z"
     }
   }
 }

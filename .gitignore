@@ -4,3 +4,4 @@ __pycache__/
 build/
 tmp/
 .cache/
+data/.model_usage.json.*.tmp

@@ -14,7 +14,6 @@ from scripts.generate_profile import (
     line_total_with_historical_backfill,
     load_model_usage,
     merge_rolling_changed,
-    partial_scan_start,
     render_svg,
     repository_name_hash,
     validate_repository_inventory,
@@ -286,6 +285,12 @@ class ScanValidationTests(unittest.TestCase):
             (1_922_531 // 365) * 344 + 1_200,
         )
 
+    def test_recovered_observed_history_is_not_capped_by_old_backfill(self):
+        previous = {"historical_backfill_total": 365, "historical_backfill_window_days": 365}
+        daily = Counter({"2026-01-01": 10_000, "2026-09-05": 20})
+        self.assertEqual(line_total_with_historical_backfill(
+            previous, daily, dt.date(2025, 9, 6), dt.date(2026, 9, 5)), 10_020)
+
     def test_additive_partial_refresh_keeps_old_data_and_adds_changed_lines(self):
         previous = {
             "end_date": "2026-09-04",
@@ -321,13 +326,6 @@ class ScanValidationTests(unittest.TestCase):
         self.assertNotIn("2025-09-05", carried)
         self.assertEqual(carried["2025-09-06"], 100)
         self.assertEqual(carried["2026-09-04"], 200)
-
-    def test_partial_refresh_starts_after_the_previous_snapshot(self):
-        previous = {"end_date": "2026-09-04"}
-        self.assertEqual(
-            partial_scan_start(previous, dt.date(2025, 9, 6), dt.date(2026, 9, 5)),
-            dt.date(2026, 9, 5),
-        )
 
     def test_validation_allows_a_partial_snapshot_with_carried_forward_coverage(self):
         previous = {
@@ -382,6 +380,11 @@ class ScanValidationTests(unittest.TestCase):
             "commit_detail_failures": 0,
         }
 
+        validate_scan(current, previous)
+
+    def test_time_away_does_not_block_days_legitimately_aging_out(self):
+        previous = {"active_days": 100, "daily_lines_changed": {"2025-09-01": 10, "2026-09-01": 20}}
+        current = {"active_days": 1, "start_date": "2025-09-09", "end_date": "2026-09-08"}
         validate_scan(current, previous)
 
     def test_rejects_a_sudden_active_day_drop_without_a_repository_drop(self):

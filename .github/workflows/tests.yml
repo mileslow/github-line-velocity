@@ -1,0 +1,23 @@
+name: Regression tests
+
+on:
+  push:
+    paths: ['scripts/**', 'tests/**', '.github/workflows/**', 'launchd/**']
+  pull_request:
+    paths: ['scripts/**', 'tests/**', '.github/workflows/**', 'launchd/**']
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover --start-directory tests --verbose

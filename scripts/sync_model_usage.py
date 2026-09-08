@@ -65,10 +65,12 @@ def usage_tokens(usage: dict[str, Any]) -> int:
     return total
 
 
-def load_json_lines(path: Path) -> Iterator[dict[str, Any]]:
+def load_json_lines(path: Path, markers: tuple[str, ...] = ()) -> Iterator[dict[str, Any]]:
     try:
         with path.open(encoding="utf-8") as handle:
             for line in handle:
+                if markers and not any(marker in line for marker in markers):
+                    continue
                 try:
                     item = json.loads(line)
                 except json.JSONDecodeError:
@@ -243,7 +245,8 @@ def codex_usage_events(
 ) -> Iterator[tuple[str, dt.datetime, int]]:
     for path in changed_jsonl_paths(root, after):
         current_model = "Unattributed Codex"
-        for item in load_json_lines(path):
+        previous_cumulative = None
+        for item in load_json_lines(path, ('"turn_context"', '"token_count"')):
             payload = item.get("payload")
             if not isinstance(payload, dict):
                 continue
@@ -254,11 +257,19 @@ def codex_usage_events(
                 continue
             if payload.get("type") != "token_count":
                 continue
-            timestamp = parse_timestamp(item.get("timestamp"))
-            if timestamp is None or (after is not None and timestamp <= after):
-                continue
             info = payload.get("info")
             if not isinstance(info, dict):
+                continue
+            cumulative = info.get("total_token_usage")
+            if isinstance(cumulative, dict):
+                # Limit/status updates repeat the previous request's usage.
+                # A new request advances the cumulative counters, even when
+                # the request happens to consume the same number of tokens.
+                if cumulative == previous_cumulative:
+                    continue
+                previous_cumulative = cumulative
+            timestamp = parse_timestamp(item.get("timestamp"))
+            if timestamp is None or (after is not None and timestamp <= after):
                 continue
             usage = info.get("last_token_usage")
             if not isinstance(usage, dict):
@@ -357,6 +368,7 @@ def rebuild_from_local_sources(
     claude_session_files: int,
     codex_session_files: int,
     previous_after: dt.datetime,
+    allow_correction: bool = False,
 ) -> int:
     events = claude_events + codex_events
     if not events:
@@ -366,11 +378,20 @@ def rebuild_from_local_sources(
     models = event_model_totals(claude_events + codex_events)
     model_total = sum(models.values())
     rebuilt_total = baseline + model_total
-    if previous_total > rebuilt_total:
-        baseline += previous_total - rebuilt_total
-        snapshot["unallocated_token_baseline"] = baseline
-        rebuilt_total = previous_total
-    elif baseline:
+    if not allow_correction:
+        current_sources = {
+            CODEX_SOURCE_NAME: sum(tokens for _, _, tokens in codex_events),
+            CLAUDE_SOURCE_NAME: sum(tokens for _, _, tokens in claude_events),
+        }
+        for source in snapshot.get("sources", []):
+            name = source.get("name")
+            if name in current_sources and current_sources[name] < source.get("total_tokens", 0):
+                print(f"Local coverage decreased for {name}; keeping the last complete snapshot.")
+                return 0
+        if previous_total > rebuilt_total:
+            print("Local token records are incomplete; keeping the last complete snapshot.")
+            return 0
+    if baseline:
         snapshot["unallocated_token_baseline"] = baseline
     elif "unallocated_token_baseline" in snapshot:
         del snapshot["unallocated_token_baseline"]
@@ -437,6 +458,7 @@ def rebuild_from_local_sources(
     snapshot["usage_sync"] = {
         "last_processed_at": newest.isoformat().replace("+00:00", "Z"),
         "sync_mode": "full_local_rescan",
+        "parser_version": 2,
         "sources": ["local Claude Code session records", "local Codex session records"],
         "previous_processed_at": previous_after.isoformat().replace("+00:00", "Z"),
         "source_watermarks": {
@@ -452,7 +474,7 @@ def rebuild_from_local_sources(
             ),
         },
     }
-    return max(0, rebuilt_total - previous_total)
+    return rebuilt_total - previous_total
 
 
 def comparable_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
@@ -503,6 +525,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--codex-root", type=Path, default=DEFAULT_CODEX_ROOT)
     parser.add_argument("--since", type=str)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--reconcile", action="store_true", help="Explicitly repair previously overstated totals from complete local records")
     return parser.parse_args()
 
 
@@ -516,6 +539,10 @@ def main() -> int:
     if after is None:
         raise SystemExit("--since must be an ISO timestamp")
     claude_roots = tuple(args.claude_roots or DEFAULT_CLAUDE_ROOTS)
+    if args.reconcile:
+        archived = snapshot.get("archived_cursor_export", {})
+        if "included_in_current_total" in archived:
+            snapshot["unallocated_token_baseline"] = int(archived["included_in_current_total"])
     claude_events = combined_claude_usage_events(claude_roots)
     codex_events = list(codex_usage_events(args.codex_root))
     added = rebuild_from_local_sources(
@@ -525,13 +552,14 @@ def main() -> int:
         jsonl_file_count_many(claude_roots),
         jsonl_file_count(args.codex_root),
         after,
+        allow_correction=args.reconcile,
     )
     if comparable_snapshot(snapshot) == before:
         print("No local model usage changes found.")
         return 0
     print(
         "Rebuilt local model usage from full local records; "
-        f"headline token total increased by {added:,} tokens."
+        f"headline token total changed by {added:+,} tokens."
     )
     if args.dry_run:
         return 0

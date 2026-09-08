@@ -4,19 +4,25 @@
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
 import datetime as dt
 import hashlib
 import html
 import json
 import math
 import os
+import tempfile
 import time
 import urllib.parse
 import urllib.request
+import urllib.error
 from collections import Counter
 from pathlib import Path
 from typing import Any
+
+try:
+    from .scan_history import collect_history, reconcile_history
+except ImportError:
+    from scan_history import collect_history, reconcile_history
 
 
 API_ROOT = "https://api.github.com"
@@ -123,7 +129,9 @@ LANGUAGE_BY_EXTENSION = {
 
 
 class ApiError(RuntimeError):
-    pass
+    def __init__(self, message: str, status: int | None = None):
+        super().__init__(message)
+        self.status = status
 
 
 class ScanRegressionError(RuntimeError):
@@ -169,10 +177,19 @@ def github_request(
         except urllib.error.HTTPError as error:
             detail = error.read().decode("utf-8", errors="replace")
             retryable = error.code in {403, 429, 500, 502, 503, 504}
+            if error.code == 403 and "rate limit" not in detail.lower() and not error.headers.get("Retry-After"):
+                retryable = False
             remaining = error.headers.get("X-RateLimit-Remaining")
+            fallback_token = os.environ.get("GH_TOKEN")
+            if (remaining == "0" and token == os.environ.get("GITHUB_TOKEN")
+                    and fallback_token and fallback_token != token):
+                token = fallback_token
+                headers["Authorization"] = f"Bearer {token}"
+                continue
             if not retryable or attempt >= API_MAX_RETRIES or remaining == "0":
                 raise ApiError(
-                    f"GitHub API {method} {path} returned {error.code}: {detail[:400]}"
+                    f"GitHub API {method} {path} returned {error.code}: {detail[:400]}",
+                    status=error.code,
                 ) from error
             retry_after = error.headers.get("Retry-After")
             try:
@@ -281,16 +298,21 @@ def language_for(path: str) -> str:
 def list_authored_commits(
     token: str, repo_name: str, username: str, start: dt.date, end: dt.date
 ) -> list[dict[str, Any]]:
-    return paged_request(
-        token,
-        f"/repos/{repo_name}/commits",
-        {
-            "author": username,
-            "since": f"{start.isoformat()}T00:00:00Z",
-            "until": f"{end.isoformat()}T23:59:59Z",
-            "per_page": "100",
-        },
-    )
+    try:
+        return paged_request(
+            token,
+            f"/repos/{repo_name}/commits",
+            {
+                "author": username,
+                "since": f"{start.isoformat()}T00:00:00Z",
+                "until": f"{end.isoformat()}T23:59:59Z",
+                "per_page": "100",
+            },
+        )
+    except ApiError as error:
+        if error.status == 409 and "repository is empty" in str(error).lower():
+            return []
+        raise
 
 
 def commit_detail_stats(
@@ -299,16 +321,21 @@ def commit_detail_stats(
     sha = commit.get("sha")
     if not isinstance(sha, str) or not sha:
         raise ApiError(f"GitHub commit listing returned a commit without a SHA in {repo_name}")
-    details = github_request(token, "GET", f"/repos/{repo_name}/commits/{sha}")
-    if not isinstance(details, dict):
-        raise ApiError(f"GitHub commit detail for {repo_name}/{sha} was not an object")
     commit_date = (commit.get("commit", {}).get("author", {}).get("date") or "")[:10]
     if not commit_date:
         raise ApiError(f"GitHub commit listing returned a commit without an author date in {repo_name}")
     changed_by_language: Counter[str] = Counter()
-    files = details.get("files")
-    if not isinstance(files, list):
-        raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had no file list")
+    files = []
+    for page in range(1, 31):
+        details = github_request(
+            token, "GET", f"/repos/{repo_name}/commits/{sha}",
+            query={"per_page": "100", "page": str(page)},
+        )
+        if not isinstance(details, dict) or not isinstance(details.get("files"), list):
+            raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had no file list")
+        files.extend(details["files"])
+        if len(details["files"]) < 100:
+            break
     for changed_file in files:
         if not isinstance(changed_file, dict):
             raise ApiError(f"GitHub commit detail for {repo_name}/{sha} had an invalid file")
@@ -331,40 +358,7 @@ def commit_detail_stats(
         if changed <= 0 or should_exclude(path):
             continue
         changed_by_language[language_for(path)] += changed
-    return commit_date, changed_by_language, int(len(files) >= 300)
-
-
-def collect_repo_stats(
-    repo: dict[str, Any],
-    start: dt.date,
-    end: dt.date,
-    username: str,
-    token: str,
-    workers: int,
-) -> tuple[Counter[str], Counter[str], int, int, int]:
-    daily: Counter[str] = Counter()
-    languages: Counter[str] = Counter()
-    truncated_file_lists = 0
-    failed_commit_details = 0
-    authored_commits = list_authored_commits(token, repo["full_name"], username, start, end)
-    with ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
-        futures = [
-            executor.submit(commit_detail_stats, token, repo["full_name"], commit)
-            for commit in authored_commits
-        ]
-        for future in as_completed(futures):
-            try:
-                commit_date, commit_languages, truncated = future.result()
-            except Exception:
-                failed_commit_details += 1
-                continue
-            if not commit_date:
-                continue
-            if commit_languages:
-                daily[commit_date] += sum(commit_languages.values())
-                languages.update(commit_languages)
-            truncated_file_lists += truncated
-    return daily, languages, len(authored_commits), truncated_file_lists, failed_commit_details
+    return commit_date, changed_by_language, int(len(files) >= 3000)
 
 
 def compact_number(value: int) -> str:
@@ -397,6 +391,21 @@ def load_stats_snapshot(path: Path) -> dict[str, Any] | None:
     if not isinstance(snapshot, dict):
         raise ValueError(f"stats snapshot must contain an object: {path}")
     return snapshot
+
+
+def write_json_atomic(path: Path, value: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
+                                         prefix=f".{path.name}.", delete=False) as handle:
+            temporary = Path(handle.name)
+            json.dump(value, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def snapshot_count(snapshot: dict[str, Any], key: str) -> int | None:
@@ -612,7 +621,9 @@ def line_total_with_historical_backfill(
     backfill_total = historical_backfill_line_total(previous, start, end)
     if backfill_total is None:
         return sum(daily.values())
-    return backfill_total + recent_window_line_total(daily, end)
+    # The old estimate is a floor. Recovered observed history must never be
+    # discarded merely because it falls outside the recent 21-day window.
+    return max(sum(daily.values()), backfill_total + recent_window_line_total(daily, end))
 
 
 def historical_backfill_is_in_daily_series(snapshot: dict[str, Any]) -> bool:
@@ -660,20 +671,13 @@ def merge_rolling_changed(
     return merged
 
 
-def partial_scan_start(
-    previous: dict[str, Any] | None, current_start: dt.date, current_end: dt.date
-) -> dt.date:
-    if previous is None:
-        return current_start
-    previous_end = parse_snapshot_date(previous.get("end_date"), "end_date")
-    return max(current_start, previous_end + dt.timedelta(days=1))
-
-
 def validate_scan(
     current: dict[str, Any], previous: dict[str, Any] | None
 ) -> None:
     """Reject incomplete scans before they can replace the public snapshot."""
     current_failures = snapshot_count(current, "commit_detail_failures") or 0
+    if snapshot_count(current, "repositories_skipped"):
+        raise ScanRegressionError("repository scans failed; refusing to publish an incomplete scan")
     if current_failures:
         raise ScanRegressionError(
             f"{current_failures} commit detail request(s) failed; refusing to publish a partial scan"
@@ -699,6 +703,13 @@ def validate_scan(
         validate_repository_inventory(current_repositories, previous)
 
     previous_active_days = snapshot_count(previous, "active_days")
+    if isinstance(previous.get("daily_lines_changed"), dict) and current.get("start_date") and current.get("end_date"):
+        retained = carried_daily_changed(
+            previous,
+            parse_snapshot_date(current["start_date"], "start_date"),
+            parse_snapshot_date(current["end_date"], "end_date"),
+        )
+        previous_active_days = sum(1 for value in retained.values() if value)
     current_active_days = snapshot_count(current, "active_days")
     if (
         previous_active_days is not None
@@ -945,6 +956,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default="generated")
     parser.add_argument("--stats-path", default="data/latest.json")
     parser.add_argument("--model-usage-path", default="data/model_usage.json")
+    parser.add_argument("--cache-dir", type=Path, default=Path(".cache/commit-stats-v2"))
     return parser.parse_args()
 
 
@@ -966,7 +978,8 @@ def main() -> int:
     except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
         raise SystemExit(f"Could not load model usage snapshot: {error}") from error
 
-    end = dt.datetime.now(dt.timezone.utc).date()
+    # Only completed UTC days are final. Manual reruns still rescan the window.
+    end = dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)
     start = end - dt.timedelta(days=args.days - 1)
     excluded = {args.profile_repo, args.generator_repo}
     public_token = os.environ.get("GITHUB_TOKEN") or token
@@ -994,131 +1007,71 @@ def main() -> int:
             f"{error} Check PROFILE_REPO_TOKEN access to all source repositories."
         ) from error
 
-    partial_coverage = bool(missing_hashes)
-    permanent_missing_hashes = missing_hashes & permanently_inaccessible_repository_hashes()
-    legacy_backfill = bool(
-        partial_coverage
-        and previous_stats
-        and "daily_lines_changed" not in previous_stats
-        and isinstance(previous_stats.get("daily_additions"), dict)
-    )
-    if partial_coverage:
+    if missing_hashes:
         scan_mode = f"{scan_mode}-partial"
-        scan_start = partial_scan_start(previous_stats, start, end)
-        daily = Counter()
-        languages = Counter(previous_stats.get("languages", {}))
-        commits = snapshot_count(previous_stats, "authored_commits") or 0
-        truncated_file_lists = (
-            snapshot_count(previous_stats, "commits_with_truncated_file_lists") or 0
-        )
-        if scan_start > end:
-            print(
-                f"Coverage is partial: carrying forward {len(missing_hashes):,} previously "
-                f"scanned repositories; snapshot already covers through {end}."
+        print(f"Preserving history for {len(missing_hashes)} unavailable repositories.")
+    permanent_missing_hashes = missing_hashes & permanently_inaccessible_repository_hashes()
+    scanned = {}
+    print(f"Scanning {len(repos)} accessible repositories from {start} through {end}.", flush=True)
+    for index, repo in enumerate(repos, start=1):
+        full_name = repo["full_name"]
+        repo_token = public_token if not repo.get("private", False) else token
+        try:
+            authored = list_authored_commits(repo_token, full_name, args.username, start, end)
+            print(f"[{index}/{len(repos)}] checking {len(authored)} authored commits", flush=True)
+            history = collect_history(
+                authored, full_name, repo_token, start, end, args.workers,
+                args.cache_dir, commit_detail_stats, write_json_atomic,
+                (previous_stats or {}).get("repository_snapshots", {}).get(repository_name_hash(full_name)),
             )
-        else:
-            print(
-                f"Coverage is partial: carrying forward {len(missing_hashes):,} previously "
-                f"scanned repositories and scanning accessible changes from {scan_start} through {end}."
-            )
-        if permanent_missing_hashes:
-            print(
-                "Permanent repository access gap detected; its last known history "
-                "will remain a backfill on every refresh."
-            )
-        if legacy_backfill:
-            print(
-                "Using the previous additions-only snapshot as a historical backfill; "
-                "newly scanned days use additions plus deletions."
-            )
-    else:
-        scan_start = start
-        daily = Counter()
-        languages = Counter()
-        commits = 0
-        truncated_file_lists = 0
-    failed_commit_details = 0
-    skipped: list[str] = []
-    previous_hashes = baseline_repository_hashes(previous_stats) if previous_stats else None
-    if scan_start > end:
-        print(f"No new GitHub days to scan; snapshot already covers through {end}.")
-    else:
-        print(
-            f"Scanning {len(repos)} accessible non-fork repositories from "
-            f"{scan_start} through {end}."
-        )
-        for index, repo in enumerate(repos, start=1):
-            full_name = repo["full_name"]
-            repo_start = scan_start
-            if partial_coverage and previous_hashes is not None:
-                repo_hash = repository_name_hash(full_name)
-                if repo_hash not in previous_hashes:
-                    repo_start = start
-            if repo_start > end:
-                continue
-            try:
-                repo_token = public_token if not repo.get("private", False) else token
-                repo_daily, repo_languages, repo_commits, repo_truncated, repo_failed = collect_repo_stats(
-                    repo, repo_start, end, args.username, repo_token, args.workers
-                )
-            except RuntimeError as error:
-                skipped.append(full_name)
-                print(f"[{index}/{len(repos)}] skipped {full_name}: {error}")
-                continue
-            daily.update(repo_daily)
-            languages.update(repo_languages)
-            commits += repo_commits
-            truncated_file_lists += repo_truncated
-            failed_commit_details += repo_failed
-            detail_note = f", {repo_failed} detail failures" if repo_failed else ""
-            print(f"[{index}/{len(repos)}] {full_name}: {repo_commits} commits{detail_note}")
+        except (RuntimeError, OSError, ValueError, KeyError) as error:
+            raise SystemExit(
+                f"SCAN_BLOCKED: repository {index}/{len(repos)} could not be scanned: {error}"
+            ) from error
+        scanned[repository_name_hash(full_name)] = history
+        print(f"[{index}/{len(repos)}] scanned {len(authored)} authored commits", flush=True)
 
-    if partial_coverage:
-        daily = merge_rolling_changed(
-            previous_stats,
-            daily,
-            start,
-            end,
-            allow_legacy_backfill=legacy_backfill,
+    try:
+        totals, repository_snapshots, legacy_carry = reconcile_history(
+            previous_stats, scanned, start, end,
         )
-
-    previous_repository_baseline = (
-        minimum_repository_baseline(previous_stats) if previous_stats else None
-    )
-    previous_repository_hashes = (
-        baseline_repository_hashes(previous_stats) if previous_stats else None
-    )
-    current_repository_hashes = repository_inventory_hashes(repository_names)
-    covered_repository_hashes = (previous_repository_hashes or set()) | current_repository_hashes
-    daily_line_total = sum(daily.values())
-    headline_line_total = line_total_with_historical_backfill(
-        previous_stats,
-        daily,
-        start,
-        end,
-    )
+    except (ValueError, TypeError, KeyError) as error:
+        raise SystemExit(f"SCAN_BLOCKED: invalid saved repository history: {error}") from error
+    daily = Counter(totals["daily_lines_changed"])
+    languages = Counter(totals["languages"])
+    commits = totals["authored_commits"]
+    previous_repository_baseline = minimum_repository_baseline(previous_stats) if previous_stats else 0
+    previous_hashes = baseline_repository_hashes(previous_stats) if previous_stats else set()
+    covered_hashes = (previous_hashes or set()) | repository_inventory_hashes(repository_names)
+    headline_line_total = line_total_with_historical_backfill(previous_stats, daily, start, end)
     stats = {
         "username": args.username,
         "scan_mode": scan_mode,
         "window_days": args.days,
         "start_date": start.isoformat(),
         "end_date": end.isoformat(),
+        "last_successful_scan_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "code_lines_changed": headline_line_total,
-        "code_lines_observed": daily_line_total,
+        "code_lines_observed": sum(daily.values()),
         "authored_commits": commits,
         "active_days": sum(1 for value in daily.values() if value),
-        "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
+        "repositories_scanned": max(previous_repository_baseline or 0, len(covered_hashes)),
         "repositories_accessible": len(repos),
         "repositories_carried_forward": len(missing_hashes),
         "repositories_permanently_inaccessible": len(permanent_missing_hashes),
-        "repositories_skipped": len(skipped),
-        "commits_with_truncated_file_lists": truncated_file_lists,
-        "commit_detail_failures": failed_commit_details,
+        "repositories_skipped": 0,
+        "commits_with_truncated_file_lists": totals["commits_with_truncated_file_lists"],
+        "commit_detail_failures": 0,
         "languages": dict(sorted(languages.items(), key=lambda item: (-item[1], item[0]))),
-        "daily_lines_changed": {day.isoformat(): daily[day.isoformat()] for day in (start + dt.timedelta(days=i) for i in range(args.days))},
+        "daily_lines_changed": {day.isoformat(): daily[day.isoformat()] for day in
+                                (start + dt.timedelta(days=i) for i in range(args.days))},
+        "repository_snapshots": repository_snapshots,
+        "legacy_carry": legacy_carry,
+        "coverage_baseline": {
+            "repositories_scanned": max(previous_repository_baseline or 0, len(covered_hashes)),
+            "repository_hashes": sorted(covered_hashes),
+        },
     }
-    if legacy_backfill:
-        stats["historical_backfill"] = "previous-additions-only-snapshot"
     uniform_backfill_total = (
         previous_stats.get("historical_backfill_total") if previous_stats else None
     )
@@ -1132,10 +1085,6 @@ def main() -> int:
         stats["historical_backfill_applied_lines"] = (
             historical_backfill_line_total(previous_stats, start, end) or 0
         )
-    stats["coverage_baseline"] = {
-        "repositories_scanned": max(previous_repository_baseline or 0, len(repos)),
-        "repository_hashes": sorted(covered_repository_hashes),
-    }
     try:
         validate_scan(stats, previous_stats)
     except (ScanRegressionError, ValueError) as error:
@@ -1156,10 +1105,10 @@ def main() -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "github-line-velocity.svg").write_text(svg, encoding="utf-8")
     stats_path.parent.mkdir(parents=True, exist_ok=True)
-    stats_path.write_text(json.dumps(stats, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_json_atomic(stats_path, stats)
     print(
         f"Generated {compact_number(stats['code_lines_changed'])} lines across "
-        f"{commits:,} authored commits; skipped {len(skipped)} repositories."
+        f"{commits:,} authored commits; skipped 0 repositories."
     )
     return 0
 

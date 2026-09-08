@@ -2,7 +2,7 @@ name: Refresh GitHub profile graphic
 
 on:
   schedule:
-    - cron: "17 8 * * *"
+    - cron: "17 17 * * *"
   workflow_dispatch:
 
 permissions:
@@ -58,48 +58,49 @@ jobs:
                   print(f"{label} quota check returned HTTP {error.code}; scan will report the detailed error.")
           PY
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
       - name: Run regression tests
         run: python -m unittest discover --start-directory tests --verbose
 
+      - uses: actions/cache/restore@v6
+        with:
+          path: .cache/commit-stats-v2
+          key: commit-stats-v2-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: commit-stats-v2-
+
       - name: Generate the latest 365-day snapshot
         id: generate
         run: |
-          set +e
-          python scripts/generate_profile.py \
+          python -u scripts/generate_profile.py \
             --output-dir generated \
             --stats-path data/latest.json \
             --model-usage-path data/model_usage.json \
             --username mileslow \
             --profile-repo mileslow/mileslow \
             --generator-repo mileslow/github-line-velocity \
-            --workers 2 2>&1 | tee "$RUNNER_TEMP/generate-profile.log"
-          status=${PIPESTATUS[0]}
-          if [ "$status" -eq 0 ]; then
-            exit 0
-          fi
-          if grep -q "SCAN_BLOCKED:" "$RUNNER_TEMP/generate-profile.log" 2>/dev/null; then
-            echo "blocked=true" >> "$GITHUB_OUTPUT"
-            echo "::warning::Scan blocked; preserving the previous snapshot and profile graphic."
-            exit 0
-          fi
-          exit "$status"
+            --workers 2
 
-      - name: Publish the profile SVG
-        if: steps.generate.outputs.blocked != 'true'
+      - uses: actions/cache/save@v6
+        if: always() && steps.generate.outcome != 'skipped'
+        with:
+          path: .cache/commit-stats-v2
+          key: commit-stats-v2-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Report a blocked refresh
+        if: failure()
         run: |
-          python scripts/publish_profile.py \
-            --svg generated/github-line-velocity.svg \
-            --repo mileslow/mileslow \
-            --path assets/github-line-velocity.svg
+          echo '::error::Refresh failed. The previous published snapshot is preserved; see the failing step for the cause.'
+          echo 'The profile refresh did not complete. The previous public snapshot was preserved.' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit the aggregate snapshot
-        if: steps.generate.outputs.blocked != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -109,4 +110,19 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh 365-day GitHub line velocity"
-          git push
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort; exit 1; }
+          done
+          echo 'Could not push the aggregate snapshot after three attempts.' >&2
+          exit 1
+
+      - name: Publish the profile SVG
+        run: |
+          python scripts/publish_profile.py \
+            --svg generated/github-line-velocity.svg \
+            --repo mileslow/mileslow \
+            --path assets/github-line-velocity.svg

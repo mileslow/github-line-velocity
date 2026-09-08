@@ -11,6 +11,9 @@ from scripts.sync_model_usage import (
     codex_usage_events,
     main,
     snapshot_after,
+    rebuild_from_local_sources,
+    CODEX_SOURCE_NAME,
+    CLAUDE_SOURCE_NAME,
 )
 
 
@@ -24,6 +27,40 @@ def write_json_lines(path: Path, rows: list[object]) -> None:
 
 
 class LocalUsageParsingTests(unittest.TestCase):
+    def test_codex_status_repeats_do_not_count_as_another_request(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "session.jsonl"
+            def usage(timestamp, total):
+                return {"timestamp": timestamp, "type": "event_msg", "payload": {
+                    "type": "token_count", "info": {"last_token_usage": {"total_tokens": 10},
+                    "total_token_usage": {"total_tokens": total}}}}
+            write_json_lines(path, [
+                {"type": "turn_context", "payload": {"model": "model"}},
+                usage("2026-09-05T09:00:00Z", 10),
+                usage("2026-09-05T09:00:01Z", 10),
+                usage("2026-09-05T09:00:02Z", 20),
+            ])
+            events = list(codex_usage_events(Path(directory)))
+            self.assertEqual([tokens for _, _, tokens in events], [10, 10])
+            after = dt.datetime(2026, 9, 5, 9, tzinfo=dt.timezone.utc)
+            events = list(codex_usage_events(Path(directory), after))
+            self.assertEqual([tokens for _, _, tokens in events], [10])
+
+    def test_a_missing_source_does_not_inflate_baseline_when_records_return(self):
+        snapshot = {"total_tokens": 150, "unallocated_token_baseline": 10,
+                    "start_date": "2026-09-01", "end_date": "2026-09-05",
+                    "models": [{"name": "codex", "tokens": 100}, {"name": "claude", "tokens": 40}],
+                    "sources": [{"name": CODEX_SOURCE_NAME, "total_tokens": 100},
+                                {"name": CLAUDE_SOURCE_NAME, "total_tokens": 40}]}
+        before = json.dumps(snapshot, sort_keys=True)
+        now = dt.datetime(2026, 9, 5, 9, tzinfo=dt.timezone.utc)
+        self.assertEqual(rebuild_from_local_sources(snapshot, [], [("codex", now, 200)], 0, 1, now), 0)
+        self.assertEqual(json.dumps(snapshot, sort_keys=True), before)
+        self.assertEqual(rebuild_from_local_sources(snapshot, [("claude", now, 40)],
+                                                   [("codex", now, 200)], 1, 1, now), 100)
+        self.assertEqual(snapshot["total_tokens"], 250)
+        self.assertEqual(snapshot["unallocated_token_baseline"], 10)
+
     def test_claude_events_dedupe_streaming_rows_and_skip_malformed_lines(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "project" / "session.jsonl"

@@ -2,29 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Label</key>
-    <string>com.mileslow.github-line-velocity</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/bin/sh</string>
-        <string>/Users/miles/Library/Application Support/github-line-velocity/repo/scripts/run_local_model_usage_sync.sh</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>StartInterval</key>
-    <integer>3600</integer>
-    <key>ProcessType</key>
-    <string>Background</string>
-    <key>LowPriorityIO</key>
-    <true/>
-    <key>EnvironmentVariables</key>
-    <dict>
-        <key>GITHUB_LINE_VELOCITY_REPO_DIR</key>
-        <string>/Users/miles/Library/Application Support/github-line-velocity/repo</string>
-    </dict>
-    <key>StandardOutPath</key>
-    <string>/Users/miles/Library/Logs/github-line-velocity.log</string>
-    <key>StandardErrorPath</key>
-    <string>/Users/miles/Library/Logs/github-line-velocity.log</string>
+	<key>Label</key>
+	<string>com.mileslow.github-line-velocity</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/sh</string>
+		<string>/Users/miles/Library/Application Support/github-line-velocity/repo/scripts/run_local_model_usage_sync.sh</string>
+		<string>--scheduled</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>GITHUB_LINE_VELOCITY_REPO_DIR</key>
+		<string>/Users/miles/Library/Application Support/github-line-velocity/repo</string>
+	</dict>
+	<key>StandardOutPath</key>
+	<string>/Users/miles/Library/Logs/github-line-velocity.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/miles/Library/Logs/github-line-velocity.log</string>
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>8</integer>
+		<key>Minute</key>
+		<integer>17</integer>
+	</dict>
 </dict>
 </plist>

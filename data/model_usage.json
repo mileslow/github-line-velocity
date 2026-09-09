@@ -5,16 +5,16 @@
   "end_date": "2026-09-09",
   "coverage_status": "Exact known Codex records and Claude Code cost-state/request records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; Claude Code sessions without cost-state summaries fall back to completed request usage. The preserved Cursor subtotal contributes to the headline token total and is allocated into the rendered model breakdown from archived model-mix metadata when available because the raw rows are unavailable.",
-  "total_tokens": 31021894218,
+  "total_tokens": 31705943769,
   "unallocated_token_baseline": 6039350707,
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2026-02-18",
       "end_date": "2026-09-09",
-      "session_files": 3095,
-      "token_events": 212212,
-      "total_tokens": 24333829867,
+      "session_files": 3142,
+      "token_events": 217817,
+      "total_tokens": 25017879418,
       "malformed_lines": 0,
       "unattributed_model_events": 8
     },
@@ -76,11 +76,15 @@
     },
     {
       "name": "gpt-5.6-luna",
-      "tokens": 9535629589
+      "tokens": 9830982212
     },
     {
       "name": "gpt-5.5",
       "tokens": 934691984
+    },
+    {
+      "name": "gpt-6-astra",
+      "tokens": 844541377
     },
     {
       "name": "gpt-5.4",
@@ -93,10 +97,6 @@
     {
       "name": "claude-opus-5[1m]",
       "tokens": 455973672
-    },
-    {
-      "name": "gpt-6-astra",
-      "tokens": 455844449
     },
     {
       "name": "gpt-5.4-mini",
@@ -148,17 +148,17 @@
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-09T00:00:58.090000Z",
+    "last_processed_at": "2026-09-09T11:23:38.146000Z",
     "sync_mode": "full_local_rescan",
     "parser_version": 2,
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
     ],
-    "previous_processed_at": "2026-09-08T23:50:53.414000Z",
+    "previous_processed_at": "2026-09-09T00:00:58.090000Z",
     "source_watermarks": {
       "claude_code": "2026-09-04T10:40:47.087000Z",
-      "codex": "2026-09-09T00:00:58.090000Z"
+      "codex": "2026-09-09T11:23:38.146000Z"
     }
   }
 }

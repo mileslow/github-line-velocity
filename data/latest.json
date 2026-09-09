@@ -1,8 +1,8 @@
 {
   "active_days": 295,
-  "authored_commits": 4364,
-  "code_lines_changed": 2638059,
-  "code_lines_observed": 2514753,
+  "authored_commits": 4391,
+  "code_lines_changed": 2646942,
+  "code_lines_observed": 2523636,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -530,7 +530,7 @@
     "2026-09-05": 13827,
     "2026-09-06": 17519,
     "2026-09-07": 33244,
-    "2026-09-08": 131017
+    "2026-09-08": 139900
   },
   "end_date": "2026-09-08",
   "historical_backfill": "uniform-prior-snapshot",
@@ -546,13 +546,13 @@
     "JavaScript": 84895,
     "Other": 166700,
     "Python": 582139,
-    "SQL": 42296,
+    "SQL": 42793,
     "Shell": 58677,
-    "TypeScript": 1154106,
+    "TypeScript": 1162492,
     "Vue": 206,
     "YAML": 5512
   },
-  "last_successful_scan_at": "2026-09-09T00:02:30.551812+00:00",
+  "last_successful_scan_at": "2026-09-09T19:47:11.288033+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -1571,14 +1571,14 @@
           "truncated": 0
         },
         "2026-09-08": {
-          "commit_fingerprint": "b122f652e994a9641edcfb128e5a02f5d273692104b59f0eabbde457063d007c",
-          "commits": 129,
+          "commit_fingerprint": "7509c961617159c6f08b964d8d2fe80758a6d64ad2c9174254f9915f6638d6eb",
+          "commits": 156,
           "languages": {
             "Other": 2050,
             "Python": 532,
-            "SQL": 5515,
+            "SQL": 6012,
             "Shell": 872,
-            "TypeScript": 118930,
+            "TypeScript": 127316,
             "YAML": 435
           },
           "truncated": 0

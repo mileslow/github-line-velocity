@@ -1,8 +1,8 @@
 {
-  "active_days": 292,
-  "authored_commits": 4480,
-  "code_lines_changed": 2617179,
-  "code_lines_observed": 2554604,
+  "active_days": 293,
+  "authored_commits": 4532,
+  "code_lines_changed": 2583667,
+  "code_lines_observed": 2559381,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -166,7 +166,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-09-13": 3758,
     "2025-09-14": 1147,
     "2025-09-15": 11617,
     "2025-09-16": 628,
@@ -507,7 +506,7 @@
     "2026-08-17": 13713,
     "2026-08-18": 2363,
     "2026-08-19": 80,
-    "2026-08-20": 5569,
+    "2026-08-20": 6322,
     "2026-08-21": 6609,
     "2026-08-22": 55916,
     "2026-08-23": 41294,
@@ -530,9 +529,10 @@
     "2026-09-09": 38411,
     "2026-09-10": 0,
     "2026-09-11": 0,
-    "2026-09-12": 0
+    "2026-09-12": 4672,
+    "2026-09-13": 3110
   },
-  "end_date": "2026-09-12",
+  "end_date": "2026-09-13",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -541,23 +541,22 @@
   "languages": {
     "C": 352,
     "C/C++": 84,
-    "CSS": 90408,
+    "CSS": 93889,
     "HTML": 6935,
     "JavaScript": 84895,
-    "Other": 166776,
+    "Other": 167713,
     "Python": 582139,
     "SQL": 43290,
     "Shell": 58677,
-    "TypeScript": 1200324,
+    "TypeScript": 1204441,
     "Vue": 206,
     "YAML": 5518
   },
-  "last_successful_scan_at": "2026-09-13T19:29:21.258177+00:00",
+  "last_successful_scan_at": "2026-09-14T20:57:41.285033+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-09-13": 3758,
       "2025-09-14": 1147,
       "2025-09-15": 11617,
       "2025-09-16": 628,
@@ -1717,6 +1716,35 @@
             "YAML": 44
           },
           "truncated": 0
+        },
+        "2026-08-20": {
+          "commit_fingerprint": "c83b839b9eb8072f290b054eedf5a1c220568fc4913ac843bf8066af11638408",
+          "commits": 1,
+          "languages": {
+            "CSS": 112,
+            "TypeScript": 641
+          },
+          "truncated": 0
+        },
+        "2026-09-12": {
+          "commit_fingerprint": "f3ec262b1b9794f28d0436edd5dc290c0a07e915f6ba53637fa7606046862ebd",
+          "commits": 21,
+          "languages": {
+            "CSS": 1840,
+            "Other": 829,
+            "TypeScript": 2003
+          },
+          "truncated": 0
+        },
+        "2026-09-13": {
+          "commit_fingerprint": "6c98a32c0bad8dacd54fc72feefd39ad8f693941ae39f76d7cdfed5d078167e9",
+          "commits": 30,
+          "languages": {
+            "CSS": 1529,
+            "Other": 108,
+            "TypeScript": 1473
+          },
+          "truncated": 0
         }
       }
     },
@@ -2269,7 +2297,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-09-13",
+  "start_date": "2025-09-14",
   "username": "mileslow",
   "window_days": 365
 }

@@ -1,8 +1,8 @@
 {
   "active_days": 294,
-  "authored_commits": 4761,
-  "code_lines_changed": 2814802,
-  "code_lines_observed": 2814802,
+  "authored_commits": 4859,
+  "code_lines_changed": 2957441,
+  "code_lines_observed": 2957441,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -166,7 +166,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-09-15": 11617,
     "2025-09-16": 628,
     "2025-09-17": 2602,
     "2025-09-18": 3123,
@@ -530,34 +529,34 @@
     "2026-09-11": 0,
     "2026-09-12": 66137,
     "2026-09-13": 52493,
-    "2026-09-14": 139106
+    "2026-09-14": 139106,
+    "2026-09-15": 154256
   },
-  "end_date": "2026-09-14",
+  "end_date": "2026-09-15",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
   "historical_backfill_total": 1922531,
   "historical_backfill_window_days": 365,
   "languages": {
-    "C": 352,
+    "C": 596,
     "C/C++": 84,
-    "CSS": 98076,
+    "CSS": 99741,
     "HTML": 6935,
-    "JavaScript": 84907,
-    "Other": 184682,
-    "Python": 582631,
-    "SQL": 55639,
-    "Shell": 59433,
-    "TypeScript": 1425253,
+    "JavaScript": 84913,
+    "Other": 195773,
+    "Python": 583908,
+    "SQL": 63167,
+    "Shell": 60346,
+    "TypeScript": 1555901,
     "Vue": 206,
-    "YAML": 6509
+    "YAML": 7393
   },
-  "last_successful_scan_at": "2026-09-15T20:16:27.362504+00:00",
+  "last_successful_scan_at": "2026-09-16T20:10:05.907470+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-09-15": 11617,
       "2025-09-16": 628,
       "2025-09-17": 2602,
       "2025-09-18": 3123,
@@ -1641,6 +1640,22 @@
             "YAML": 632
           },
           "truncated": 0
+        },
+        "2026-09-15": {
+          "commit_fingerprint": "b439af956ef8c1d949cf555e43261d30d1c1a41c69606a8460b11012d2b2fb88",
+          "commits": 98,
+          "languages": {
+            "C": 244,
+            "CSS": 1665,
+            "JavaScript": 6,
+            "Other": 11091,
+            "Python": 1277,
+            "SQL": 7528,
+            "Shell": 913,
+            "TypeScript": 130648,
+            "YAML": 884
+          },
+          "truncated": 0
         }
       }
     },
@@ -2360,7 +2375,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-09-15",
+  "start_date": "2025-09-16",
   "username": "mileslow",
   "window_days": 365
 }

@@ -1,8 +1,8 @@
 {
   "active_days": 295,
-  "authored_commits": 5281,
-  "code_lines_changed": 3335624,
-  "code_lines_observed": 3335624,
+  "authored_commits": 5386,
+  "code_lines_changed": 3388733,
+  "code_lines_observed": 3388733,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -166,7 +166,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-09-22": 2054,
     "2025-09-23": 1594,
     "2025-09-24": 171,
     "2025-09-25": 965,
@@ -530,9 +529,10 @@
     "2026-09-18": 70946,
     "2026-09-19": 29736,
     "2026-09-20": 62976,
-    "2026-09-21": 136087
+    "2026-09-21": 136087,
+    "2026-09-22": 55163
   },
-  "end_date": "2026-09-21",
+  "end_date": "2026-09-22",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -541,23 +541,22 @@
   "languages": {
     "C": 596,
     "C/C++": 84,
-    "CSS": 101655,
+    "CSS": 101673,
     "HTML": 37891,
     "JavaScript": 84913,
-    "Other": 210183,
+    "Other": 211292,
     "Python": 586199,
-    "SQL": 73496,
+    "SQL": 76720,
     "Shell": 61131,
-    "TypeScript": 1879347,
+    "TypeScript": 1930045,
     "Vue": 206,
-    "YAML": 8407
+    "YAML": 8521
   },
-  "last_successful_scan_at": "2026-09-22T20:12:45.144949+00:00",
+  "last_successful_scan_at": "2026-09-23T20:24:24.039641+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-09-22": 2054,
       "2025-09-23": 1594,
       "2025-09-24": 171,
       "2025-09-25": 965,
@@ -1731,6 +1730,18 @@
             "YAML": 304
           },
           "truncated": 0
+        },
+        "2026-09-22": {
+          "commit_fingerprint": "961d71dcc2039d909cb698fcc4f63d8405ad9b0dc47774fc858414f8f2d6b338",
+          "commits": 105,
+          "languages": {
+            "CSS": 18,
+            "Other": 1109,
+            "SQL": 3224,
+            "TypeScript": 50698,
+            "YAML": 114
+          },
+          "truncated": 0
         }
       }
     },
@@ -2450,7 +2461,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-09-22",
+  "start_date": "2025-09-23",
   "username": "mileslow",
   "window_days": 365
 }

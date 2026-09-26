@@ -2,19 +2,19 @@
   "source": "exact local Codex token records, Claude Code cost-state/request token records, plus a preserved unallocated Cursor export subtotal",
   "window_days": 365,
   "start_date": "2025-09-06",
-  "end_date": "2026-09-25",
+  "end_date": "2026-09-26",
   "coverage_status": "Exact known Codex records and Claude Code cost-state/request records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; Claude Code sessions without cost-state summaries fall back to completed request usage. The preserved Cursor subtotal contributes to the headline token total and is allocated into the rendered model breakdown from archived model-mix metadata when available because the raw rows are unavailable.",
-  "total_tokens": 41200586330,
+  "total_tokens": 41273463241,
   "unallocated_token_baseline": 6039350707,
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2026-02-18",
-      "end_date": "2026-09-25",
-      "session_files": 3910,
-      "token_events": 273083,
-      "total_tokens": 31549384555,
+      "end_date": "2026-09-26",
+      "session_files": 3941,
+      "token_events": 273963,
+      "total_tokens": 31622261466,
       "malformed_lines": 0,
       "unattributed_model_events": 11
     },
@@ -80,7 +80,7 @@
     },
     {
       "name": "gpt-6-astra",
-      "tokens": 2509272459
+      "tokens": 2541101324
     },
     {
       "name": "claude-fable-5-1",
@@ -124,11 +124,15 @@
     },
     {
       "name": "gpt-6-luna",
-      "tokens": 56526535
+      "tokens": 80496578
     },
     {
       "name": "gpt-5.3-codex",
       "tokens": 18503305
+    },
+    {
+      "name": "gpt-6-sol",
+      "tokens": 17078003
     },
     {
       "name": "claude-haiku-4-5-20251001",
@@ -160,17 +164,17 @@
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-25T04:57:38.896000Z",
+    "last_processed_at": "2026-09-26T01:57:01.005000Z",
     "sync_mode": "full_local_rescan",
     "parser_version": 2,
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
     ],
-    "previous_processed_at": "2026-09-24T11:24:17.304000Z",
+    "previous_processed_at": "2026-09-25T04:57:38.896000Z",
     "source_watermarks": {
       "claude_code": "2026-09-24T04:15:16.298000Z",
-      "codex": "2026-09-25T04:57:38.896000Z"
+      "codex": "2026-09-26T01:57:01.005000Z"
     }
   }
 }

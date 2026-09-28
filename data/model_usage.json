@@ -2,19 +2,19 @@
   "source": "exact local Codex token records, Claude Code cost-state/request token records, plus a preserved unallocated Cursor export subtotal",
   "window_days": 365,
   "start_date": "2025-09-06",
-  "end_date": "2026-09-27",
+  "end_date": "2026-09-28",
   "coverage_status": "Exact known Codex records and Claude Code cost-state/request records plus a preserved Cursor subtotal; Cursor coverage is incomplete because the original account and raw CSV rows are no longer available.",
   "allocation_method": "Codex last-token usage and Claude Code cost-state summaries are grouped by recorded model; Claude Code sessions without cost-state summaries fall back to completed request usage. The preserved Cursor subtotal contributes to the headline token total and is allocated into the rendered model breakdown from archived model-mix metadata when available because the raw rows are unavailable.",
-  "total_tokens": 41316541847,
+  "total_tokens": 41474390519,
   "unallocated_token_baseline": 6039350707,
   "sources": [
     {
       "name": "local Codex session token records",
       "start_date": "2026-02-18",
-      "end_date": "2026-09-27",
-      "session_files": 3956,
-      "token_events": 274392,
-      "total_tokens": 31665340072,
+      "end_date": "2026-09-28",
+      "session_files": 3968,
+      "token_events": 275736,
+      "total_tokens": 31823188744,
       "malformed_lines": 0,
       "unattributed_model_events": 11
     },
@@ -80,7 +80,7 @@
     },
     {
       "name": "gpt-6-astra",
-      "tokens": 2556798038
+      "tokens": 2604281665
     },
     {
       "name": "claude-fable-5-1",
@@ -115,6 +115,10 @@
       "tokens": 179280459
     },
     {
+      "name": "gpt-6-sol",
+      "tokens": 152513192
+    },
+    {
       "name": "claude-opus-5-5",
       "tokens": 121141827
     },
@@ -124,11 +128,7 @@
     },
     {
       "name": "gpt-6-luna",
-      "tokens": 81687153
-    },
-    {
-      "name": "gpt-6-sol",
-      "tokens": 43269320
+      "tokens": 82808326
     },
     {
       "name": "gpt-5.3-codex",
@@ -164,17 +164,17 @@
     }
   ],
   "usage_sync": {
-    "last_processed_at": "2026-09-27T11:38:30.210000Z",
+    "last_processed_at": "2026-09-28T07:25:10.867000Z",
     "sync_mode": "full_local_rescan",
     "parser_version": 2,
     "sources": [
       "local Claude Code session records",
       "local Codex session records"
     ],
-    "previous_processed_at": "2026-09-26T01:57:01.005000Z",
+    "previous_processed_at": "2026-09-27T11:38:30.210000Z",
     "source_watermarks": {
       "claude_code": "2026-09-24T04:15:16.298000Z",
-      "codex": "2026-09-27T11:38:30.210000Z"
+      "codex": "2026-09-28T07:25:10.867000Z"
     }
   }
 }

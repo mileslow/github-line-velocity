@@ -1,8 +1,8 @@
 {
-  "active_days": 294,
-  "authored_commits": 5597,
-  "code_lines_changed": 3476778,
-  "code_lines_observed": 3476778,
+  "active_days": 295,
+  "authored_commits": 5611,
+  "code_lines_changed": 3478075,
+  "code_lines_observed": 3478075,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -166,7 +166,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-09-28": 0,
     "2025-09-29": 2358,
     "2025-09-30": 21848,
     "2025-10-01": 20297,
@@ -530,9 +529,10 @@
     "2026-09-24": 41440,
     "2026-09-25": 1117,
     "2026-09-26": 11735,
-    "2026-09-27": 0
+    "2026-09-27": 0,
+    "2026-09-28": 1297
   },
-  "end_date": "2026-09-27",
+  "end_date": "2026-09-28",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -542,17 +542,17 @@
     "C": 596,
     "C/C++": 84,
     "CSS": 101673,
-    "HTML": 37891,
+    "HTML": 37905,
     "JavaScript": 84913,
-    "Other": 212418,
+    "Other": 212429,
     "Python": 586199,
     "SQL": 79319,
     "Shell": 61146,
-    "TypeScript": 2017862,
+    "TypeScript": 2019134,
     "Vue": 206,
     "YAML": 8853
   },
-  "last_successful_scan_at": "2026-09-28T22:33:51.351031+00:00",
+  "last_successful_scan_at": "2026-09-29T21:25:13.946150+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -2483,6 +2483,16 @@
             "TypeScript": 463
           },
           "truncated": 0
+        },
+        "2026-09-28": {
+          "commit_fingerprint": "8eb2643f03a7bf860e74084b45370880084daabea65872924524a1dc79afbb62",
+          "commits": 14,
+          "languages": {
+            "HTML": 14,
+            "Other": 11,
+            "TypeScript": 1272
+          },
+          "truncated": 0
         }
       }
     },
@@ -2508,7 +2518,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-09-28",
+  "start_date": "2025-09-29",
   "username": "mileslow",
   "window_days": 365
 }

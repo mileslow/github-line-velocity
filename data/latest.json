@@ -1,8 +1,8 @@
 {
   "active_days": 296,
-  "authored_commits": 5751,
-  "code_lines_changed": 3473020,
-  "code_lines_observed": 3473020,
+  "authored_commits": 5768,
+  "code_lines_changed": 3481347,
+  "code_lines_observed": 3481347,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -166,7 +166,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-01": 20297,
     "2025-10-02": 357,
     "2025-10-03": 0,
     "2025-10-04": 0,
@@ -530,9 +529,10 @@
     "2026-09-27": 470,
     "2026-09-28": 7165,
     "2026-09-29": 3698,
-    "2026-09-30": 9115
+    "2026-09-30": 9115,
+    "2026-10-01": 28624
   },
-  "end_date": "2026-09-30",
+  "end_date": "2026-10-01",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -541,23 +541,22 @@
   "languages": {
     "C": 596,
     "C/C++": 84,
-    "CSS": 101729,
+    "CSS": 101785,
     "HTML": 37905,
     "JavaScript": 84913,
-    "Other": 212430,
-    "Python": 586292,
-    "SQL": 79807,
-    "Shell": 61154,
-    "TypeScript": 2037639,
+    "Other": 212446,
+    "Python": 586583,
+    "SQL": 80399,
+    "Shell": 61162,
+    "TypeScript": 2065300,
     "Vue": 206,
     "YAML": 8853
   },
-  "last_successful_scan_at": "2026-10-01T21:50:47.728459+00:00",
+  "last_successful_scan_at": "2026-10-02T21:20:26.610006+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-10-01": 20297,
       "2025-10-02": 357,
       "2025-10-09": 93,
       "2025-10-10": 48,
@@ -1817,6 +1816,19 @@
             "TypeScript": 8952
           },
           "truncated": 0
+        },
+        "2026-10-01": {
+          "commit_fingerprint": "16e01e24998c331a8dde93e149062da2afe4cc58603ec89c7c84a83ef58759f5",
+          "commits": 17,
+          "languages": {
+            "CSS": 56,
+            "Other": 16,
+            "Python": 291,
+            "SQL": 592,
+            "Shell": 8,
+            "TypeScript": 27661
+          },
+          "truncated": 0
         }
       }
     },
@@ -2554,7 +2566,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-01",
+  "start_date": "2025-10-02",
   "username": "mileslow",
   "window_days": 365
 }

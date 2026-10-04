@@ -1,8 +1,8 @@
 {
-  "active_days": 295,
-  "authored_commits": 5768,
-  "code_lines_changed": 3480990,
-  "code_lines_observed": 3480990,
+  "active_days": 296,
+  "authored_commits": 5772,
+  "code_lines_changed": 3481511,
+  "code_lines_observed": 3481511,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -166,7 +166,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-03": 0,
     "2025-10-04": 0,
     "2025-10-05": 0,
     "2025-10-06": 0,
@@ -530,9 +529,10 @@
     "2026-09-29": 3698,
     "2026-09-30": 9115,
     "2026-10-01": 28624,
-    "2026-10-02": 0
+    "2026-10-02": 0,
+    "2026-10-03": 521
   },
-  "end_date": "2026-10-02",
+  "end_date": "2026-10-03",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -548,11 +548,11 @@
     "Python": 586583,
     "SQL": 80399,
     "Shell": 61162,
-    "TypeScript": 2065300,
+    "TypeScript": 2065821,
     "Vue": 206,
     "YAML": 8853
   },
-  "last_successful_scan_at": "2026-10-03T19:51:56.031622+00:00",
+  "last_successful_scan_at": "2026-10-04T20:11:57.392028+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -2540,6 +2540,14 @@
             "TypeScript": 1272
           },
           "truncated": 0
+        },
+        "2026-10-03": {
+          "commit_fingerprint": "3a0fb50450cc1e8af573c87479ede49e32331d4d48d4f04aaab7c948c35c1dec",
+          "commits": 4,
+          "languages": {
+            "TypeScript": 521
+          },
+          "truncated": 0
         }
       }
     },
@@ -2565,7 +2573,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-03",
+  "start_date": "2025-10-04",
   "username": "mileslow",
   "window_days": 365
 }

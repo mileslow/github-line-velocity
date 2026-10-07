@@ -1,12 +1,12 @@
 {
   "active_days": 296,
-  "authored_commits": 5772,
-  "code_lines_changed": 3481511,
-  "code_lines_observed": 3481511,
+  "authored_commits": 8865,
+  "code_lines_changed": 5467770,
+  "code_lines_observed": 5467770,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
-    "repositories_scanned": 155,
+    "repositories_scanned": 156,
     "repository_hashes": [
       "0040f54955033d0194ef8318e7fe465c0b7131527401ae7abedb51f60606ca17",
       "004822ad2f0483e98c1dd20352e8215298fc6beab10df96d9160ca23cdd68c7a",
@@ -33,6 +33,7 @@
       "1382f069b520a976a16b1003c7a36a8d982bfcf0bf630c3935693dd167d287d9",
       "1398b612f3a27e65c8037a83cfa505c00139bda34b8d226f5a877dfc2678ed9f",
       "14bb2de3108c46a76a3e573d729dd152563fe4f0908a4bc13c4bc672dd2bbb59",
+      "1518a53606789d5f7f3817c96a1f45146368dda840d0c343a5be1c625b1c3373",
       "155a68072aedbc65ee85a7d45a80d7a342d5e253ae224212634afee27f541955",
       "1575baa52b8bcb90febe2396678042cc3bdc989323bcd2b0bfdaed79af41f4e5",
       "15b0e2b9add96e484bdfc027797cb65237825cb38b679626406a6d56380e7d5b",
@@ -166,7 +167,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-06": 0,
     "2025-10-07": 0,
     "2025-10-08": 0,
     "2025-10-09": 93,
@@ -445,26 +445,26 @@
     "2026-07-09": 3861,
     "2026-07-10": 15818,
     "2026-07-11": 4435,
-    "2026-07-12": 1288,
-    "2026-07-13": 7453,
+    "2026-07-12": 1355,
+    "2026-07-13": 14762,
     "2026-07-14": 8763,
     "2026-07-15": 278,
     "2026-07-16": 0,
     "2026-07-17": 1037,
-    "2026-07-18": 58433,
-    "2026-07-19": 5222,
-    "2026-07-20": 2320,
-    "2026-07-21": 2579,
+    "2026-07-18": 116866,
+    "2026-07-19": 10444,
+    "2026-07-20": 4640,
+    "2026-07-21": 5158,
     "2026-07-22": 91090,
-    "2026-07-23": 11347,
+    "2026-07-23": 19873,
     "2026-07-24": 266,
-    "2026-07-25": 16465,
-    "2026-07-26": 23967,
-    "2026-07-27": 28129,
+    "2026-07-25": 16668,
+    "2026-07-26": 43255,
+    "2026-07-27": 31974,
     "2026-07-28": 0,
     "2026-07-29": 2260,
     "2026-07-30": 0,
-    "2026-07-31": 3611,
+    "2026-07-31": 5276,
     "2026-08-01": 686,
     "2026-08-02": 0,
     "2026-08-03": 0,
@@ -476,83 +476,84 @@
     "2026-08-09": 0,
     "2026-08-10": 746,
     "2026-08-11": 999,
-    "2026-08-12": 9086,
+    "2026-08-12": 18172,
     "2026-08-13": 0,
-    "2026-08-14": 5599,
-    "2026-08-15": 927,
-    "2026-08-16": 14603,
-    "2026-08-17": 13713,
-    "2026-08-18": 2363,
-    "2026-08-19": 80,
-    "2026-08-20": 6322,
-    "2026-08-21": 6609,
-    "2026-08-22": 55916,
-    "2026-08-23": 41294,
-    "2026-08-24": 38381,
-    "2026-08-25": 10241,
-    "2026-08-26": 50993,
-    "2026-08-27": 26044,
-    "2026-08-28": 104787,
-    "2026-08-29": 42142,
-    "2026-08-30": 28808,
-    "2026-08-31": 13640,
-    "2026-09-01": 34269,
-    "2026-09-02": 17014,
-    "2026-09-03": 115118,
-    "2026-09-04": 39699,
-    "2026-09-05": 13827,
-    "2026-09-06": 17519,
-    "2026-09-07": 33707,
-    "2026-09-08": 139900,
-    "2026-09-09": 39721,
-    "2026-09-10": 5304,
+    "2026-08-14": 11198,
+    "2026-08-15": 1804,
+    "2026-08-16": 29206,
+    "2026-08-17": 26778,
+    "2026-08-18": 4340,
+    "2026-08-19": 119,
+    "2026-08-20": 11891,
+    "2026-08-21": 13218,
+    "2026-08-22": 89912,
+    "2026-08-23": 82588,
+    "2026-08-24": 76762,
+    "2026-08-25": 20482,
+    "2026-08-26": 101680,
+    "2026-08-27": 52088,
+    "2026-08-28": 209574,
+    "2026-08-29": 84284,
+    "2026-08-30": 57616,
+    "2026-08-31": 27280,
+    "2026-09-01": 68538,
+    "2026-09-02": 34028,
+    "2026-09-03": 230236,
+    "2026-09-04": 79398,
+    "2026-09-05": 24653,
+    "2026-09-06": 32167,
+    "2026-09-07": 66951,
+    "2026-09-08": 277117,
+    "2026-09-09": 79442,
+    "2026-09-10": 10608,
     "2026-09-11": 0,
-    "2026-09-12": 66137,
-    "2026-09-13": 52493,
-    "2026-09-14": 139106,
-    "2026-09-15": 174146,
-    "2026-09-16": 38054,
-    "2026-09-17": 27456,
-    "2026-09-18": 70946,
-    "2026-09-19": 29736,
-    "2026-09-20": 62976,
-    "2026-09-21": 136087,
-    "2026-09-22": 55163,
-    "2026-09-23": 37134,
-    "2026-09-24": 41440,
-    "2026-09-25": 1117,
-    "2026-09-26": 11735,
-    "2026-09-27": 470,
-    "2026-09-28": 7165,
-    "2026-09-29": 3698,
-    "2026-09-30": 9115,
-    "2026-10-01": 28624,
+    "2026-09-12": 127602,
+    "2026-09-13": 101876,
+    "2026-09-14": 276791,
+    "2026-09-15": 348292,
+    "2026-09-16": 76108,
+    "2026-09-17": 54912,
+    "2026-09-18": 141892,
+    "2026-09-19": 59472,
+    "2026-09-20": 125952,
+    "2026-09-21": 272174,
+    "2026-09-22": 110326,
+    "2026-09-23": 74268,
+    "2026-09-24": 82880,
+    "2026-09-25": 2234,
+    "2026-09-26": 23470,
+    "2026-09-27": 940,
+    "2026-09-28": 13033,
+    "2026-09-29": 7396,
+    "2026-09-30": 18230,
+    "2026-10-01": 57248,
     "2026-10-02": 0,
     "2026-10-03": 521,
     "2026-10-04": 0,
-    "2026-10-05": 0
+    "2026-10-05": 0,
+    "2026-10-06": 0
   },
-  "end_date": "2026-10-05",
+  "end_date": "2026-10-06",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
   "historical_backfill_total": 1922531,
   "historical_backfill_window_days": 365,
   "languages": {
-    "C": 596,
+    "C": 840,
     "C/C++": 84,
-    "CSS": 101785,
-    "HTML": 37905,
-    "JavaScript": 84913,
-    "Other": 212446,
-    "Python": 586583,
-    "SQL": 80399,
-    "Shell": 61162,
-    "TypeScript": 2065821,
+    "CSS": 159184,
+    "HTML": 69005,
+    "JavaScript": 100197,
+    "Other": 264240,
+    "Python": 593499,
+    "SQL": 160626,
+    "Shell": 65653,
+    "TypeScript": 3799261,
     "Vue": 206,
-    "YAML": 8853
+    "YAML": 14217
   },
-  "last_successful_scan_at": "2026-10-06T21:39:02.993291+00:00",
+  "last_successful_scan_at": "2026-10-07T22:14:08.248451+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -780,9 +781,9 @@
     }
   },
   "repositories_accessible": 61,
-  "repositories_carried_forward": 94,
+  "repositories_carried_forward": 95,
   "repositories_permanently_inaccessible": 1,
-  "repositories_scanned": 155,
+  "repositories_scanned": 156,
   "repositories_skipped": 0,
   "repository_snapshots": {
     "0040f54955033d0194ef8318e7fe465c0b7131527401ae7abedb51f60606ca17": {
@@ -844,6 +845,726 @@
     },
     "12d0b2c740606170a581cfd3362d88f7af421774d04520c39e609e9f40038a8f": {
       "days": {}
+    },
+    "1518a53606789d5f7f3817c96a1f45146368dda840d0c343a5be1c625b1c3373": {
+      "days": {
+        "2026-07-12": {
+          "commit_fingerprint": "9bcd25aef47d9ad40bf3b0e910ca34e6357c4a6ce510dd709fd81184f6e8737a",
+          "commits": 3,
+          "languages": {
+            "CSS": 4,
+            "HTML": 1,
+            "JavaScript": 40,
+            "Other": 22
+          },
+          "truncated": 0
+        },
+        "2026-07-13": {
+          "commit_fingerprint": "5875df0fbd58413f9b239494d82e949e94e05346d1bf35c6b557c74412f8205d",
+          "commits": 2,
+          "languages": {
+            "CSS": 2469,
+            "JavaScript": 2672,
+            "Other": 736,
+            "TypeScript": 1432
+          },
+          "truncated": 0
+        },
+        "2026-07-17": {
+          "commit_fingerprint": "f883706a14591c5fdf4812b7e7bb4d565ef591ad74c1eff893acf55753f50998",
+          "commits": 1,
+          "languages": {},
+          "truncated": 0
+        },
+        "2026-07-18": {
+          "commit_fingerprint": "d98bfaf3202e96729ae606a90bb9d84b90b513878ad014048c5bbb28cc8a3c4f",
+          "commits": 24,
+          "languages": {
+            "CSS": 5487,
+            "HTML": 2,
+            "JavaScript": 7106,
+            "Other": 455,
+            "Python": 880,
+            "Shell": 982,
+            "TypeScript": 43475,
+            "YAML": 46
+          },
+          "truncated": 0
+        },
+        "2026-07-19": {
+          "commit_fingerprint": "8cc691cda7a6724cc883c2e9413f58a6c75883633e83743edcde540f5f421315",
+          "commits": 17,
+          "languages": {
+            "TypeScript": 5217,
+            "YAML": 5
+          },
+          "truncated": 0
+        },
+        "2026-07-20": {
+          "commit_fingerprint": "0c49581f6cfd3ee846212b04001852e112c992a787fa27c8520357acd3f3f0bc",
+          "commits": 7,
+          "languages": {
+            "Other": 1,
+            "Shell": 35,
+            "TypeScript": 2284
+          },
+          "truncated": 0
+        },
+        "2026-07-21": {
+          "commit_fingerprint": "13ff8f2f5a2214dd4462922f2afe17fa6b61a8a195e7bd18577600c42c4cfab0",
+          "commits": 2,
+          "languages": {
+            "CSS": 260,
+            "JavaScript": 1136,
+            "Other": 173,
+            "Shell": 35,
+            "TypeScript": 975
+          },
+          "truncated": 0
+        },
+        "2026-07-23": {
+          "commit_fingerprint": "59fd1ec604d2669fb6be802d0f2c19ed0e3c8ed81ef5fe0470b56e7a988ff77f",
+          "commits": 3,
+          "languages": {
+            "CSS": 45,
+            "HTML": 4,
+            "JavaScript": 329,
+            "Other": 75,
+            "TypeScript": 8050,
+            "YAML": 23
+          },
+          "truncated": 0
+        },
+        "2026-07-25": {
+          "commit_fingerprint": "0c405a7e58d458abdf443e581343a0303d910a1c233a03b6048cdd983d15d9b3",
+          "commits": 1,
+          "languages": {
+            "TypeScript": 202,
+            "YAML": 1
+          },
+          "truncated": 0
+        },
+        "2026-07-26": {
+          "commit_fingerprint": "edb15b5137af08ad650c7dfe2b65d37929c9386fda4612498ab3e617eecdf2a6",
+          "commits": 10,
+          "languages": {
+            "JavaScript": 12,
+            "Other": 9,
+            "TypeScript": 19239,
+            "YAML": 28
+          },
+          "truncated": 0
+        },
+        "2026-07-27": {
+          "commit_fingerprint": "314892d9113ef995d3b2d3f711c0ea2d2a78932b9ffd07ef8494696c9d4c1389",
+          "commits": 13,
+          "languages": {
+            "CSS": 1063,
+            "JavaScript": 702,
+            "Other": 20,
+            "TypeScript": 2058,
+            "YAML": 2
+          },
+          "truncated": 0
+        },
+        "2026-07-31": {
+          "commit_fingerprint": "a5dd8f0bc2a5bf8e1fd967fec196f68936d7b0289ee1034ed06475926eae445d",
+          "commits": 2,
+          "languages": {
+            "CSS": 765,
+            "Other": 17,
+            "TypeScript": 883
+          },
+          "truncated": 0
+        },
+        "2026-08-12": {
+          "commit_fingerprint": "6e267efd78e61981fd5f3356a7c43b6a9ca8d66767ba3447363f64a47aea7baa",
+          "commits": 4,
+          "languages": {
+            "JavaScript": 65,
+            "Other": 768,
+            "Python": 2,
+            "TypeScript": 8158,
+            "YAML": 93
+          },
+          "truncated": 0
+        },
+        "2026-08-14": {
+          "commit_fingerprint": "95a5de682df4719492430b60124a2a120acdcc23655281dff9abbdfacd49a132",
+          "commits": 6,
+          "languages": {
+            "CSS": 26,
+            "JavaScript": 143,
+            "Other": 12,
+            "SQL": 1902,
+            "TypeScript": 3513,
+            "YAML": 3
+          },
+          "truncated": 0
+        },
+        "2026-08-15": {
+          "commit_fingerprint": "75dd07928d828e6c518144339689994cee9f36cbe50581c0320bc992b1657e8a",
+          "commits": 9,
+          "languages": {
+            "CSS": 26,
+            "Other": 8,
+            "TypeScript": 841,
+            "YAML": 2
+          },
+          "truncated": 0
+        },
+        "2026-08-16": {
+          "commit_fingerprint": "ecba2c2c3b937469bf6a5491f6635eda2a7b93065705fb3d330cdb94d11521ac",
+          "commits": 7,
+          "languages": {
+            "CSS": 55,
+            "JavaScript": 35,
+            "Other": 24,
+            "SQL": 168,
+            "TypeScript": 14319,
+            "YAML": 2
+          },
+          "truncated": 0
+        },
+        "2026-08-17": {
+          "commit_fingerprint": "c45c751d7d79d2dfdc8ff91594e4bf1e38cd2c589b96fa3fdfacca888b224903",
+          "commits": 16,
+          "languages": {
+            "CSS": 45,
+            "HTML": 1,
+            "JavaScript": 3020,
+            "Other": 294,
+            "SQL": 312,
+            "TypeScript": 9370,
+            "YAML": 23
+          },
+          "truncated": 0
+        },
+        "2026-08-18": {
+          "commit_fingerprint": "2730bbbdb75846e3cc2790e84be6aae3af16fdb0fd8223d819300ca611a0858a",
+          "commits": 27,
+          "languages": {
+            "CSS": 21,
+            "Other": 26,
+            "SQL": 29,
+            "TypeScript": 1901
+          },
+          "truncated": 0
+        },
+        "2026-08-19": {
+          "commit_fingerprint": "c5eb2177612f6b5be8bc2b376a57c1793610a64b8e834b12b5b4f87b4c55f7d1",
+          "commits": 1,
+          "languages": {
+            "CSS": 3,
+            "TypeScript": 36
+          },
+          "truncated": 0
+        },
+        "2026-08-20": {
+          "commit_fingerprint": "87fadd6dc696b9abb0fadbc504ad8b688cff3d07711dcc3f737be9284f05f7e5",
+          "commits": 17,
+          "languages": {
+            "CSS": 90,
+            "Other": 31,
+            "SQL": 88,
+            "TypeScript": 5339,
+            "YAML": 21
+          },
+          "truncated": 0
+        },
+        "2026-08-21": {
+          "commit_fingerprint": "0ac962d410922581d01d219688c68f2ed6aacc2ed577c008e3011c6729d1737d",
+          "commits": 25,
+          "languages": {
+            "CSS": 554,
+            "Other": 66,
+            "SQL": 74,
+            "TypeScript": 5901,
+            "YAML": 14
+          },
+          "truncated": 0
+        },
+        "2026-08-22": {
+          "commit_fingerprint": "691b7e6ec71739bcd53f8c59cbbafa89fcee09b4e6f9eda5e460cb4e2055a32b",
+          "commits": 68,
+          "languages": {
+            "CSS": 2626,
+            "Other": 600,
+            "Python": 462,
+            "SQL": 556,
+            "TypeScript": 29643,
+            "YAML": 109
+          },
+          "truncated": 0
+        },
+        "2026-08-23": {
+          "commit_fingerprint": "1cd319ca075344586654a5bc7bba4a30053f4922f024a71187dbd6916fdbea68",
+          "commits": 104,
+          "languages": {
+            "CSS": 4458,
+            "Other": 526,
+            "Python": 462,
+            "SQL": 2289,
+            "Shell": 82,
+            "TypeScript": 33429,
+            "YAML": 48
+          },
+          "truncated": 0
+        },
+        "2026-08-24": {
+          "commit_fingerprint": "2d5f8b4e8b1298c3a26d9e1892219bd4d693fe315c42d1fbd40866084bdb57df",
+          "commits": 99,
+          "languages": {
+            "CSS": 2223,
+            "HTML": 8,
+            "Other": 109,
+            "SQL": 1617,
+            "TypeScript": 34399,
+            "YAML": 25
+          },
+          "truncated": 0
+        },
+        "2026-08-25": {
+          "commit_fingerprint": "962695d5e7b210f380b22c089da41e537a1d603d2807877415bdb6c321321e45",
+          "commits": 42,
+          "languages": {
+            "CSS": 975,
+            "Other": 28,
+            "SQL": 283,
+            "TypeScript": 8949,
+            "YAML": 6
+          },
+          "truncated": 0
+        },
+        "2026-08-26": {
+          "commit_fingerprint": "5d57c3cf1a74431a49fc013977799a6e3ef4c586316d1fe77d7f3f081279f108",
+          "commits": 71,
+          "languages": {
+            "CSS": 28798,
+            "Other": 54,
+            "SQL": 683,
+            "TypeScript": 21141,
+            "YAML": 11
+          },
+          "truncated": 0
+        },
+        "2026-08-27": {
+          "commit_fingerprint": "4c2061668f67b61bbb03580c588325184277ff8e04f1c544af1a692882fcc67b",
+          "commits": 88,
+          "languages": {
+            "Other": 8,
+            "SQL": 837,
+            "TypeScript": 25199
+          },
+          "truncated": 0
+        },
+        "2026-08-28": {
+          "commit_fingerprint": "913da90a428a04f59ad764ff3540e5fe3aad60d0c4d5035b62f784cffac4a1b6",
+          "commits": 103,
+          "languages": {
+            "HTML": 8,
+            "Other": 76,
+            "SQL": 12652,
+            "TypeScript": 92051
+          },
+          "truncated": 0
+        },
+        "2026-08-29": {
+          "commit_fingerprint": "56323f79c1a70084c7ec070f222f6928609ef064fde0eed40c74c3833070c8e8",
+          "commits": 106,
+          "languages": {
+            "Other": 64,
+            "SQL": 5363,
+            "TypeScript": 36703,
+            "YAML": 12
+          },
+          "truncated": 0
+        },
+        "2026-08-30": {
+          "commit_fingerprint": "b95529ce7755519ecbce34daa8617aabe93871c9bae973fccd6d5fa9ff8dc2bc",
+          "commits": 144,
+          "languages": {
+            "Other": 8,
+            "SQL": 851,
+            "TypeScript": 27942,
+            "YAML": 7
+          },
+          "truncated": 0
+        },
+        "2026-08-31": {
+          "commit_fingerprint": "2be93f4899c7fce74590da6aa842caba6e7fd04f77225535845708a4542f297c",
+          "commits": 71,
+          "languages": {
+            "CSS": 8,
+            "Other": 13,
+            "SQL": 2093,
+            "TypeScript": 11526
+          },
+          "truncated": 0
+        },
+        "2026-09-01": {
+          "commit_fingerprint": "c31a2f0e15ebe5bf5dcbf362d0f2be1c2fcf77aa45929d11f142a1e1792289c1",
+          "commits": 164,
+          "languages": {
+            "Other": 309,
+            "SQL": 1001,
+            "TypeScript": 32955,
+            "YAML": 4
+          },
+          "truncated": 0
+        },
+        "2026-09-02": {
+          "commit_fingerprint": "236db6823f8a0cda7f2f9df0318384d81b975517b115744f87957cb12203c4bb",
+          "commits": 73,
+          "languages": {
+            "CSS": 269,
+            "HTML": 120,
+            "Other": 40,
+            "SQL": 1977,
+            "TypeScript": 14489,
+            "YAML": 119
+          },
+          "truncated": 0
+        },
+        "2026-09-03": {
+          "commit_fingerprint": "d1ad70eb234a87e885f2a75cb4dcf07cbe6c1f657d4c840fc561fc3341a26239",
+          "commits": 102,
+          "languages": {
+            "Other": 11,
+            "SQL": 1102,
+            "TypeScript": 114002,
+            "YAML": 3
+          },
+          "truncated": 0
+        },
+        "2026-09-04": {
+          "commit_fingerprint": "251fee7d67f784aecf66b124e9d4f80baac34bd68fbbde75f533906f92c3f582",
+          "commits": 75,
+          "languages": {
+            "Other": 141,
+            "SQL": 291,
+            "TypeScript": 38636,
+            "YAML": 631
+          },
+          "truncated": 0
+        },
+        "2026-09-05": {
+          "commit_fingerprint": "c904b40cdbafc1631223bfea81e44696cd99424fa9bfe05fcb17986d8e48a343",
+          "commits": 25,
+          "languages": {
+            "JavaScript": 6,
+            "Other": 47,
+            "SQL": 1444,
+            "TypeScript": 9273,
+            "YAML": 56
+          },
+          "truncated": 0
+        },
+        "2026-09-06": {
+          "commit_fingerprint": "ccc50d9fcd5ef85d5a261caa6fcd536142408fdc4cdf3817912c005084c46e1b",
+          "commits": 56,
+          "languages": {
+            "Other": 6,
+            "SQL": 223,
+            "TypeScript": 14143,
+            "YAML": 276
+          },
+          "truncated": 0
+        },
+        "2026-09-07": {
+          "commit_fingerprint": "bac94a1856cd69b240a80994b74ba104dc45403a9cda47d764299a97a5dad4f3",
+          "commits": 47,
+          "languages": {
+            "Other": 216,
+            "Python": 134,
+            "SQL": 774,
+            "TypeScript": 32102,
+            "YAML": 18
+          },
+          "truncated": 0
+        },
+        "2026-09-08": {
+          "commit_fingerprint": "7509c961617159c6f08b964d8d2fe80758a6d64ad2c9174254f9915f6638d6eb",
+          "commits": 156,
+          "languages": {
+            "Other": 2050,
+            "Python": 532,
+            "SQL": 6012,
+            "Shell": 872,
+            "TypeScript": 127316,
+            "YAML": 435
+          },
+          "truncated": 0
+        },
+        "2026-09-09": {
+          "commit_fingerprint": "a703fcf73b4091babfb2fbd640f6d19840dfb3d51284531ee0047badcfcb76d7",
+          "commits": 97,
+          "languages": {
+            "Other": 76,
+            "SQL": 497,
+            "TypeScript": 39142,
+            "YAML": 6
+          },
+          "truncated": 0
+        },
+        "2026-09-10": {
+          "commit_fingerprint": "bd5ef98797cdbe0c90483aa75cf2128387c8d9cec97cae27d273ccb09cb37f4e",
+          "commits": 13,
+          "languages": {
+            "CSS": 764,
+            "Other": 16,
+            "TypeScript": 4510,
+            "YAML": 14
+          },
+          "truncated": 0
+        },
+        "2026-09-12": {
+          "commit_fingerprint": "4ac8d19aa746e73168f39bb4a36f38a6253fcc2bc556c5882cbd5ccd9422a913",
+          "commits": 44,
+          "languages": {
+            "CSS": 382,
+            "Other": 1233,
+            "Python": 229,
+            "SQL": 2117,
+            "Shell": 246,
+            "TypeScript": 57128,
+            "YAML": 130
+          },
+          "truncated": 0
+        },
+        "2026-09-13": {
+          "commit_fingerprint": "43c121a080e962e52552d1bebfd1956545c66a41f1c6167656a18588292eec22",
+          "commits": 98,
+          "languages": {
+            "CSS": 627,
+            "JavaScript": 6,
+            "Other": 7911,
+            "SQL": 2322,
+            "Shell": 240,
+            "TypeScript": 38062,
+            "YAML": 215
+          },
+          "truncated": 0
+        },
+        "2026-09-14": {
+          "commit_fingerprint": "c3ef64c7ecaf9731f5938f6c32d431711464807cac8207155d96c2b4997a120e",
+          "commits": 59,
+          "languages": {
+            "CSS": 1647,
+            "JavaScript": 6,
+            "Other": 7762,
+            "Python": 263,
+            "SQL": 7910,
+            "Shell": 270,
+            "TypeScript": 119195,
+            "YAML": 632
+          },
+          "truncated": 0
+        },
+        "2026-09-15": {
+          "commit_fingerprint": "f4501d9b264757a72847f9f34f650ebcfa1f7183b18ae0debe41a01b185915cb",
+          "commits": 100,
+          "languages": {
+            "C": 244,
+            "CSS": 1665,
+            "JavaScript": 6,
+            "Other": 12164,
+            "Python": 1717,
+            "SQL": 7528,
+            "Shell": 983,
+            "TypeScript": 148906,
+            "YAML": 933
+          },
+          "truncated": 0
+        },
+        "2026-09-16": {
+          "commit_fingerprint": "e0d6ab007fbb0097ceac2660c2d8d9ac00ffd794d539324dcab41d6389d59d61",
+          "commits": 41,
+          "languages": {
+            "CSS": 976,
+            "Other": 2932,
+            "Python": 842,
+            "SQL": 1418,
+            "Shell": 219,
+            "TypeScript": 31477,
+            "YAML": 190
+          },
+          "truncated": 0
+        },
+        "2026-09-17": {
+          "commit_fingerprint": "6bae7d2aff37113caefa87127867ed9ba164ce335d1528f77da0579cd023905b",
+          "commits": 52,
+          "languages": {
+            "CSS": 292,
+            "Other": 1009,
+            "Python": 440,
+            "SQL": 28,
+            "Shell": 9,
+            "TypeScript": 25629,
+            "YAML": 49
+          },
+          "truncated": 0
+        },
+        "2026-09-18": {
+          "commit_fingerprint": "0dbd8d5b7e5c97451204b450b1c7787a793377126b38a8d58d39acaa7a6b4f81",
+          "commits": 41,
+          "languages": {
+            "CSS": 646,
+            "HTML": 16421,
+            "Other": 2870,
+            "Python": 569,
+            "SQL": 804,
+            "Shell": 9,
+            "TypeScript": 49533,
+            "YAML": 94
+          },
+          "truncated": 0
+        },
+        "2026-09-19": {
+          "commit_fingerprint": "3c6488ae24d47cc965045634a14ff53cb95e60e8d1b2841680316362fe8b973c",
+          "commits": 43,
+          "languages": {
+            "Other": 339,
+            "SQL": 1455,
+            "Shell": 41,
+            "TypeScript": 27798,
+            "YAML": 103
+          },
+          "truncated": 0
+        },
+        "2026-09-20": {
+          "commit_fingerprint": "e3d240b563e9ae5c9d1c1c64b19c1abbb13e966cd61b812b06de64e6517c1ec2",
+          "commits": 137,
+          "languages": {
+            "Other": 2886,
+            "SQL": 2400,
+            "Shell": 198,
+            "TypeScript": 57267,
+            "YAML": 225
+          },
+          "truncated": 0
+        },
+        "2026-09-21": {
+          "commit_fingerprint": "b5229218b21ccff5c518c8693752fea00b7b3c15c977a89ea8e1775d2a4f6787",
+          "commits": 106,
+          "languages": {
+            "HTML": 14535,
+            "Other": 3301,
+            "SQL": 4224,
+            "Shell": 239,
+            "TypeScript": 113484,
+            "YAML": 304
+          },
+          "truncated": 0
+        },
+        "2026-09-22": {
+          "commit_fingerprint": "961d71dcc2039d909cb698fcc4f63d8405ad9b0dc47774fc858414f8f2d6b338",
+          "commits": 105,
+          "languages": {
+            "CSS": 18,
+            "Other": 1109,
+            "SQL": 3224,
+            "TypeScript": 50698,
+            "YAML": 114
+          },
+          "truncated": 0
+        },
+        "2026-09-23": {
+          "commit_fingerprint": "6966a0d7340929c4f2bcdc4680156198c0b87dbc7aac591c0950ae62c20319a1",
+          "commits": 96,
+          "languages": {
+            "Other": 559,
+            "SQL": 2202,
+            "Shell": 7,
+            "TypeScript": 34209,
+            "YAML": 157
+          },
+          "truncated": 0
+        },
+        "2026-09-24": {
+          "commit_fingerprint": "d26a013b3a1705426727abfa0342c882b1ac482580bab4568da96abd9a5c85b4",
+          "commits": 89,
+          "languages": {
+            "Other": 250,
+            "SQL": 397,
+            "TypeScript": 40624,
+            "YAML": 169
+          },
+          "truncated": 0
+        },
+        "2026-09-25": {
+          "commit_fingerprint": "d9469d8ff1db2134425e6a19602a0ae3f75d259c87fbac306d08a741673277df",
+          "commits": 8,
+          "languages": {
+            "Other": 98,
+            "Shell": 4,
+            "TypeScript": 1015
+          },
+          "truncated": 0
+        },
+        "2026-09-26": {
+          "commit_fingerprint": "4edc1120d2132010d8e304c4e5e3fee72b36228642b3e496088236654cf62e8c",
+          "commits": 16,
+          "languages": {
+            "Other": 219,
+            "Shell": 4,
+            "TypeScript": 11506,
+            "YAML": 6
+          },
+          "truncated": 0
+        },
+        "2026-09-27": {
+          "commit_fingerprint": "41cedd486ec7cbf71aa1f37db97e828e106cbe99cf89237e05d5d8a87f8e4a0c",
+          "commits": 7,
+          "languages": {
+            "TypeScript": 470
+          },
+          "truncated": 0
+        },
+        "2026-09-28": {
+          "commit_fingerprint": "12c24dc459656b08f8b0f22fdf3ae7fcc860cce401af3c24223c0c596edbfc47",
+          "commits": 55,
+          "languages": {
+            "TypeScript": 5868
+          },
+          "truncated": 0
+        },
+        "2026-09-29": {
+          "commit_fingerprint": "0fe84db2a78f41d7d614d7a1cde65af0f744f0b955589c0a49624d747cb70f3c",
+          "commits": 23,
+          "languages": {
+            "Python": 93,
+            "SQL": 390,
+            "TypeScript": 3215
+          },
+          "truncated": 0
+        },
+        "2026-09-30": {
+          "commit_fingerprint": "6f9307551774f9622dabf39c5191481ee7d3a3071af25c0073feae9282342334",
+          "commits": 55,
+          "languages": {
+            "CSS": 56,
+            "Other": 1,
+            "SQL": 98,
+            "Shell": 8,
+            "TypeScript": 8952
+          },
+          "truncated": 0
+        },
+        "2026-10-01": {
+          "commit_fingerprint": "16e01e24998c331a8dde93e149062da2afe4cc58603ec89c7c84a83ef58759f5",
+          "commits": 17,
+          "languages": {
+            "CSS": 56,
+            "Other": 16,
+            "Python": 291,
+            "SQL": 592,
+            "Shell": 8,
+            "TypeScript": 27661
+          },
+          "truncated": 0
+        }
+      }
     },
     "155a68072aedbc65ee85a7d45a80d7a342d5e253ae224212634afee27f541955": {
       "days": {}
@@ -2573,7 +3294,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-06",
+  "start_date": "2025-10-07",
   "username": "mileslow",
   "window_days": 365
 }

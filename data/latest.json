@@ -6,7 +6,7 @@
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
-    "repositories_scanned": 156,
+    "repositories_scanned": 157,
     "repository_hashes": [
       "0040f54955033d0194ef8318e7fe465c0b7131527401ae7abedb51f60606ca17",
       "004822ad2f0483e98c1dd20352e8215298fc6beab10df96d9160ca23cdd68c7a",
@@ -66,6 +66,7 @@
       "4c337c20beb63ca114e12b2e7616d9c7cd201661a8fb5986ce1397457f7da84c",
       "510e813ee5aa9f64fce8afaba83fe4276170427f493ea22991f72a796bd9f345",
       "5398da86fa167af09e81f0d3d868cdb06f752b7fa56e5ddc4376d6842b367986",
+      "54a73280f89fd11013809e06f4bc83e84cfd7bf59ff223795daa40b76bac2ddc",
       "588fee90a7bfe3036e6c25e321e4176fb23ca292a9ba1217339ba9d95697fb73",
       "5b0b9cfd9f2b01f3aff458049ffcd859135747a049d3f1a8b7f60510b511792d",
       "5e73c14e55898fad8af8675fd85173391c7ca25036a2b1a7a43506f6c7432264",
@@ -167,7 +168,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-07": 0,
     "2025-10-08": 0,
     "2025-10-09": 93,
     "2025-10-10": 48,
@@ -531,9 +531,10 @@
     "2026-10-03": 521,
     "2026-10-04": 0,
     "2026-10-05": 0,
-    "2026-10-06": 0
+    "2026-10-06": 0,
+    "2026-10-07": 0
   },
-  "end_date": "2026-10-06",
+  "end_date": "2026-10-07",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -553,7 +554,7 @@
     "Vue": 206,
     "YAML": 14217
   },
-  "last_successful_scan_at": "2026-10-07T22:14:08.248451+00:00",
+  "last_successful_scan_at": "2026-10-08T22:05:36.472325+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -780,10 +781,10 @@
       "YAML": 3215
     }
   },
-  "repositories_accessible": 61,
+  "repositories_accessible": 62,
   "repositories_carried_forward": 95,
   "repositories_permanently_inaccessible": 1,
-  "repositories_scanned": 156,
+  "repositories_scanned": 157,
   "repositories_skipped": 0,
   "repository_snapshots": {
     "0040f54955033d0194ef8318e7fe465c0b7131527401ae7abedb51f60606ca17": {
@@ -2555,6 +2556,9 @@
     "5398da86fa167af09e81f0d3d868cdb06f752b7fa56e5ddc4376d6842b367986": {
       "days": {}
     },
+    "54a73280f89fd11013809e06f4bc83e84cfd7bf59ff223795daa40b76bac2ddc": {
+      "days": {}
+    },
     "5b0b9cfd9f2b01f3aff458049ffcd859135747a049d3f1a8b7f60510b511792d": {
       "days": {
         "2026-02-03": {
@@ -3294,7 +3298,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-07",
+  "start_date": "2025-10-08",
   "username": "mileslow",
   "window_days": 365
 }

@@ -1,8 +1,8 @@
 {
-  "active_days": 296,
-  "authored_commits": 8865,
-  "code_lines_changed": 5467770,
-  "code_lines_observed": 5467770,
+  "active_days": 297,
+  "authored_commits": 8876,
+  "code_lines_changed": 5469539,
+  "code_lines_observed": 5469539,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -168,7 +168,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-08": 0,
     "2025-10-09": 93,
     "2025-10-10": 48,
     "2025-10-11": 0,
@@ -532,9 +531,10 @@
     "2026-10-04": 0,
     "2026-10-05": 0,
     "2026-10-06": 0,
-    "2026-10-07": 0
+    "2026-10-07": 0,
+    "2026-10-08": 1769
   },
-  "end_date": "2026-10-07",
+  "end_date": "2026-10-08",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -544,17 +544,17 @@
     "C": 840,
     "C/C++": 84,
     "CSS": 159184,
-    "HTML": 69005,
-    "JavaScript": 100197,
-    "Other": 264240,
+    "HTML": 70158,
+    "JavaScript": 100648,
+    "Other": 264352,
     "Python": 593499,
-    "SQL": 160626,
+    "SQL": 160679,
     "Shell": 65653,
     "TypeScript": 3799261,
     "Vue": 206,
     "YAML": 14217
   },
-  "last_successful_scan_at": "2026-10-08T22:05:36.472325+00:00",
+  "last_successful_scan_at": "2026-10-09T21:42:13.931120+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -2557,7 +2557,19 @@
       "days": {}
     },
     "54a73280f89fd11013809e06f4bc83e84cfd7bf59ff223795daa40b76bac2ddc": {
-      "days": {}
+      "days": {
+        "2026-10-08": {
+          "commit_fingerprint": "d9ffdeca0b424567b299f6600df9c0f720b27652562e7e07e932b19b46a31e55",
+          "commits": 11,
+          "languages": {
+            "HTML": 1153,
+            "JavaScript": 451,
+            "Other": 112,
+            "SQL": 53
+          },
+          "truncated": 0
+        }
+      }
     },
     "5b0b9cfd9f2b01f3aff458049ffcd859135747a049d3f1a8b7f60510b511792d": {
       "days": {
@@ -3298,7 +3310,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-08",
+  "start_date": "2025-10-09",
   "username": "mileslow",
   "window_days": 365
 }

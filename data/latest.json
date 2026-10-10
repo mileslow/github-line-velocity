@@ -1,8 +1,8 @@
 {
-  "active_days": 297,
+  "active_days": 296,
   "authored_commits": 8876,
-  "code_lines_changed": 5469539,
-  "code_lines_observed": 5469539,
+  "code_lines_changed": 5469446,
+  "code_lines_observed": 5469446,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -168,7 +168,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-09": 93,
     "2025-10-10": 48,
     "2025-10-11": 0,
     "2025-10-12": 22,
@@ -532,9 +531,10 @@
     "2026-10-05": 0,
     "2026-10-06": 0,
     "2026-10-07": 0,
-    "2026-10-08": 1769
+    "2026-10-08": 1769,
+    "2026-10-09": 0
   },
-  "end_date": "2026-10-08",
+  "end_date": "2026-10-09",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -554,12 +554,11 @@
     "Vue": 206,
     "YAML": 14217
   },
-  "last_successful_scan_at": "2026-10-09T21:42:13.931120+00:00",
+  "last_successful_scan_at": "2026-10-10T20:34:47.489460+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-10-09": 93,
       "2025-10-10": 48,
       "2025-10-12": 22,
       "2025-10-13": 173,
@@ -3310,7 +3309,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-09",
+  "start_date": "2025-10-10",
   "username": "mileslow",
   "window_days": 365
 }

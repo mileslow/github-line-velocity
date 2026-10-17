@@ -168,7 +168,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-16": 0,
     "2025-10-17": 192,
     "2025-10-18": 0,
     "2025-10-19": 9167,
@@ -532,9 +531,10 @@
     "2026-10-12": 31502,
     "2026-10-13": 15246,
     "2026-10-14": 17683,
-    "2026-10-15": 0
+    "2026-10-15": 0,
+    "2026-10-16": 0
   },
-  "end_date": "2026-10-15",
+  "end_date": "2026-10-16",
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,
@@ -554,7 +554,7 @@
     "Vue": 206,
     "YAML": 14217
   },
-  "last_successful_scan_at": "2026-10-16T19:58:27.605017+00:00",
+  "last_successful_scan_at": "2026-10-17T19:25:55.320814+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -3433,7 +3433,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-16",
+  "start_date": "2025-10-17",
   "username": "mileslow",
   "window_days": 365
 }

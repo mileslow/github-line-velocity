@@ -1,6 +1,20 @@
 {
   "active_days": 299,
   "authored_commits": 9114,
+  "classified_languages": {
+    "C": 840,
+    "C/C++": 84,
+    "CSS": 159785,
+    "HTML": 70697,
+    "JavaScript": 83151,
+    "Other": 174544,
+    "Python": 19693,
+    "SQL": 163038,
+    "Shell": 9611,
+    "TypeScript": 3802348,
+    "Vue": 206,
+    "YAML": 11002
+  },
   "code_lines_changed": 5548093,
   "code_lines_observed": 5548093,
   "commit_detail_failures": 0,
@@ -535,6 +549,13 @@
     "2026-10-17": 0
   },
   "end_date": "2026-10-17",
+  "github_contributions": {
+    "commit_contributions": 284,
+    "end_date": "2026-10-17",
+    "restricted_contributions_count": 6387,
+    "start_date": "2025-10-18",
+    "total_contributions": 6679
+  },
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
   "historical_backfill_recent_days": 21,

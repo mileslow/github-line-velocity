@@ -73,14 +73,25 @@ class GeneratorIntegrationTests(unittest.TestCase):
                                       organization=[], workers=2, cache_dir=root / "cache", output_dir=str(root))
             yesterday = dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)
             date = yesterday.isoformat()
+            contributions = {
+                "start_date": (yesterday - dt.timedelta(days=args.days - 1)).isoformat(),
+                "end_date": date,
+                "commit_contributions": 2,
+                "total_contributions": 3,
+                "restricted_contributions_count": 1,
+            }
             commits = [{"sha": "one", "commit": {"author": {"date": date + "T12:00:00Z"}}}]
             with patch.object(generator, "parse_args", return_value=args), \
                  patch.dict("os.environ", {"GH_TOKEN": "test"}), \
                  patch.object(generator, "list_repositories", return_value=[{"full_name": "test/source"}]), \
+                 patch.object(generator, "fetch_contributions", return_value=contributions) as profile_counts, \
                  patch.object(generator, "list_authored_commits", side_effect=lambda *a: list(commits)) as listing, \
                  patch.object(generator, "commit_detail_stats", return_value=(date, Counter(Python=10), 0)) as detail:
                 self.assertEqual(generator.main(), 0)
-                self.assertEqual(json.loads((root / "latest.json").read_text())["end_date"], date)
+                first_snapshot = json.loads((root / "latest.json").read_text())
+                self.assertEqual(first_snapshot["end_date"], date)
+                self.assertEqual(first_snapshot["github_contributions"], contributions)
+                self.assertEqual(first_snapshot["authored_commits"], 1)
                 commits.append({"sha": "two", "commit": {"author": {"date": date + "T20:00:00Z"}}})
                 self.assertEqual(generator.main(), 0)
                 saved = (root / "latest.json").read_bytes()
@@ -97,6 +108,13 @@ class GeneratorIntegrationTests(unittest.TestCase):
                 listing.side_effect = generator.ApiError("temporary server error", status=503)
                 with self.assertRaisesRegex(SystemExit, "SCAN_BLOCKED"):
                     generator.main()
+                self.assertEqual((root / "latest.json").read_bytes(), saved)
+                self.assertEqual((root / "github-line-velocity.svg").read_bytes(), svg)
+                listing.reset_mock(side_effect=True)
+                profile_counts.side_effect = ValueError("inconsistent contribution collection")
+                with self.assertRaisesRegex(SystemExit, "SCAN_BLOCKED"):
+                    generator.main()
+                listing.assert_not_called()
                 self.assertEqual((root / "latest.json").read_bytes(), saved)
                 self.assertEqual((root / "github-line-velocity.svg").read_bytes(), svg)
 

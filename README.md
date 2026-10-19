@@ -4,6 +4,21 @@ This project regenerates the aggregate code-activity graphic embedded in
 [`mileslow/mileslow`](https://github.com/mileslow/mileslow), Miles Low's GitHub
 profile README.
 
+The public contribution and visible-commit counts come from GitHub's GraphQL
+contribution collection for the exact completed UTC date range shown in the
+graphic. The total includes restricted private activity; the visible commit
+count includes only the commits GitHub exposes to the updater. Repository-scan
+`authored_commits` is an internal diagnostic and is never displayed as GitHub
+contributions. Missing, partial, or inconsistent contribution responses block
+the refresh and preserve the previous published graphic.
+
+The graphic gives contribution metrics, languages, model usage, and code
+activity separate sections. Language percentages use verified repository daily
+history and exclude opaque legacy language carry; the classified-change total
+is shown separately from the code headline, which includes preserved history.
+Model usage displays its own snapshot dates because the model archive covers
+a different period from GitHub activity.
+
 It scans the authenticated user's accessible, non-fork, non-archived default
 branches through GitHub's commit and commit-stat APIs for authored commits in
 the last 365 completed UTC days (through yesterday). It counts changed lines in code-like files—GitHub additions

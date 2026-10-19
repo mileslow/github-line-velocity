@@ -20,9 +20,11 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from .scan_history import collect_history, reconcile_history
+    from .scan_history import collect_history, reconcile_history, summarize
+    from .contributions import fetch_contributions
 except ImportError:
-    from scan_history import collect_history, reconcile_history
+    from scan_history import collect_history, reconcile_history, summarize
+    from contributions import fetch_contributions
 
 
 API_ROOT = "https://api.github.com"
@@ -821,6 +823,14 @@ def load_model_usage(path: Path) -> tuple[list[tuple[str, float, str]], int]:
     return segments, total_tokens
 
 
+def model_usage_period(path: Path) -> str:
+    snapshot = json.loads(path.read_text(encoding="utf-8"))
+    start, end = snapshot.get("start_date"), snapshot.get("end_date")
+    if not start or not end:
+        return "Preserved model-usage snapshot"
+    return f"{dt.date.fromisoformat(start)} – {dt.date.fromisoformat(end)}"
+
+
 def render_svg(
     start: dt.date,
     end: dt.date,
@@ -830,113 +840,118 @@ def render_svg(
     model_segments: list[tuple[str, float, str]],
     model_tokens: int,
     display_line_total: int | None = None,
+    total_contributions: int | None = None,
+    model_period: str = "",
+    restricted_contributions: int = 0,
 ) -> str:
     total = sum(daily.values()) if display_line_total is None else display_line_total
     active_days = sum(1 for value in daily.values() if value)
     days = [start + dt.timedelta(days=offset) for offset in range((end - start).days + 1)]
+    if total_contributions is not None and not 0 <= commits <= total_contributions:
+        raise ValueError("GitHub commits must be a subset of total contributions")
     language_rows = sorted(languages.items(), key=lambda item: (-item[1], item[0]))
     named_languages = [(name, value) for name, value in language_rows if name != "Other"]
     top_languages = named_languages[:5]
     other = languages.get("Other", 0) + sum(value for _, value in named_languages[5:])
     if other:
         top_languages.append(("Other", other))
-    language_max = max((value for _, value in top_languages), default=1)
-
-    graph_points: list[tuple[dt.date, dt.date, int]] = []
-    for offset in range(0, len(days), 2):
-        bucket = days[offset : offset + 2]
-        graph_points.append(
-            (
-                bucket[0],
-                bucket[-1],
-                sum(daily[day.isoformat()] for day in bucket),
-            )
-        )
-    max_value = max((value for _, _, value in graph_points), default=0)
-    graph_height = 80.0
+    language_total = sum(languages.values())
 
     def esc(value: object) -> str:
         return html.escape(str(value), quote=True)
 
-    def lang_line(x: int, value_x: int, bar_x: int, index: int, name: str, value: int) -> str:
-        y = 144 + index * 18
-        bar_width = max(3, round(170 * value / language_max))
-        return (
-            f'<text x="{x}" y="{y}" class="small">{esc(name)}</text>'
-            f'<text x="{value_x}" y="{y}" class="small">{compact_number(value)}</text>'
-            f'<rect x="{bar_x}" y="{y - 9}" width="{bar_width}" height="8" fill="#111"/>'
-        )
+    def label(x: float, y: float, value: object, style: str = "small", anchor: str = "start") -> str:
+        return f'<text x="{x:g}" y="{y:g}" class="{style}" text-anchor="{anchor}">{esc(value)}</text>'
+
+    def breakdown(x: int, index: int, name: str, percentage: float, color: str = "#111") -> list[str]:
+        y = 296 + index * 34
+        return [
+            f'<g><title>{esc(name)}</title>{label(x, y, name if len(name) <= 43 else name[:42] + "…")}</g>',
+            label(x + 404, y, f"{percentage:.1f}%", anchor="end"),
+            f'<rect x="{x}" y="{y + 9}" width="404" height="5" rx="2.5" fill="#eee"/>',
+            f'<rect x="{x}" y="{y + 9}" width="{404 * percentage / 100:.2f}" height="5" rx="2.5" fill="{color}"/>',
+        ]
 
     lines = [
-        '<svg width="1000" height="320" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">',
-        '<title id="title">Miles Low GitHub velocity, languages, and model split</title>',
-        f'<desc id="desc">Last {len(days)} days of lines through {esc(end.isoformat())}, with a language summary and model usage donut chart.</desc>',
-        "<style>",
-        '  text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }',
-        "  .title { font-size: 28px; font-weight: 700; }",
-        "  .body { font-size: 14px; }",
-        "  .small { font-size: 12px; }",
-        "  .tiny { font-size: 11px; fill: #666; }",
-        "  .axis { stroke: #111; stroke-width: 1; shape-rendering: crispEdges; }",
-        "  .bar { stroke: #111; stroke-width: 2; opacity: 0.42; shape-rendering: crispEdges; }",
-        "</style>",
-        '<rect width="1000" height="320" fill="#fff"/>',
-        f'<text x="54" y="52" class="title">{compact_number(total)} lines / {len(days)} days</text>',
-        f'<text x="54" y="84" class="body">{commits:,} commits · {active_days} active days · {compact_token_count(model_tokens)} tokens</text>',
-        '<text x="54" y="122" class="small">languages</text>',
+        '<svg width="1000" height="730" viewBox="0 0 1000 730" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">',
+        '<title id="title">Miles Low GitHub activity, languages, and model usage</title>',
+        f'<desc id="desc">{commits:,} visible GitHub commit contributions out of {total_contributions if total_contributions is not None else "unavailable"} total contributions. {total:,} code changes across {len(days)} completed UTC days from {start} through {end}. Language and model shares are separate breakdowns.</desc>',
+        '<style>',
+        'text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }',
+        '.title { font-size: 26px; font-weight: 700; }',
+        '.value { font-size: 28px; font-weight: 700; }',
+        '.heading { font-size: 16px; font-weight: 700; }',
+        '.small { font-size: 12px; }',
+        '.tiny { font-size: 11px; fill: #666; }',
+        '.axis { stroke: #bbb; stroke-width: 1; }',
+        '.bar { stroke: #111; stroke-width: 2; opacity: .3; }',
+        '</style>',
+        '<rect width="1000" height="730" rx="12" fill="#fff"/>',
+        label(48, 49, "GitHub activity", "title"),
+        label(48, 76, f"{start:%b %d, %Y} – {end:%b %d, %Y} · {len(days)} completed UTC days", "tiny"),
     ]
-    lines.extend(
-        lang_line(54, 150, 198, index, name, value)
-        for index, (name, value) in enumerate(top_languages[:3])
-    )
-    lines.extend(
-        lang_line(384, 440, 480, index, name, value)
-        for index, (name, value) in enumerate(top_languages[3:6])
-    )
-    lines.append('<text x="660" y="62" class="body">model breakdown</text>')
-
-    offset = 0.0
-    for name, percentage, color in model_segments:
-        lines.append(
-            f'<circle cx="718" cy="132" r="48" fill="none" stroke="{color}" stroke-width="22" '
-            f'pathLength="100" stroke-dasharray="{percentage:.1f} {100 - percentage:.1f}" '
-            f'stroke-dashoffset="-{offset:.1f}" transform="rotate(-90 718 132)"><title>{esc(name)}: {percentage:.1f}%</title></circle>'
-        )
-        offset += percentage
-    lines.extend(
-        f'<text x="806" y="{84 + index * 20}" class="tiny">{esc(name)} {percentage:.1f}%</text>'
-        for index, (name, percentage, _) in enumerate(model_segments)
-    )
-
-    x0, x1, baseline = 54.0, 964.0, 284.0
+    metrics = [
+        (48, "Total contributions", f"{total_contributions:,}" if total_contributions is not None else "—", f"{restricted_contributions:,} private included" if restricted_contributions else "GitHub contribution calendar"),
+        (290, "Visible commit contributions", f"{commits:,}", "Subset of total contributions"),
+        (532, "Active coding days", str(active_days), "Days with code changes"),
+        (774, "Code changes", compact_number(total), "Additions + deletions"),
+    ]
+    for x, name, value, note in metrics:
+        lines.extend([label(x, 117, name), label(x, 151, value, "value"), label(x, 174, note, "tiny")])
+    lines.extend([
+        '<path d="M48 198H952 M500 220V488 M48 510H952" fill="none" stroke="#ddd"/>',
+        label(48, 229, "Languages", "heading"),
+        label(48, 251, "Share of changes with verified language history", "tiny"),
+        label(48, 268, f"{compact_number(language_total)} classified changes", "tiny"),
+        label(548, 229, "Model usage", "heading"),
+        label(548, 251, f"{compact_token_count(model_tokens)} tokens · recorded usage + archived baseline", "tiny"),
+        label(548, 268, model_period or "Preserved model-usage snapshot", "tiny"),
+    ])
+    for index, (name, value) in enumerate(top_languages):
+        percentage = value / language_total * 100 if language_total else 0
+        lines.extend(breakdown(48, index, name, percentage))
+    if not top_languages:
+        lines.append(label(48, 296, "No classified code changes", "tiny"))
+    for index, (name, percentage, color) in enumerate(model_segments):
+        lines.extend(breakdown(548, index, name, percentage, color))
+    if not model_segments:
+        lines.append(label(548, 296, "No model breakdown available", "tiny"))
+    lines.extend([
+        label(48, 542, "Code activity", "heading"),
+        label(48, 563, "Additions + deletions per two-day period · linear scale", "tiny"),
+    ])
+    graph_points = []
+    for offset in range(0, len(days), 2):
+        bucket = days[offset:offset + 2]
+        graph_points.append((bucket[0], bucket[-1], sum(daily[day.isoformat()] for day in bucket)))
+    max_value = max((value for _, _, value in graph_points), default=0)
+    x0, x1, baseline, graph_height = 48.0, 952.0, 660.0, 80.0
     step = (x1 - x0) / max(1, len(graph_points) - 1)
-    points: list[str] = []
+    points = []
     for index, (bucket_start, bucket_end, value) in enumerate(graph_points):
-        height = graph_height * value / max_value if max_value else 0
         x = x0 + index * step
-        y = baseline - height
-        bucket_label = (
-            bucket_start.isoformat()
-            if bucket_start == bucket_end
-            else f"{bucket_start.isoformat()} to {bucket_end.isoformat()}"
-        )
-        lines.append(
-            f'<line x1="{x:.2f}" y1="{baseline:.1f}" x2="{x:.2f}" y2="{y:.1f}" class="bar">'
-            f'<title>{esc(bucket_label)}: {value:,} lines</title></line>'
-        )
+        y = baseline - (graph_height * value / max_value if max_value else 0)
+        period = bucket_start.isoformat() if bucket_start == bucket_end else f"{bucket_start} to {bucket_end}"
+        lines.append(f'<line x1="{x:.2f}" y1="{baseline:.1f}" x2="{x:.2f}" y2="{y:.1f}" class="bar"><title>{period}: {value:,} lines</title></line>')
         points.append(f"{x:.1f},{y:.1f}")
     lines.append(f'<polyline points="{" ".join(points)}" fill="none" stroke="#111" stroke-width="1.4"/>')
+    lines.append('<line x1="48" y1="660" x2="952" y2="660" class="axis"/>')
     seen_months: set[tuple[int, int]] = set()
+    last_month_x = -100.0
     for index, (day, _, _) in enumerate(graph_points):
         month = (day.year, day.month)
         if month in seen_months:
             continue
         seen_months.add(month)
         x = x0 + index * step
-        lines.append(f'<text x="{x:.1f}" y="306" class="tiny">{esc(day.strftime("%b").lower())}</text>')
-    lines.extend(
-        ['<line x1="54" y1="284" x2="964" y2="284" class="axis"/>', "</svg>"]
-    )
+        if x - last_month_x < 42 or x > x1 - 20:
+            continue
+        lines.append(label(x, 681, day.strftime("%b").lower(), "tiny"))
+        last_month_x = x
+    lines.extend([
+        label(48, 711, "Code totals include preserved history; language shares cover verified repository history.", "tiny"),
+        '</svg>',
+    ])
     return "\n".join(lines) + "\n"
 
 
@@ -981,6 +996,12 @@ def main() -> int:
     # Only completed UTC days are final. Manual reruns still rescan the window.
     end = dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)
     start = end - dt.timedelta(days=args.days - 1)
+    try:
+        contributions = fetch_contributions(token, args.username, start, end, github_request)
+    except (RuntimeError, ValueError) as error:
+        raise SystemExit(
+            f"SCAN_BLOCKED: could not verify GitHub contribution totals: {error}"
+        ) from error
     excluded = {args.profile_repo, args.generator_repo}
     public_token = os.environ.get("GITHUB_TOKEN") or token
     scan_mode = "authenticated"
@@ -1039,6 +1060,7 @@ def main() -> int:
         raise SystemExit(f"SCAN_BLOCKED: invalid saved repository history: {error}") from error
     daily = Counter(totals["daily_lines_changed"])
     languages = Counter(totals["languages"])
+    classified_languages = summarize(list(repository_snapshots.values()))["languages"]
     commits = totals["authored_commits"]
     previous_repository_baseline = minimum_repository_baseline(previous_stats) if previous_stats else 0
     previous_hashes = baseline_repository_hashes(previous_stats) if previous_stats else set()
@@ -1054,6 +1076,7 @@ def main() -> int:
         "code_lines_changed": headline_line_total,
         "code_lines_observed": sum(daily.values()),
         "authored_commits": commits,
+        "github_contributions": contributions,
         "active_days": sum(1 for value in daily.values() if value),
         "repositories_scanned": max(previous_repository_baseline or 0, len(covered_hashes)),
         "repositories_accessible": len(repos),
@@ -1063,6 +1086,7 @@ def main() -> int:
         "commits_with_truncated_file_lists": totals["commits_with_truncated_file_lists"],
         "commit_detail_failures": 0,
         "languages": dict(sorted(languages.items(), key=lambda item: (-item[1], item[0]))),
+        "classified_languages": classified_languages,
         "daily_lines_changed": {day.isoformat(): daily[day.isoformat()] for day in
                                 (start + dt.timedelta(days=i) for i in range(args.days))},
         "repository_snapshots": repository_snapshots,
@@ -1095,11 +1119,14 @@ def main() -> int:
         start,
         end,
         daily,
-        languages,
-        commits,
+        Counter(classified_languages),
+        contributions["commit_contributions"],
         model_segments,
         model_tokens,
         headline_line_total,
+        total_contributions=contributions["total_contributions"],
+        model_period=model_usage_period(model_usage_path),
+        restricted_contributions=contributions["restricted_contributions_count"],
     )
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

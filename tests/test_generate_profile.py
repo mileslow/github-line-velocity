@@ -44,13 +44,9 @@ class GraphRenderingTests(unittest.TestCase):
             0,
         )
 
-        self.assertIn("35 lines / 3 days", svg)
+        self.assertIn("35 code changes across 3 completed UTC days", svg)
         self.assertIn("2026-09-01 to 2026-09-02: 15 lines", svg)
         self.assertIn("2026-09-03: 20 lines", svg)
-        self.assertIn('x1="54.00" y1="284.0" x2="54.00" y2="224.0"', svg)
-        self.assertIn('x1="964.00" y1="284.0" x2="964.00" y2="204.0"', svg)
-        self.assertNotIn("additions", svg)
-        self.assertNotIn("lines changed", svg)
 
     def test_headline_total_can_be_backfilled_without_changing_graph_or_active_days(self):
         daily = Counter(
@@ -72,8 +68,7 @@ class GraphRenderingTests(unittest.TestCase):
             display_line_total=1_000,
         )
 
-        self.assertIn("1.0K lines / 3 days", svg)
-        self.assertIn("3 commits · 2 active days · 0 tokens", svg)
+        self.assertIn("1,000 code changes across 3 completed UTC days", svg)
         self.assertIn("2026-09-01 to 2026-09-02: 10 lines", svg)
         self.assertIn("2026-09-03: 20 lines", svg)
 

@@ -1,6 +1,6 @@
 {
   "active_days": 303,
-  "authored_commits": 9635,
+  "authored_commits": 9664,
   "classified_languages": {
     "C": 840,
     "C/C++": 84,
@@ -8,16 +8,16 @@
     "Go": 768,
     "HTML": 70649,
     "JavaScript": 83151,
-    "Other": 177808,
+    "Other": 177952,
     "Python": 21232,
-    "SQL": 166195,
+    "SQL": 168655,
     "Shell": 9649,
-    "TypeScript": 3965471,
+    "TypeScript": 3972702,
     "Vue": 206,
     "YAML": 11094
   },
-  "code_lines_changed": 5710118,
-  "code_lines_observed": 5710118,
+  "code_lines_changed": 5719378,
+  "code_lines_observed": 5719378,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -184,7 +184,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-10-22": 575,
     "2025-10-23": 763,
     "2025-10-24": 1940,
     "2025-10-25": 0,
@@ -548,15 +547,16 @@
     "2026-10-18": 25376,
     "2026-10-19": 63537,
     "2026-10-20": 8533,
-    "2026-10-21": 41770
+    "2026-10-21": 41770,
+    "2026-10-22": 9835
   },
-  "end_date": "2026-10-21",
+  "end_date": "2026-10-22",
   "github_contributions": {
-    "commit_contributions": 292,
-    "end_date": "2026-10-21",
-    "restricted_contributions_count": 6712,
-    "start_date": "2025-10-22",
-    "total_contributions": 7012
+    "commit_contributions": 293,
+    "end_date": "2026-10-22",
+    "restricted_contributions_count": 6728,
+    "start_date": "2025-10-23",
+    "total_contributions": 7029
   },
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
@@ -570,20 +570,19 @@
     "Go": 768,
     "HTML": 70649,
     "JavaScript": 101679,
-    "Other": 270352,
+    "Other": 270496,
     "Python": 595259,
-    "SQL": 166195,
+    "SQL": 168655,
     "Shell": 65711,
-    "TypeScript": 4039546,
+    "TypeScript": 4046777,
     "Vue": 206,
     "YAML": 14309
   },
-  "last_successful_scan_at": "2026-10-22T20:35:46.318372+00:00",
+  "last_successful_scan_at": "2026-10-23T20:28:22.676750+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-10-22": 575,
       "2025-10-23": 763,
       "2025-10-24": 1940,
       "2025-10-27": 7542,
@@ -1753,6 +1752,16 @@
             "Shell": 38,
             "TypeScript": 34468,
             "YAML": 52
+          },
+          "truncated": 0
+        },
+        "2026-10-22": {
+          "commit_fingerprint": "ddbe366bb87043c5a0bc4dc5796ab100d23eadf158e17da3f50935b9d78bf3ba",
+          "commits": 29,
+          "languages": {
+            "Other": 144,
+            "SQL": 2460,
+            "TypeScript": 7231
           },
           "truncated": 0
         }
@@ -3525,7 +3534,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-10-22",
+  "start_date": "2025-10-23",
   "username": "mileslow",
   "window_days": 365
 }

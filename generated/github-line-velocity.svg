@@ -1,6 +1,6 @@
 <svg width="1000" height="730" viewBox="0 0 1000 730" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
 <title id="title">Miles Low GitHub activity, languages, and model usage</title>
-<desc id="desc">298 visible GitHub commit contributions out of 7182 total contributions. 5,809,013 code changes across 365 completed UTC days from 2025-10-28 through 2026-10-27. Language and model shares are separate breakdowns.</desc>
+<desc id="desc">299 visible GitHub commit contributions out of 7187 total contributions. 5,776,799 code changes across 365 completed UTC days from 2025-10-29 through 2026-10-28. Language and model shares are separate breakdowns.</desc>
 <style>
 text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; fill: #111; }
 .title { font-size: 26px; font-weight: 700; }
@@ -13,18 +13,18 @@ text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation M
 </style>
 <rect width="1000" height="730" rx="12" fill="#fff"/>
 <text x="48" y="49" class="title" text-anchor="start">GitHub activity</text>
-<text x="48" y="76" class="tiny" text-anchor="start">Oct 28, 2025 – Oct 27, 2026 · 365 completed UTC days</text>
+<text x="48" y="76" class="tiny" text-anchor="start">Oct 29, 2025 – Oct 28, 2026 · 365 completed UTC days</text>
 <text x="48" y="117" class="small" text-anchor="start">Total contributions</text>
-<text x="48" y="151" class="value" text-anchor="start">7,182</text>
-<text x="48" y="174" class="tiny" text-anchor="start">6,876 private included</text>
+<text x="48" y="151" class="value" text-anchor="start">7,187</text>
+<text x="48" y="174" class="tiny" text-anchor="start">6,880 private included</text>
 <text x="290" y="117" class="small" text-anchor="start">Visible commit contributions</text>
-<text x="290" y="151" class="value" text-anchor="start">298</text>
+<text x="290" y="151" class="value" text-anchor="start">299</text>
 <text x="290" y="174" class="tiny" text-anchor="start">Subset of total contributions</text>
 <text x="532" y="117" class="small" text-anchor="start">Active coding days</text>
 <text x="532" y="151" class="value" text-anchor="start">305</text>
 <text x="532" y="174" class="tiny" text-anchor="start">Days with code changes</text>
 <text x="774" y="117" class="small" text-anchor="start">Code changes</text>
-<text x="774" y="151" class="value" text-anchor="start">5.81M</text>
+<text x="774" y="151" class="value" text-anchor="start">5.78M</text>
 <text x="774" y="174" class="tiny" text-anchor="start">Additions + deletions</text>
 <path d="M48 198H952 M500 220V488 M48 510H952" fill="none" stroke="#ddd"/>
 <text x="48" y="229" class="heading" text-anchor="start">Languages</text>
@@ -36,7 +36,7 @@ text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation M
 <g><title>TypeScript</title><text x="48" y="296" class="small" text-anchor="start">TypeScript</text></g>
 <text x="452" y="296" class="small" text-anchor="end">84.4%</text>
 <rect x="48" y="305" width="404" height="5" rx="2.5" fill="#eee"/>
-<rect x="48" y="305" width="340.87" height="5" rx="2.5" fill="#111"/>
+<rect x="48" y="305" width="340.90" height="5" rx="2.5" fill="#111"/>
 <g><title>SQL</title><text x="48" y="330" class="small" text-anchor="start">SQL</text></g>
 <text x="452" y="330" class="small" text-anchor="end">3.6%</text>
 <rect x="48" y="339" width="404" height="5" rx="2.5" fill="#eee"/>
@@ -44,19 +44,19 @@ text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation M
 <g><title>CSS</title><text x="48" y="364" class="small" text-anchor="start">CSS</text></g>
 <text x="452" y="364" class="small" text-anchor="end">3.3%</text>
 <rect x="48" y="373" width="404" height="5" rx="2.5" fill="#eee"/>
-<rect x="48" y="373" width="13.51" height="5" rx="2.5" fill="#111"/>
+<rect x="48" y="373" width="13.49" height="5" rx="2.5" fill="#111"/>
 <g><title>JavaScript</title><text x="48" y="398" class="small" text-anchor="start">JavaScript</text></g>
 <text x="452" y="398" class="small" text-anchor="end">1.7%</text>
 <rect x="48" y="407" width="404" height="5" rx="2.5" fill="#eee"/>
-<rect x="48" y="407" width="7.03" height="5" rx="2.5" fill="#111"/>
+<rect x="48" y="407" width="7.02" height="5" rx="2.5" fill="#111"/>
 <g><title>HTML</title><text x="48" y="432" class="small" text-anchor="start">HTML</text></g>
 <text x="452" y="432" class="small" text-anchor="end">1.5%</text>
 <rect x="48" y="441" width="404" height="5" rx="2.5" fill="#eee"/>
-<rect x="48" y="441" width="5.98" height="5" rx="2.5" fill="#111"/>
+<rect x="48" y="441" width="5.97" height="5" rx="2.5" fill="#111"/>
 <g><title>Other</title><text x="48" y="466" class="small" text-anchor="start">Other</text></g>
 <text x="452" y="466" class="small" text-anchor="end">5.5%</text>
 <rect x="48" y="475" width="404" height="5" rx="2.5" fill="#eee"/>
-<rect x="48" y="475" width="22.09" height="5" rx="2.5" fill="#111"/>
+<rect x="48" y="475" width="22.11" height="5" rx="2.5" fill="#111"/>
 <g><title>gpt-5.6-luna</title><text x="548" y="296" class="small" text-anchor="start">gpt-5.6-luna</text></g>
 <text x="952" y="296" class="small" text-anchor="end">28.0%</text>
 <rect x="548" y="305" width="404" height="5" rx="2.5" fill="#eee"/>
@@ -83,201 +83,201 @@ text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation M
 <rect x="548" y="475" width="111.90" height="5" rx="2.5" fill="#ccc"/>
 <text x="48" y="542" class="heading" text-anchor="start">Code activity</text>
 <text x="48" y="563" class="tiny" text-anchor="start">Additions + deletions per two-day period · linear scale</text>
-<line x1="48.00" y1="660.0" x2="48.00" y2="651.6" class="bar"><title>2025-10-28 to 2025-10-29: 44,599 lines</title></line>
-<line x1="52.97" y1="660.0" x2="52.97" y2="658.5" class="bar"><title>2025-10-30 to 2025-10-31: 7,916 lines</title></line>
-<line x1="57.93" y1="660.0" x2="57.93" y2="659.9" class="bar"><title>2025-11-01 to 2025-11-02: 487 lines</title></line>
-<line x1="62.90" y1="660.0" x2="62.90" y2="658.4" class="bar"><title>2025-11-03 to 2025-11-04: 8,344 lines</title></line>
-<line x1="67.87" y1="660.0" x2="67.87" y2="655.4" class="bar"><title>2025-11-05 to 2025-11-06: 24,568 lines</title></line>
-<line x1="72.84" y1="660.0" x2="72.84" y2="658.9" class="bar"><title>2025-11-07 to 2025-11-08: 5,665 lines</title></line>
-<line x1="77.80" y1="660.0" x2="77.80" y2="652.3" class="bar"><title>2025-11-09 to 2025-11-10: 40,975 lines</title></line>
-<line x1="82.77" y1="660.0" x2="82.77" y2="658.3" class="bar"><title>2025-11-11 to 2025-11-12: 8,773 lines</title></line>
-<line x1="87.74" y1="660.0" x2="87.74" y2="656.3" class="bar"><title>2025-11-13 to 2025-11-14: 19,373 lines</title></line>
-<line x1="92.70" y1="660.0" x2="92.70" y2="658.9" class="bar"><title>2025-11-15 to 2025-11-16: 5,951 lines</title></line>
-<line x1="97.67" y1="660.0" x2="97.67" y2="655.0" class="bar"><title>2025-11-17 to 2025-11-18: 26,360 lines</title></line>
-<line x1="102.64" y1="660.0" x2="102.64" y2="657.7" class="bar"><title>2025-11-19 to 2025-11-20: 12,231 lines</title></line>
-<line x1="107.60" y1="660.0" x2="107.60" y2="659.8" class="bar"><title>2025-11-21 to 2025-11-22: 854 lines</title></line>
-<line x1="112.57" y1="660.0" x2="112.57" y2="659.9" class="bar"><title>2025-11-23 to 2025-11-24: 338 lines</title></line>
-<line x1="117.54" y1="660.0" x2="117.54" y2="658.8" class="bar"><title>2025-11-25 to 2025-11-26: 6,425 lines</title></line>
-<line x1="122.51" y1="660.0" x2="122.51" y2="658.8" class="bar"><title>2025-11-27 to 2025-11-28: 6,117 lines</title></line>
-<line x1="127.47" y1="660.0" x2="127.47" y2="659.4" class="bar"><title>2025-11-29 to 2025-11-30: 2,994 lines</title></line>
-<line x1="132.44" y1="660.0" x2="132.44" y2="659.6" class="bar"><title>2025-12-01 to 2025-12-02: 2,200 lines</title></line>
-<line x1="137.41" y1="660.0" x2="137.41" y2="659.9" class="bar"><title>2025-12-03 to 2025-12-04: 734 lines</title></line>
-<line x1="142.37" y1="660.0" x2="142.37" y2="654.0" class="bar"><title>2025-12-05 to 2025-12-06: 31,965 lines</title></line>
-<line x1="147.34" y1="660.0" x2="147.34" y2="659.6" class="bar"><title>2025-12-07 to 2025-12-08: 2,075 lines</title></line>
-<line x1="152.31" y1="660.0" x2="152.31" y2="659.9" class="bar"><title>2025-12-09 to 2025-12-10: 726 lines</title></line>
-<line x1="157.27" y1="660.0" x2="157.27" y2="659.3" class="bar"><title>2025-12-11 to 2025-12-12: 3,611 lines</title></line>
-<line x1="162.24" y1="660.0" x2="162.24" y2="660.0" class="bar"><title>2025-12-13 to 2025-12-14: 28 lines</title></line>
-<line x1="167.21" y1="660.0" x2="167.21" y2="659.6" class="bar"><title>2025-12-15 to 2025-12-16: 2,220 lines</title></line>
-<line x1="172.18" y1="660.0" x2="172.18" y2="658.7" class="bar"><title>2025-12-17 to 2025-12-18: 6,805 lines</title></line>
-<line x1="177.14" y1="660.0" x2="177.14" y2="659.9" class="bar"><title>2025-12-19 to 2025-12-20: 378 lines</title></line>
-<line x1="182.11" y1="660.0" x2="182.11" y2="660.0" class="bar"><title>2025-12-21 to 2025-12-22: 0 lines</title></line>
-<line x1="187.08" y1="660.0" x2="187.08" y2="660.0" class="bar"><title>2025-12-23 to 2025-12-24: 19 lines</title></line>
-<line x1="192.04" y1="660.0" x2="192.04" y2="660.0" class="bar"><title>2025-12-25 to 2025-12-26: 0 lines</title></line>
-<line x1="197.01" y1="660.0" x2="197.01" y2="659.7" class="bar"><title>2025-12-27 to 2025-12-28: 1,765 lines</title></line>
-<line x1="201.98" y1="660.0" x2="201.98" y2="659.8" class="bar"><title>2025-12-29 to 2025-12-30: 1,124 lines</title></line>
-<line x1="206.95" y1="660.0" x2="206.95" y2="660.0" class="bar"><title>2025-12-31 to 2026-01-01: 176 lines</title></line>
-<line x1="211.91" y1="660.0" x2="211.91" y2="660.0" class="bar"><title>2026-01-02 to 2026-01-03: 0 lines</title></line>
-<line x1="216.88" y1="660.0" x2="216.88" y2="659.7" class="bar"><title>2026-01-04 to 2026-01-05: 1,651 lines</title></line>
-<line x1="221.85" y1="660.0" x2="221.85" y2="659.1" class="bar"><title>2026-01-06 to 2026-01-07: 4,956 lines</title></line>
-<line x1="226.81" y1="660.0" x2="226.81" y2="659.6" class="bar"><title>2026-01-08 to 2026-01-09: 1,937 lines</title></line>
-<line x1="231.78" y1="660.0" x2="231.78" y2="659.9" class="bar"><title>2026-01-10 to 2026-01-11: 685 lines</title></line>
-<line x1="236.75" y1="660.0" x2="236.75" y2="657.8" class="bar"><title>2026-01-12 to 2026-01-13: 11,842 lines</title></line>
-<line x1="241.71" y1="660.0" x2="241.71" y2="659.4" class="bar"><title>2026-01-14 to 2026-01-15: 3,206 lines</title></line>
-<line x1="246.68" y1="660.0" x2="246.68" y2="659.9" class="bar"><title>2026-01-16 to 2026-01-17: 695 lines</title></line>
-<line x1="251.65" y1="660.0" x2="251.65" y2="660.0" class="bar"><title>2026-01-18 to 2026-01-19: 0 lines</title></line>
-<line x1="256.62" y1="660.0" x2="256.62" y2="660.0" class="bar"><title>2026-01-20 to 2026-01-21: 0 lines</title></line>
-<line x1="261.58" y1="660.0" x2="261.58" y2="656.6" class="bar"><title>2026-01-22 to 2026-01-23: 17,890 lines</title></line>
-<line x1="266.55" y1="660.0" x2="266.55" y2="651.3" class="bar"><title>2026-01-24 to 2026-01-25: 46,016 lines</title></line>
-<line x1="271.52" y1="660.0" x2="271.52" y2="659.1" class="bar"><title>2026-01-26 to 2026-01-27: 4,581 lines</title></line>
-<line x1="276.48" y1="660.0" x2="276.48" y2="659.9" class="bar"><title>2026-01-28 to 2026-01-29: 657 lines</title></line>
-<line x1="281.45" y1="660.0" x2="281.45" y2="645.7" class="bar"><title>2026-01-30 to 2026-01-31: 75,747 lines</title></line>
-<line x1="286.42" y1="660.0" x2="286.42" y2="659.9" class="bar"><title>2026-02-01 to 2026-02-02: 380 lines</title></line>
-<line x1="291.38" y1="660.0" x2="291.38" y2="659.6" class="bar"><title>2026-02-03 to 2026-02-04: 2,276 lines</title></line>
-<line x1="296.35" y1="660.0" x2="296.35" y2="659.6" class="bar"><title>2026-02-05 to 2026-02-06: 1,984 lines</title></line>
-<line x1="301.32" y1="660.0" x2="301.32" y2="660.0" class="bar"><title>2026-02-07 to 2026-02-08: 0 lines</title></line>
-<line x1="306.29" y1="660.0" x2="306.29" y2="659.6" class="bar"><title>2026-02-09 to 2026-02-10: 2,134 lines</title></line>
-<line x1="311.25" y1="660.0" x2="311.25" y2="630.8" class="bar"><title>2026-02-11 to 2026-02-12: 155,143 lines</title></line>
-<line x1="316.22" y1="660.0" x2="316.22" y2="659.9" class="bar"><title>2026-02-13 to 2026-02-14: 276 lines</title></line>
-<line x1="321.19" y1="660.0" x2="321.19" y2="659.7" class="bar"><title>2026-02-15 to 2026-02-16: 1,440 lines</title></line>
-<line x1="326.15" y1="660.0" x2="326.15" y2="659.4" class="bar"><title>2026-02-17 to 2026-02-18: 2,950 lines</title></line>
-<line x1="331.12" y1="660.0" x2="331.12" y2="657.9" class="bar"><title>2026-02-19 to 2026-02-20: 11,042 lines</title></line>
-<line x1="336.09" y1="660.0" x2="336.09" y2="658.9" class="bar"><title>2026-02-21 to 2026-02-22: 5,996 lines</title></line>
-<line x1="341.05" y1="660.0" x2="341.05" y2="659.4" class="bar"><title>2026-02-23 to 2026-02-24: 3,257 lines</title></line>
-<line x1="346.02" y1="660.0" x2="346.02" y2="658.4" class="bar"><title>2026-02-25 to 2026-02-26: 8,304 lines</title></line>
-<line x1="350.99" y1="660.0" x2="350.99" y2="659.3" class="bar"><title>2026-02-27 to 2026-02-28: 3,586 lines</title></line>
-<line x1="355.96" y1="660.0" x2="355.96" y2="657.6" class="bar"><title>2026-03-01 to 2026-03-02: 12,790 lines</title></line>
-<line x1="360.92" y1="660.0" x2="360.92" y2="658.0" class="bar"><title>2026-03-03 to 2026-03-04: 10,791 lines</title></line>
-<line x1="365.89" y1="660.0" x2="365.89" y2="657.2" class="bar"><title>2026-03-05 to 2026-03-06: 14,635 lines</title></line>
-<line x1="370.86" y1="660.0" x2="370.86" y2="659.6" class="bar"><title>2026-03-07 to 2026-03-08: 2,055 lines</title></line>
-<line x1="375.82" y1="660.0" x2="375.82" y2="659.1" class="bar"><title>2026-03-09 to 2026-03-10: 4,602 lines</title></line>
-<line x1="380.79" y1="660.0" x2="380.79" y2="659.4" class="bar"><title>2026-03-11 to 2026-03-12: 3,100 lines</title></line>
-<line x1="385.76" y1="660.0" x2="385.76" y2="659.4" class="bar"><title>2026-03-13 to 2026-03-14: 3,230 lines</title></line>
-<line x1="390.73" y1="660.0" x2="390.73" y2="659.8" class="bar"><title>2026-03-15 to 2026-03-16: 973 lines</title></line>
-<line x1="395.69" y1="660.0" x2="395.69" y2="654.1" class="bar"><title>2026-03-17 to 2026-03-18: 31,348 lines</title></line>
-<line x1="400.66" y1="660.0" x2="400.66" y2="659.8" class="bar"><title>2026-03-19 to 2026-03-20: 865 lines</title></line>
-<line x1="405.63" y1="660.0" x2="405.63" y2="659.4" class="bar"><title>2026-03-21 to 2026-03-22: 3,013 lines</title></line>
-<line x1="410.59" y1="660.0" x2="410.59" y2="659.4" class="bar"><title>2026-03-23 to 2026-03-24: 2,960 lines</title></line>
-<line x1="415.56" y1="660.0" x2="415.56" y2="659.5" class="bar"><title>2026-03-25 to 2026-03-26: 2,829 lines</title></line>
-<line x1="420.53" y1="660.0" x2="420.53" y2="657.3" class="bar"><title>2026-03-27 to 2026-03-28: 14,465 lines</title></line>
-<line x1="425.49" y1="660.0" x2="425.49" y2="659.5" class="bar"><title>2026-03-29 to 2026-03-30: 2,504 lines</title></line>
-<line x1="430.46" y1="660.0" x2="430.46" y2="658.8" class="bar"><title>2026-03-31 to 2026-04-01: 6,627 lines</title></line>
-<line x1="435.43" y1="660.0" x2="435.43" y2="659.1" class="bar"><title>2026-04-02 to 2026-04-03: 4,779 lines</title></line>
-<line x1="440.40" y1="660.0" x2="440.40" y2="658.8" class="bar"><title>2026-04-04 to 2026-04-05: 6,347 lines</title></line>
-<line x1="445.36" y1="660.0" x2="445.36" y2="657.3" class="bar"><title>2026-04-06 to 2026-04-07: 14,542 lines</title></line>
-<line x1="450.33" y1="660.0" x2="450.33" y2="658.4" class="bar"><title>2026-04-08 to 2026-04-09: 8,252 lines</title></line>
-<line x1="455.30" y1="660.0" x2="455.30" y2="659.8" class="bar"><title>2026-04-10 to 2026-04-11: 824 lines</title></line>
-<line x1="460.26" y1="660.0" x2="460.26" y2="659.0" class="bar"><title>2026-04-12 to 2026-04-13: 5,063 lines</title></line>
-<line x1="465.23" y1="660.0" x2="465.23" y2="650.8" class="bar"><title>2026-04-14 to 2026-04-15: 48,791 lines</title></line>
-<line x1="470.20" y1="660.0" x2="470.20" y2="659.1" class="bar"><title>2026-04-16 to 2026-04-17: 4,590 lines</title></line>
-<line x1="475.16" y1="660.0" x2="475.16" y2="660.0" class="bar"><title>2026-04-18 to 2026-04-19: 0 lines</title></line>
-<line x1="480.13" y1="660.0" x2="480.13" y2="659.0" class="bar"><title>2026-04-20 to 2026-04-21: 5,401 lines</title></line>
-<line x1="485.10" y1="660.0" x2="485.10" y2="658.8" class="bar"><title>2026-04-22 to 2026-04-23: 6,118 lines</title></line>
-<line x1="490.07" y1="660.0" x2="490.07" y2="658.7" class="bar"><title>2026-04-24 to 2026-04-25: 6,846 lines</title></line>
-<line x1="495.03" y1="660.0" x2="495.03" y2="658.1" class="bar"><title>2026-04-26 to 2026-04-27: 10,053 lines</title></line>
-<line x1="500.00" y1="660.0" x2="500.00" y2="658.1" class="bar"><title>2026-04-28 to 2026-04-29: 10,075 lines</title></line>
-<line x1="504.97" y1="660.0" x2="504.97" y2="648.0" class="bar"><title>2026-04-30 to 2026-05-01: 63,662 lines</title></line>
-<line x1="509.93" y1="660.0" x2="509.93" y2="659.9" class="bar"><title>2026-05-02 to 2026-05-03: 290 lines</title></line>
-<line x1="514.90" y1="660.0" x2="514.90" y2="637.9" class="bar"><title>2026-05-04 to 2026-05-05: 117,288 lines</title></line>
-<line x1="519.87" y1="660.0" x2="519.87" y2="658.6" class="bar"><title>2026-05-06 to 2026-05-07: 7,541 lines</title></line>
-<line x1="524.84" y1="660.0" x2="524.84" y2="655.6" class="bar"><title>2026-05-08 to 2026-05-09: 23,479 lines</title></line>
-<line x1="529.80" y1="660.0" x2="529.80" y2="660.0" class="bar"><title>2026-05-10 to 2026-05-11: 185 lines</title></line>
-<line x1="534.77" y1="660.0" x2="534.77" y2="659.6" class="bar"><title>2026-05-12 to 2026-05-13: 2,249 lines</title></line>
-<line x1="539.74" y1="660.0" x2="539.74" y2="656.9" class="bar"><title>2026-05-14 to 2026-05-15: 16,616 lines</title></line>
-<line x1="544.70" y1="660.0" x2="544.70" y2="659.6" class="bar"><title>2026-05-16 to 2026-05-17: 2,120 lines</title></line>
-<line x1="549.67" y1="660.0" x2="549.67" y2="659.6" class="bar"><title>2026-05-18 to 2026-05-19: 2,383 lines</title></line>
-<line x1="554.64" y1="660.0" x2="554.64" y2="658.4" class="bar"><title>2026-05-20 to 2026-05-21: 8,382 lines</title></line>
-<line x1="559.60" y1="660.0" x2="559.60" y2="659.4" class="bar"><title>2026-05-22 to 2026-05-23: 3,353 lines</title></line>
-<line x1="564.57" y1="660.0" x2="564.57" y2="660.0" class="bar"><title>2026-05-24 to 2026-05-25: 0 lines</title></line>
-<line x1="569.54" y1="660.0" x2="569.54" y2="659.6" class="bar"><title>2026-05-26 to 2026-05-27: 2,107 lines</title></line>
-<line x1="574.51" y1="660.0" x2="574.51" y2="656.0" class="bar"><title>2026-05-28 to 2026-05-29: 21,340 lines</title></line>
-<line x1="579.47" y1="660.0" x2="579.47" y2="660.0" class="bar"><title>2026-05-30 to 2026-05-31: 0 lines</title></line>
-<line x1="584.44" y1="660.0" x2="584.44" y2="659.2" class="bar"><title>2026-06-01 to 2026-06-02: 4,476 lines</title></line>
-<line x1="589.41" y1="660.0" x2="589.41" y2="658.2" class="bar"><title>2026-06-03 to 2026-06-04: 9,470 lines</title></line>
-<line x1="594.37" y1="660.0" x2="594.37" y2="659.5" class="bar"><title>2026-06-05 to 2026-06-06: 2,884 lines</title></line>
-<line x1="599.34" y1="660.0" x2="599.34" y2="659.8" class="bar"><title>2026-06-07 to 2026-06-08: 1,068 lines</title></line>
-<line x1="604.31" y1="660.0" x2="604.31" y2="656.8" class="bar"><title>2026-06-09 to 2026-06-10: 17,115 lines</title></line>
-<line x1="609.27" y1="660.0" x2="609.27" y2="659.3" class="bar"><title>2026-06-11 to 2026-06-12: 3,632 lines</title></line>
-<line x1="614.24" y1="660.0" x2="614.24" y2="659.9" class="bar"><title>2026-06-13 to 2026-06-14: 533 lines</title></line>
-<line x1="619.21" y1="660.0" x2="619.21" y2="660.0" class="bar"><title>2026-06-15 to 2026-06-16: 226 lines</title></line>
-<line x1="624.18" y1="660.0" x2="624.18" y2="659.1" class="bar"><title>2026-06-17 to 2026-06-18: 4,790 lines</title></line>
-<line x1="629.14" y1="660.0" x2="629.14" y2="660.0" class="bar"><title>2026-06-19 to 2026-06-20: 18 lines</title></line>
-<line x1="634.11" y1="660.0" x2="634.11" y2="659.7" class="bar"><title>2026-06-21 to 2026-06-22: 1,664 lines</title></line>
-<line x1="639.08" y1="660.0" x2="639.08" y2="659.7" class="bar"><title>2026-06-23 to 2026-06-24: 1,805 lines</title></line>
-<line x1="644.04" y1="660.0" x2="644.04" y2="659.9" class="bar"><title>2026-06-25 to 2026-06-26: 529 lines</title></line>
-<line x1="649.01" y1="660.0" x2="649.01" y2="658.8" class="bar"><title>2026-06-27 to 2026-06-28: 6,275 lines</title></line>
-<line x1="653.98" y1="660.0" x2="653.98" y2="659.9" class="bar"><title>2026-06-29 to 2026-06-30: 575 lines</title></line>
-<line x1="658.95" y1="660.0" x2="658.95" y2="660.0" class="bar"><title>2026-07-01 to 2026-07-02: 48 lines</title></line>
-<line x1="663.91" y1="660.0" x2="663.91" y2="660.0" class="bar"><title>2026-07-03 to 2026-07-04: 0 lines</title></line>
-<line x1="668.88" y1="660.0" x2="668.88" y2="659.2" class="bar"><title>2026-07-05 to 2026-07-06: 4,251 lines</title></line>
-<line x1="673.85" y1="660.0" x2="673.85" y2="659.9" class="bar"><title>2026-07-07 to 2026-07-08: 681 lines</title></line>
-<line x1="678.81" y1="660.0" x2="678.81" y2="656.3" class="bar"><title>2026-07-09 to 2026-07-10: 19,679 lines</title></line>
-<line x1="683.78" y1="660.0" x2="683.78" y2="658.9" class="bar"><title>2026-07-11 to 2026-07-12: 5,790 lines</title></line>
-<line x1="688.75" y1="660.0" x2="688.75" y2="655.6" class="bar"><title>2026-07-13 to 2026-07-14: 23,525 lines</title></line>
-<line x1="693.71" y1="660.0" x2="693.71" y2="659.9" class="bar"><title>2026-07-15 to 2026-07-16: 278 lines</title></line>
-<line x1="698.68" y1="660.0" x2="698.68" y2="637.8" class="bar"><title>2026-07-17 to 2026-07-18: 117,903 lines</title></line>
-<line x1="703.65" y1="660.0" x2="703.65" y2="657.2" class="bar"><title>2026-07-19 to 2026-07-20: 15,084 lines</title></line>
-<line x1="708.62" y1="660.0" x2="708.62" y2="641.9" class="bar"><title>2026-07-21 to 2026-07-22: 96,248 lines</title></line>
-<line x1="713.58" y1="660.0" x2="713.58" y2="656.2" class="bar"><title>2026-07-23 to 2026-07-24: 20,139 lines</title></line>
-<line x1="718.55" y1="660.0" x2="718.55" y2="648.7" class="bar"><title>2026-07-25 to 2026-07-26: 59,923 lines</title></line>
-<line x1="723.52" y1="660.0" x2="723.52" y2="654.0" class="bar"><title>2026-07-27 to 2026-07-28: 31,974 lines</title></line>
-<line x1="728.48" y1="660.0" x2="728.48" y2="659.6" class="bar"><title>2026-07-29 to 2026-07-30: 2,260 lines</title></line>
-<line x1="733.45" y1="660.0" x2="733.45" y2="658.9" class="bar"><title>2026-07-31 to 2026-08-01: 5,962 lines</title></line>
-<line x1="738.42" y1="660.0" x2="738.42" y2="660.0" class="bar"><title>2026-08-02 to 2026-08-03: 0 lines</title></line>
-<line x1="743.38" y1="660.0" x2="743.38" y2="658.9" class="bar"><title>2026-08-04 to 2026-08-05: 5,600 lines</title></line>
-<line x1="748.35" y1="660.0" x2="748.35" y2="659.5" class="bar"><title>2026-08-06 to 2026-08-07: 2,774 lines</title></line>
-<line x1="753.32" y1="660.0" x2="753.32" y2="660.0" class="bar"><title>2026-08-08 to 2026-08-09: 0 lines</title></line>
-<line x1="758.29" y1="660.0" x2="758.29" y2="659.7" class="bar"><title>2026-08-10 to 2026-08-11: 1,745 lines</title></line>
-<line x1="763.25" y1="660.0" x2="763.25" y2="656.6" class="bar"><title>2026-08-12 to 2026-08-13: 18,172 lines</title></line>
-<line x1="768.22" y1="660.0" x2="768.22" y2="657.5" class="bar"><title>2026-08-14 to 2026-08-15: 13,002 lines</title></line>
-<line x1="773.19" y1="660.0" x2="773.19" y2="649.4" class="bar"><title>2026-08-16 to 2026-08-17: 55,984 lines</title></line>
-<line x1="778.15" y1="660.0" x2="778.15" y2="659.2" class="bar"><title>2026-08-18 to 2026-08-19: 4,459 lines</title></line>
-<line x1="783.12" y1="660.0" x2="783.12" y2="655.3" class="bar"><title>2026-08-20 to 2026-08-21: 25,109 lines</title></line>
-<line x1="788.09" y1="660.0" x2="788.09" y2="627.5" class="bar"><title>2026-08-22 to 2026-08-23: 172,500 lines</title></line>
-<line x1="793.05" y1="660.0" x2="793.05" y2="641.7" class="bar"><title>2026-08-24 to 2026-08-25: 97,244 lines</title></line>
-<line x1="798.02" y1="660.0" x2="798.02" y2="631.0" class="bar"><title>2026-08-26 to 2026-08-27: 153,768 lines</title></line>
-<line x1="802.99" y1="660.0" x2="802.99" y2="604.6" class="bar"><title>2026-08-28 to 2026-08-29: 293,858 lines</title></line>
-<line x1="807.96" y1="660.0" x2="807.96" y2="644.0" class="bar"><title>2026-08-30 to 2026-08-31: 84,896 lines</title></line>
-<line x1="812.92" y1="660.0" x2="812.92" y2="640.7" class="bar"><title>2026-09-01 to 2026-09-02: 102,566 lines</title></line>
-<line x1="817.89" y1="660.0" x2="817.89" y2="601.6" class="bar"><title>2026-09-03 to 2026-09-04: 309,634 lines</title></line>
-<line x1="822.86" y1="660.0" x2="822.86" y2="649.3" class="bar"><title>2026-09-05 to 2026-09-06: 56,820 lines</title></line>
-<line x1="827.82" y1="660.0" x2="827.82" y2="595.1" class="bar"><title>2026-09-07 to 2026-09-08: 344,068 lines</title></line>
-<line x1="832.79" y1="660.0" x2="832.79" y2="643.0" class="bar"><title>2026-09-09 to 2026-09-10: 90,050 lines</title></line>
-<line x1="837.76" y1="660.0" x2="837.76" y2="635.9" class="bar"><title>2026-09-11 to 2026-09-12: 127,602 lines</title></line>
-<line x1="842.73" y1="660.0" x2="842.73" y2="588.6" class="bar"><title>2026-09-13 to 2026-09-14: 378,667 lines</title></line>
-<line x1="847.69" y1="660.0" x2="847.69" y2="580.0" class="bar"><title>2026-09-15 to 2026-09-16: 424,400 lines</title></line>
-<line x1="852.66" y1="660.0" x2="852.66" y2="622.9" class="bar"><title>2026-09-17 to 2026-09-18: 196,804 lines</title></line>
-<line x1="857.63" y1="660.0" x2="857.63" y2="625.0" class="bar"><title>2026-09-19 to 2026-09-20: 185,424 lines</title></line>
-<line x1="862.59" y1="660.0" x2="862.59" y2="587.9" class="bar"><title>2026-09-21 to 2026-09-22: 382,500 lines</title></line>
-<line x1="867.56" y1="660.0" x2="867.56" y2="630.4" class="bar"><title>2026-09-23 to 2026-09-24: 157,148 lines</title></line>
-<line x1="872.53" y1="660.0" x2="872.53" y2="655.2" class="bar"><title>2026-09-25 to 2026-09-26: 25,704 lines</title></line>
-<line x1="877.49" y1="660.0" x2="877.49" y2="657.4" class="bar"><title>2026-09-27 to 2026-09-28: 13,973 lines</title></line>
-<line x1="882.46" y1="660.0" x2="882.46" y2="655.2" class="bar"><title>2026-09-29 to 2026-09-30: 25,626 lines</title></line>
-<line x1="887.43" y1="660.0" x2="887.43" y2="648.6" class="bar"><title>2026-10-01 to 2026-10-02: 60,694 lines</title></line>
-<line x1="892.40" y1="660.0" x2="892.40" y2="658.7" class="bar"><title>2026-10-03 to 2026-10-04: 7,159 lines</title></line>
-<line x1="897.36" y1="660.0" x2="897.36" y2="659.3" class="bar"><title>2026-10-05 to 2026-10-06: 3,631 lines</title></line>
-<line x1="902.33" y1="660.0" x2="902.33" y2="659.7" class="bar"><title>2026-10-07 to 2026-10-08: 1,769 lines</title></line>
-<line x1="907.30" y1="660.0" x2="907.30" y2="658.8" class="bar"><title>2026-10-09 to 2026-10-10: 6,523 lines</title></line>
-<line x1="912.26" y1="660.0" x2="912.26" y2="654.1" class="bar"><title>2026-10-11 to 2026-10-12: 31,502 lines</title></line>
-<line x1="917.23" y1="660.0" x2="917.23" y2="653.1" class="bar"><title>2026-10-13 to 2026-10-14: 36,712 lines</title></line>
-<line x1="922.20" y1="660.0" x2="922.20" y2="653.8" class="bar"><title>2026-10-15 to 2026-10-16: 32,801 lines</title></line>
-<line x1="927.16" y1="660.0" x2="927.16" y2="654.6" class="bar"><title>2026-10-17 to 2026-10-18: 28,588 lines</title></line>
-<line x1="932.13" y1="660.0" x2="932.13" y2="646.4" class="bar"><title>2026-10-19 to 2026-10-20: 72,070 lines</title></line>
-<line x1="937.10" y1="660.0" x2="937.10" y2="649.6" class="bar"><title>2026-10-21 to 2026-10-22: 54,974 lines</title></line>
-<line x1="942.07" y1="660.0" x2="942.07" y2="656.5" class="bar"><title>2026-10-23 to 2026-10-24: 18,733 lines</title></line>
-<line x1="947.03" y1="660.0" x2="947.03" y2="646.5" class="bar"><title>2026-10-25 to 2026-10-26: 71,395 lines</title></line>
-<line x1="952.00" y1="660.0" x2="952.00" y2="658.2" class="bar"><title>2026-10-27: 9,670 lines</title></line>
-<polyline points="48.0,651.6 53.0,658.5 57.9,659.9 62.9,658.4 67.9,655.4 72.8,658.9 77.8,652.3 82.8,658.3 87.7,656.3 92.7,658.9 97.7,655.0 102.6,657.7 107.6,659.8 112.6,659.9 117.5,658.8 122.5,658.8 127.5,659.4 132.4,659.6 137.4,659.9 142.4,654.0 147.3,659.6 152.3,659.9 157.3,659.3 162.2,660.0 167.2,659.6 172.2,658.7 177.1,659.9 182.1,660.0 187.1,660.0 192.0,660.0 197.0,659.7 202.0,659.8 206.9,660.0 211.9,660.0 216.9,659.7 221.8,659.1 226.8,659.6 231.8,659.9 236.7,657.8 241.7,659.4 246.7,659.9 251.6,660.0 256.6,660.0 261.6,656.6 266.5,651.3 271.5,659.1 276.5,659.9 281.5,645.7 286.4,659.9 291.4,659.6 296.4,659.6 301.3,660.0 306.3,659.6 311.3,630.8 316.2,659.9 321.2,659.7 326.2,659.4 331.1,657.9 336.1,658.9 341.1,659.4 346.0,658.4 351.0,659.3 356.0,657.6 360.9,658.0 365.9,657.2 370.9,659.6 375.8,659.1 380.8,659.4 385.8,659.4 390.7,659.8 395.7,654.1 400.7,659.8 405.6,659.4 410.6,659.4 415.6,659.5 420.5,657.3 425.5,659.5 430.5,658.8 435.4,659.1 440.4,658.8 445.4,657.3 450.3,658.4 455.3,659.8 460.3,659.0 465.2,650.8 470.2,659.1 475.2,660.0 480.1,659.0 485.1,658.8 490.1,658.7 495.0,658.1 500.0,658.1 505.0,648.0 509.9,659.9 514.9,637.9 519.9,658.6 524.8,655.6 529.8,660.0 534.8,659.6 539.7,656.9 544.7,659.6 549.7,659.6 554.6,658.4 559.6,659.4 564.6,660.0 569.5,659.6 574.5,656.0 579.5,660.0 584.4,659.2 589.4,658.2 594.4,659.5 599.3,659.8 604.3,656.8 609.3,659.3 614.2,659.9 619.2,660.0 624.2,659.1 629.1,660.0 634.1,659.7 639.1,659.7 644.0,659.9 649.0,658.8 654.0,659.9 658.9,660.0 663.9,660.0 668.9,659.2 673.8,659.9 678.8,656.3 683.8,658.9 688.7,655.6 693.7,659.9 698.7,637.8 703.6,657.2 708.6,641.9 713.6,656.2 718.5,648.7 723.5,654.0 728.5,659.6 733.5,658.9 738.4,660.0 743.4,658.9 748.4,659.5 753.3,660.0 758.3,659.7 763.3,656.6 768.2,657.5 773.2,649.4 778.2,659.2 783.1,655.3 788.1,627.5 793.1,641.7 798.0,631.0 803.0,604.6 808.0,644.0 812.9,640.7 817.9,601.6 822.9,649.3 827.8,595.1 832.8,643.0 837.8,635.9 842.7,588.6 847.7,580.0 852.7,622.9 857.6,625.0 862.6,587.9 867.6,630.4 872.5,655.2 877.5,657.4 882.5,655.2 887.4,648.6 892.4,658.7 897.4,659.3 902.3,659.7 907.3,658.8 912.3,654.1 917.2,653.1 922.2,653.8 927.2,654.6 932.1,646.4 937.1,649.6 942.1,656.5 947.0,646.5 952.0,658.2" fill="none" stroke="#111" stroke-width="1.4"/>
+<line x1="48.00" y1="660.0" x2="48.00" y2="658.9" class="bar"><title>2025-10-29 to 2025-10-30: 8,920 lines</title></line>
+<line x1="52.97" y1="660.0" x2="52.97" y2="659.5" class="bar"><title>2025-10-31 to 2025-11-01: 3,936 lines</title></line>
+<line x1="57.93" y1="660.0" x2="57.93" y2="659.9" class="bar"><title>2025-11-02 to 2025-11-03: 833 lines</title></line>
+<line x1="62.90" y1="660.0" x2="62.90" y2="658.2" class="bar"><title>2025-11-04 to 2025-11-05: 13,896 lines</title></line>
+<line x1="67.87" y1="660.0" x2="67.87" y2="657.0" class="bar"><title>2025-11-06 to 2025-11-07: 23,772 lines</title></line>
+<line x1="72.84" y1="660.0" x2="72.84" y2="660.0" class="bar"><title>2025-11-08 to 2025-11-09: 257 lines</title></line>
+<line x1="77.80" y1="660.0" x2="77.80" y2="654.1" class="bar"><title>2025-11-10 to 2025-11-11: 46,090 lines</title></line>
+<line x1="82.77" y1="660.0" x2="82.77" y2="659.4" class="bar"><title>2025-11-12 to 2025-11-13: 4,940 lines</title></line>
+<line x1="87.74" y1="660.0" x2="87.74" y2="657.7" class="bar"><title>2025-11-14 to 2025-11-15: 17,912 lines</title></line>
+<line x1="92.70" y1="660.0" x2="92.70" y2="656.7" class="bar"><title>2025-11-16 to 2025-11-17: 25,875 lines</title></line>
+<line x1="97.67" y1="660.0" x2="97.67" y2="658.5" class="bar"><title>2025-11-18 to 2025-11-19: 11,834 lines</title></line>
+<line x1="102.64" y1="660.0" x2="102.64" y2="659.0" class="bar"><title>2025-11-20 to 2025-11-21: 7,641 lines</title></line>
+<line x1="107.60" y1="660.0" x2="107.60" y2="660.0" class="bar"><title>2025-11-22 to 2025-11-23: 62 lines</title></line>
+<line x1="112.57" y1="660.0" x2="112.57" y2="659.7" class="bar"><title>2025-11-24 to 2025-11-25: 2,235 lines</title></line>
+<line x1="117.54" y1="660.0" x2="117.54" y2="658.6" class="bar"><title>2025-11-26 to 2025-11-27: 10,627 lines</title></line>
+<line x1="122.51" y1="660.0" x2="122.51" y2="659.8" class="bar"><title>2025-11-28 to 2025-11-29: 1,782 lines</title></line>
+<line x1="127.47" y1="660.0" x2="127.47" y2="659.7" class="bar"><title>2025-11-30 to 2025-12-01: 2,572 lines</title></line>
+<line x1="132.44" y1="660.0" x2="132.44" y2="659.9" class="bar"><title>2025-12-02 to 2025-12-03: 947 lines</title></line>
+<line x1="137.41" y1="660.0" x2="137.41" y2="655.9" class="bar"><title>2025-12-04 to 2025-12-05: 32,322 lines</title></line>
+<line x1="142.37" y1="660.0" x2="142.37" y2="659.9" class="bar"><title>2025-12-06 to 2025-12-07: 752 lines</title></line>
+<line x1="147.34" y1="660.0" x2="147.34" y2="659.7" class="bar"><title>2025-12-08 to 2025-12-09: 2,045 lines</title></line>
+<line x1="152.31" y1="660.0" x2="152.31" y2="659.9" class="bar"><title>2025-12-10 to 2025-12-11: 1,055 lines</title></line>
+<line x1="157.27" y1="660.0" x2="157.27" y2="659.6" class="bar"><title>2025-12-12 to 2025-12-13: 2,858 lines</title></line>
+<line x1="162.24" y1="660.0" x2="162.24" y2="660.0" class="bar"><title>2025-12-14 to 2025-12-15: 228 lines</title></line>
+<line x1="167.21" y1="660.0" x2="167.21" y2="659.7" class="bar"><title>2025-12-16 to 2025-12-17: 2,021 lines</title></line>
+<line x1="172.18" y1="660.0" x2="172.18" y2="659.1" class="bar"><title>2025-12-18 to 2025-12-19: 7,039 lines</title></line>
+<line x1="177.14" y1="660.0" x2="177.14" y2="660.0" class="bar"><title>2025-12-20 to 2025-12-21: 115 lines</title></line>
+<line x1="182.11" y1="660.0" x2="182.11" y2="660.0" class="bar"><title>2025-12-22 to 2025-12-23: 19 lines</title></line>
+<line x1="187.08" y1="660.0" x2="187.08" y2="660.0" class="bar"><title>2025-12-24 to 2025-12-25: 0 lines</title></line>
+<line x1="192.04" y1="660.0" x2="192.04" y2="659.8" class="bar"><title>2025-12-26 to 2025-12-27: 1,765 lines</title></line>
+<line x1="197.01" y1="660.0" x2="197.01" y2="659.9" class="bar"><title>2025-12-28 to 2025-12-29: 425 lines</title></line>
+<line x1="201.98" y1="660.0" x2="201.98" y2="659.9" class="bar"><title>2025-12-30 to 2025-12-31: 875 lines</title></line>
+<line x1="206.95" y1="660.0" x2="206.95" y2="660.0" class="bar"><title>2026-01-01 to 2026-01-02: 0 lines</title></line>
+<line x1="211.91" y1="660.0" x2="211.91" y2="660.0" class="bar"><title>2026-01-03 to 2026-01-04: 0 lines</title></line>
+<line x1="216.88" y1="660.0" x2="216.88" y2="659.4" class="bar"><title>2026-01-05 to 2026-01-06: 4,462 lines</title></line>
+<line x1="221.85" y1="660.0" x2="221.85" y2="659.7" class="bar"><title>2026-01-07 to 2026-01-08: 2,284 lines</title></line>
+<line x1="226.81" y1="660.0" x2="226.81" y2="659.7" class="bar"><title>2026-01-09 to 2026-01-10: 2,483 lines</title></line>
+<line x1="231.78" y1="660.0" x2="231.78" y2="658.6" class="bar"><title>2026-01-11 to 2026-01-12: 10,774 lines</title></line>
+<line x1="236.75" y1="660.0" x2="236.75" y2="659.8" class="bar"><title>2026-01-13 to 2026-01-14: 1,300 lines</title></line>
+<line x1="241.71" y1="660.0" x2="241.71" y2="659.5" class="bar"><title>2026-01-15 to 2026-01-16: 3,610 lines</title></line>
+<line x1="246.68" y1="660.0" x2="246.68" y2="660.0" class="bar"><title>2026-01-17 to 2026-01-18: 59 lines</title></line>
+<line x1="251.65" y1="660.0" x2="251.65" y2="660.0" class="bar"><title>2026-01-19 to 2026-01-20: 0 lines</title></line>
+<line x1="256.62" y1="660.0" x2="256.62" y2="657.7" class="bar"><title>2026-01-21 to 2026-01-22: 17,632 lines</title></line>
+<line x1="261.58" y1="660.0" x2="261.58" y2="659.9" class="bar"><title>2026-01-23 to 2026-01-24: 860 lines</title></line>
+<line x1="266.55" y1="660.0" x2="266.55" y2="653.8" class="bar"><title>2026-01-25 to 2026-01-26: 48,123 lines</title></line>
+<line x1="271.52" y1="660.0" x2="271.52" y2="659.7" class="bar"><title>2026-01-27 to 2026-01-28: 1,997 lines</title></line>
+<line x1="276.48" y1="660.0" x2="276.48" y2="650.2" class="bar"><title>2026-01-29 to 2026-01-30: 76,279 lines</title></line>
+<line x1="281.45" y1="660.0" x2="281.45" y2="660.0" class="bar"><title>2026-01-31 to 2026-02-01: 18 lines</title></line>
+<line x1="286.42" y1="660.0" x2="286.42" y2="659.8" class="bar"><title>2026-02-02 to 2026-02-03: 1,687 lines</title></line>
+<line x1="291.38" y1="660.0" x2="291.38" y2="659.9" class="bar"><title>2026-02-04 to 2026-02-05: 981 lines</title></line>
+<line x1="296.35" y1="660.0" x2="296.35" y2="659.7" class="bar"><title>2026-02-06 to 2026-02-07: 1,954 lines</title></line>
+<line x1="301.32" y1="660.0" x2="301.32" y2="660.0" class="bar"><title>2026-02-08 to 2026-02-09: 0 lines</title></line>
+<line x1="306.29" y1="660.0" x2="306.29" y2="649.9" class="bar"><title>2026-02-10 to 2026-02-11: 79,224 lines</title></line>
+<line x1="311.25" y1="660.0" x2="311.25" y2="650.0" class="bar"><title>2026-02-12 to 2026-02-13: 78,329 lines</title></line>
+<line x1="316.22" y1="660.0" x2="316.22" y2="660.0" class="bar"><title>2026-02-14 to 2026-02-15: 0 lines</title></line>
+<line x1="321.19" y1="660.0" x2="321.19" y2="659.5" class="bar"><title>2026-02-16 to 2026-02-17: 4,278 lines</title></line>
+<line x1="326.15" y1="660.0" x2="326.15" y2="659.8" class="bar"><title>2026-02-18 to 2026-02-19: 1,871 lines</title></line>
+<line x1="331.12" y1="660.0" x2="331.12" y2="658.1" class="bar"><title>2026-02-20 to 2026-02-21: 14,808 lines</title></line>
+<line x1="336.09" y1="660.0" x2="336.09" y2="659.7" class="bar"><title>2026-02-22 to 2026-02-23: 2,392 lines</title></line>
+<line x1="341.05" y1="660.0" x2="341.05" y2="659.2" class="bar"><title>2026-02-24 to 2026-02-25: 6,200 lines</title></line>
+<line x1="346.02" y1="660.0" x2="346.02" y2="659.1" class="bar"><title>2026-02-26 to 2026-02-27: 7,004 lines</title></line>
+<line x1="350.99" y1="660.0" x2="350.99" y2="658.4" class="bar"><title>2026-02-28 to 2026-03-01: 12,206 lines</title></line>
+<line x1="355.96" y1="660.0" x2="355.96" y2="659.0" class="bar"><title>2026-03-02 to 2026-03-03: 7,702 lines</title></line>
+<line x1="360.92" y1="660.0" x2="360.92" y2="659.5" class="bar"><title>2026-03-04 to 2026-03-05: 3,914 lines</title></line>
+<line x1="365.89" y1="660.0" x2="365.89" y2="657.9" class="bar"><title>2026-03-06 to 2026-03-07: 16,402 lines</title></line>
+<line x1="370.86" y1="660.0" x2="370.86" y2="659.4" class="bar"><title>2026-03-08 to 2026-03-09: 4,341 lines</title></line>
+<line x1="375.82" y1="660.0" x2="375.82" y2="659.6" class="bar"><title>2026-03-10 to 2026-03-11: 3,366 lines</title></line>
+<line x1="380.79" y1="660.0" x2="380.79" y2="659.6" class="bar"><title>2026-03-12 to 2026-03-13: 3,294 lines</title></line>
+<line x1="385.76" y1="660.0" x2="385.76" y2="659.9" class="bar"><title>2026-03-14 to 2026-03-15: 529 lines</title></line>
+<line x1="390.73" y1="660.0" x2="390.73" y2="656.4" class="bar"><title>2026-03-16 to 2026-03-17: 28,490 lines</title></line>
+<line x1="395.69" y1="660.0" x2="395.69" y2="659.6" class="bar"><title>2026-03-18 to 2026-03-19: 3,503 lines</title></line>
+<line x1="400.66" y1="660.0" x2="400.66" y2="659.6" class="bar"><title>2026-03-20 to 2026-03-21: 3,235 lines</title></line>
+<line x1="405.63" y1="660.0" x2="405.63" y2="659.9" class="bar"><title>2026-03-22 to 2026-03-23: 958 lines</title></line>
+<line x1="410.59" y1="660.0" x2="410.59" y2="659.3" class="bar"><title>2026-03-24 to 2026-03-25: 5,187 lines</title></line>
+<line x1="415.56" y1="660.0" x2="415.56" y2="659.6" class="bar"><title>2026-03-26 to 2026-03-27: 2,923 lines</title></line>
+<line x1="420.53" y1="660.0" x2="420.53" y2="658.5" class="bar"><title>2026-03-28 to 2026-03-29: 11,628 lines</title></line>
+<line x1="425.49" y1="660.0" x2="425.49" y2="659.1" class="bar"><title>2026-03-30 to 2026-03-31: 7,192 lines</title></line>
+<line x1="430.46" y1="660.0" x2="430.46" y2="659.2" class="bar"><title>2026-04-01 to 2026-04-02: 6,626 lines</title></line>
+<line x1="435.43" y1="660.0" x2="435.43" y2="659.2" class="bar"><title>2026-04-03 to 2026-04-04: 6,439 lines</title></line>
+<line x1="440.40" y1="660.0" x2="440.40" y2="659.1" class="bar"><title>2026-04-05 to 2026-04-06: 6,981 lines</title></line>
+<line x1="445.36" y1="660.0" x2="445.36" y2="658.3" class="bar"><title>2026-04-07 to 2026-04-08: 13,588 lines</title></line>
+<line x1="450.33" y1="660.0" x2="450.33" y2="659.7" class="bar"><title>2026-04-09 to 2026-04-10: 2,225 lines</title></line>
+<line x1="455.30" y1="660.0" x2="455.30" y2="659.9" class="bar"><title>2026-04-11 to 2026-04-12: 824 lines</title></line>
+<line x1="460.26" y1="660.0" x2="460.26" y2="659.1" class="bar"><title>2026-04-13 to 2026-04-14: 7,097 lines</title></line>
+<line x1="465.23" y1="660.0" x2="465.23" y2="653.5" class="bar"><title>2026-04-15 to 2026-04-16: 50,568 lines</title></line>
+<line x1="470.20" y1="660.0" x2="470.20" y2="659.9" class="bar"><title>2026-04-17 to 2026-04-18: 779 lines</title></line>
+<line x1="475.16" y1="660.0" x2="475.16" y2="659.4" class="bar"><title>2026-04-19 to 2026-04-20: 4,490 lines</title></line>
+<line x1="480.13" y1="660.0" x2="480.13" y2="659.4" class="bar"><title>2026-04-21 to 2026-04-22: 4,353 lines</title></line>
+<line x1="485.10" y1="660.0" x2="485.10" y2="658.8" class="bar"><title>2026-04-23 to 2026-04-24: 9,522 lines</title></line>
+<line x1="490.07" y1="660.0" x2="490.07" y2="659.7" class="bar"><title>2026-04-25 to 2026-04-26: 2,372 lines</title></line>
+<line x1="495.03" y1="660.0" x2="495.03" y2="658.2" class="bar"><title>2026-04-27 to 2026-04-28: 14,026 lines</title></line>
+<line x1="500.00" y1="660.0" x2="500.00" y2="654.2" class="bar"><title>2026-04-29 to 2026-04-30: 45,045 lines</title></line>
+<line x1="504.97" y1="660.0" x2="504.97" y2="657.1" class="bar"><title>2026-05-01 to 2026-05-02: 22,637 lines</title></line>
+<line x1="509.93" y1="660.0" x2="509.93" y2="653.4" class="bar"><title>2026-05-03 to 2026-05-04: 51,502 lines</title></line>
+<line x1="514.90" y1="660.0" x2="514.90" y2="650.9" class="bar"><title>2026-05-05 to 2026-05-06: 71,135 lines</title></line>
+<line x1="519.87" y1="660.0" x2="519.87" y2="659.2" class="bar"><title>2026-05-07 to 2026-05-08: 6,469 lines</title></line>
+<line x1="524.84" y1="660.0" x2="524.84" y2="657.5" class="bar"><title>2026-05-09 to 2026-05-10: 19,352 lines</title></line>
+<line x1="529.80" y1="660.0" x2="529.80" y2="659.8" class="bar"><title>2026-05-11 to 2026-05-12: 1,261 lines</title></line>
+<line x1="534.77" y1="660.0" x2="534.77" y2="657.9" class="bar"><title>2026-05-13 to 2026-05-14: 16,234 lines</title></line>
+<line x1="539.74" y1="660.0" x2="539.74" y2="659.7" class="bar"><title>2026-05-15 to 2026-05-16: 2,023 lines</title></line>
+<line x1="544.70" y1="660.0" x2="544.70" y2="659.7" class="bar"><title>2026-05-17 to 2026-05-18: 2,476 lines</title></line>
+<line x1="549.67" y1="660.0" x2="549.67" y2="659.2" class="bar"><title>2026-05-19 to 2026-05-20: 6,357 lines</title></line>
+<line x1="554.64" y1="660.0" x2="554.64" y2="659.1" class="bar"><title>2026-05-21 to 2026-05-22: 6,787 lines</title></line>
+<line x1="559.60" y1="660.0" x2="559.60" y2="660.0" class="bar"><title>2026-05-23 to 2026-05-24: 0 lines</title></line>
+<line x1="564.57" y1="660.0" x2="564.57" y2="659.8" class="bar"><title>2026-05-25 to 2026-05-26: 1,330 lines</title></line>
+<line x1="569.54" y1="660.0" x2="569.54" y2="657.2" class="bar"><title>2026-05-27 to 2026-05-28: 21,962 lines</title></line>
+<line x1="574.51" y1="660.0" x2="574.51" y2="660.0" class="bar"><title>2026-05-29 to 2026-05-30: 155 lines</title></line>
+<line x1="579.47" y1="660.0" x2="579.47" y2="659.9" class="bar"><title>2026-05-31 to 2026-06-01: 818 lines</title></line>
+<line x1="584.44" y1="660.0" x2="584.44" y2="658.8" class="bar"><title>2026-06-02 to 2026-06-03: 9,341 lines</title></line>
+<line x1="589.41" y1="660.0" x2="589.41" y2="659.2" class="bar"><title>2026-06-04 to 2026-06-05: 6,600 lines</title></line>
+<line x1="594.37" y1="660.0" x2="594.37" y2="660.0" class="bar"><title>2026-06-06 to 2026-06-07: 71 lines</title></line>
+<line x1="599.34" y1="660.0" x2="599.34" y2="659.7" class="bar"><title>2026-06-08 to 2026-06-09: 2,723 lines</title></line>
+<line x1="604.31" y1="660.0" x2="604.31" y2="657.7" class="bar"><title>2026-06-10 to 2026-06-11: 18,167 lines</title></line>
+<line x1="609.27" y1="660.0" x2="609.27" y2="659.8" class="bar"><title>2026-06-12 to 2026-06-13: 1,285 lines</title></line>
+<line x1="614.24" y1="660.0" x2="614.24" y2="659.9" class="bar"><title>2026-06-14 to 2026-06-15: 399 lines</title></line>
+<line x1="619.21" y1="660.0" x2="619.21" y2="659.8" class="bar"><title>2026-06-16 to 2026-06-17: 1,877 lines</title></line>
+<line x1="624.18" y1="660.0" x2="624.18" y2="659.6" class="bar"><title>2026-06-18 to 2026-06-19: 2,917 lines</title></line>
+<line x1="629.14" y1="660.0" x2="629.14" y2="659.9" class="bar"><title>2026-06-20 to 2026-06-21: 863 lines</title></line>
+<line x1="634.11" y1="660.0" x2="634.11" y2="659.9" class="bar"><title>2026-06-22 to 2026-06-23: 874 lines</title></line>
+<line x1="639.08" y1="660.0" x2="639.08" y2="659.8" class="bar"><title>2026-06-24 to 2026-06-25: 1,934 lines</title></line>
+<line x1="644.04" y1="660.0" x2="644.04" y2="659.2" class="bar"><title>2026-06-26 to 2026-06-27: 6,616 lines</title></line>
+<line x1="649.01" y1="660.0" x2="649.01" y2="659.9" class="bar"><title>2026-06-28 to 2026-06-29: 575 lines</title></line>
+<line x1="653.98" y1="660.0" x2="653.98" y2="660.0" class="bar"><title>2026-06-30 to 2026-07-01: 48 lines</title></line>
+<line x1="658.95" y1="660.0" x2="658.95" y2="660.0" class="bar"><title>2026-07-02 to 2026-07-03: 0 lines</title></line>
+<line x1="663.91" y1="660.0" x2="663.91" y2="660.0" class="bar"><title>2026-07-04 to 2026-07-05: 0 lines</title></line>
+<line x1="668.88" y1="660.0" x2="668.88" y2="659.4" class="bar"><title>2026-07-06 to 2026-07-07: 4,932 lines</title></line>
+<line x1="673.85" y1="660.0" x2="673.85" y2="659.5" class="bar"><title>2026-07-08 to 2026-07-09: 3,861 lines</title></line>
+<line x1="678.81" y1="660.0" x2="678.81" y2="657.4" class="bar"><title>2026-07-10 to 2026-07-11: 20,253 lines</title></line>
+<line x1="683.78" y1="660.0" x2="683.78" y2="657.9" class="bar"><title>2026-07-12 to 2026-07-13: 16,117 lines</title></line>
+<line x1="688.75" y1="660.0" x2="688.75" y2="658.8" class="bar"><title>2026-07-14 to 2026-07-15: 9,041 lines</title></line>
+<line x1="693.71" y1="660.0" x2="693.71" y2="659.9" class="bar"><title>2026-07-16 to 2026-07-17: 1,037 lines</title></line>
+<line x1="698.68" y1="660.0" x2="698.68" y2="643.7" class="bar"><title>2026-07-18 to 2026-07-19: 127,310 lines</title></line>
+<line x1="703.65" y1="660.0" x2="703.65" y2="658.7" class="bar"><title>2026-07-20 to 2026-07-21: 9,798 lines</title></line>
+<line x1="708.62" y1="660.0" x2="708.62" y2="645.8" class="bar"><title>2026-07-22 to 2026-07-23: 110,963 lines</title></line>
+<line x1="713.58" y1="660.0" x2="713.58" y2="657.8" class="bar"><title>2026-07-24 to 2026-07-25: 16,934 lines</title></line>
+<line x1="718.55" y1="660.0" x2="718.55" y2="650.4" class="bar"><title>2026-07-26 to 2026-07-27: 75,229 lines</title></line>
+<line x1="723.52" y1="660.0" x2="723.52" y2="659.7" class="bar"><title>2026-07-28 to 2026-07-29: 2,260 lines</title></line>
+<line x1="728.48" y1="660.0" x2="728.48" y2="659.3" class="bar"><title>2026-07-30 to 2026-07-31: 5,276 lines</title></line>
+<line x1="733.45" y1="660.0" x2="733.45" y2="659.9" class="bar"><title>2026-08-01 to 2026-08-02: 686 lines</title></line>
+<line x1="738.42" y1="660.0" x2="738.42" y2="660.0" class="bar"><title>2026-08-03 to 2026-08-04: 0 lines</title></line>
+<line x1="743.38" y1="660.0" x2="743.38" y2="658.9" class="bar"><title>2026-08-05 to 2026-08-06: 8,374 lines</title></line>
+<line x1="748.35" y1="660.0" x2="748.35" y2="660.0" class="bar"><title>2026-08-07 to 2026-08-08: 0 lines</title></line>
+<line x1="753.32" y1="660.0" x2="753.32" y2="659.9" class="bar"><title>2026-08-09 to 2026-08-10: 746 lines</title></line>
+<line x1="758.29" y1="660.0" x2="758.29" y2="657.5" class="bar"><title>2026-08-11 to 2026-08-12: 19,171 lines</title></line>
+<line x1="763.25" y1="660.0" x2="763.25" y2="658.6" class="bar"><title>2026-08-13 to 2026-08-14: 11,198 lines</title></line>
+<line x1="768.22" y1="660.0" x2="768.22" y2="656.0" class="bar"><title>2026-08-15 to 2026-08-16: 31,010 lines</title></line>
+<line x1="773.19" y1="660.0" x2="773.19" y2="656.0" class="bar"><title>2026-08-17 to 2026-08-18: 31,118 lines</title></line>
+<line x1="778.15" y1="660.0" x2="778.15" y2="658.5" class="bar"><title>2026-08-19 to 2026-08-20: 12,010 lines</title></line>
+<line x1="783.12" y1="660.0" x2="783.12" y2="646.8" class="bar"><title>2026-08-21 to 2026-08-22: 103,130 lines</title></line>
+<line x1="788.09" y1="660.0" x2="788.09" y2="639.6" class="bar"><title>2026-08-23 to 2026-08-24: 159,350 lines</title></line>
+<line x1="793.05" y1="660.0" x2="793.05" y2="644.4" class="bar"><title>2026-08-25 to 2026-08-26: 122,162 lines</title></line>
+<line x1="798.02" y1="660.0" x2="798.02" y2="626.5" class="bar"><title>2026-08-27 to 2026-08-28: 261,662 lines</title></line>
+<line x1="802.99" y1="660.0" x2="802.99" y2="641.8" class="bar"><title>2026-08-29 to 2026-08-30: 141,900 lines</title></line>
+<line x1="807.96" y1="660.0" x2="807.96" y2="647.7" class="bar"><title>2026-08-31 to 2026-09-01: 95,818 lines</title></line>
+<line x1="812.92" y1="660.0" x2="812.92" y2="626.2" class="bar"><title>2026-09-02 to 2026-09-03: 264,264 lines</title></line>
+<line x1="817.89" y1="660.0" x2="817.89" y2="646.7" class="bar"><title>2026-09-04 to 2026-09-05: 104,051 lines</title></line>
+<line x1="822.86" y1="660.0" x2="822.86" y2="647.3" class="bar"><title>2026-09-06 to 2026-09-07: 99,118 lines</title></line>
+<line x1="827.82" y1="660.0" x2="827.82" y2="614.4" class="bar"><title>2026-09-08 to 2026-09-09: 356,559 lines</title></line>
+<line x1="832.79" y1="660.0" x2="832.79" y2="658.6" class="bar"><title>2026-09-10 to 2026-09-11: 10,608 lines</title></line>
+<line x1="837.76" y1="660.0" x2="837.76" y2="630.6" class="bar"><title>2026-09-12 to 2026-09-13: 229,478 lines</title></line>
+<line x1="842.73" y1="660.0" x2="842.73" y2="580.0" class="bar"><title>2026-09-14 to 2026-09-15: 625,083 lines</title></line>
+<line x1="847.69" y1="660.0" x2="847.69" y2="643.2" class="bar"><title>2026-09-16 to 2026-09-17: 131,020 lines</title></line>
+<line x1="852.66" y1="660.0" x2="852.66" y2="634.2" class="bar"><title>2026-09-18 to 2026-09-19: 201,364 lines</title></line>
+<line x1="857.63" y1="660.0" x2="857.63" y2="609.0" class="bar"><title>2026-09-20 to 2026-09-21: 398,126 lines</title></line>
+<line x1="862.59" y1="660.0" x2="862.59" y2="636.4" class="bar"><title>2026-09-22 to 2026-09-23: 184,594 lines</title></line>
+<line x1="867.56" y1="660.0" x2="867.56" y2="649.1" class="bar"><title>2026-09-24 to 2026-09-25: 85,114 lines</title></line>
+<line x1="872.53" y1="660.0" x2="872.53" y2="656.9" class="bar"><title>2026-09-26 to 2026-09-27: 24,410 lines</title></line>
+<line x1="877.49" y1="660.0" x2="877.49" y2="657.4" class="bar"><title>2026-09-28 to 2026-09-29: 20,429 lines</title></line>
+<line x1="882.46" y1="660.0" x2="882.46" y2="650.2" class="bar"><title>2026-09-30 to 2026-10-01: 76,654 lines</title></line>
+<line x1="887.43" y1="660.0" x2="887.43" y2="659.6" class="bar"><title>2026-10-02 to 2026-10-03: 3,442 lines</title></line>
+<line x1="892.40" y1="660.0" x2="892.40" y2="659.0" class="bar"><title>2026-10-04 to 2026-10-05: 7,587 lines</title></line>
+<line x1="897.36" y1="660.0" x2="897.36" y2="659.7" class="bar"><title>2026-10-06 to 2026-10-07: 2,031 lines</title></line>
+<line x1="902.33" y1="660.0" x2="902.33" y2="659.1" class="bar"><title>2026-10-08 to 2026-10-09: 6,795 lines</title></line>
+<line x1="907.30" y1="660.0" x2="907.30" y2="659.8" class="bar"><title>2026-10-10 to 2026-10-11: 1,497 lines</title></line>
+<line x1="912.26" y1="660.0" x2="912.26" y2="654.0" class="bar"><title>2026-10-12 to 2026-10-13: 46,748 lines</title></line>
+<line x1="917.23" y1="660.0" x2="917.23" y2="654.7" class="bar"><title>2026-10-14 to 2026-10-15: 41,076 lines</title></line>
+<line x1="922.20" y1="660.0" x2="922.20" y2="657.9" class="bar"><title>2026-10-16 to 2026-10-17: 16,403 lines</title></line>
+<line x1="927.16" y1="660.0" x2="927.16" y2="648.6" class="bar"><title>2026-10-18 to 2026-10-19: 88,913 lines</title></line>
+<line x1="932.13" y1="660.0" x2="932.13" y2="653.6" class="bar"><title>2026-10-20 to 2026-10-21: 50,303 lines</title></line>
+<line x1="937.10" y1="660.0" x2="937.10" y2="656.5" class="bar"><title>2026-10-22 to 2026-10-23: 27,348 lines</title></line>
+<line x1="942.07" y1="660.0" x2="942.07" y2="655.7" class="bar"><title>2026-10-24 to 2026-10-25: 33,970 lines</title></line>
+<line x1="947.03" y1="660.0" x2="947.03" y2="653.4" class="bar"><title>2026-10-26 to 2026-10-27: 51,684 lines</title></line>
+<line x1="952.00" y1="660.0" x2="952.00" y2="659.0" class="bar"><title>2026-10-28: 7,932 lines</title></line>
+<polyline points="48.0,658.9 53.0,659.5 57.9,659.9 62.9,658.2 67.9,657.0 72.8,660.0 77.8,654.1 82.8,659.4 87.7,657.7 92.7,656.7 97.7,658.5 102.6,659.0 107.6,660.0 112.6,659.7 117.5,658.6 122.5,659.8 127.5,659.7 132.4,659.9 137.4,655.9 142.4,659.9 147.3,659.7 152.3,659.9 157.3,659.6 162.2,660.0 167.2,659.7 172.2,659.1 177.1,660.0 182.1,660.0 187.1,660.0 192.0,659.8 197.0,659.9 202.0,659.9 206.9,660.0 211.9,660.0 216.9,659.4 221.8,659.7 226.8,659.7 231.8,658.6 236.7,659.8 241.7,659.5 246.7,660.0 251.6,660.0 256.6,657.7 261.6,659.9 266.5,653.8 271.5,659.7 276.5,650.2 281.5,660.0 286.4,659.8 291.4,659.9 296.4,659.7 301.3,660.0 306.3,649.9 311.3,650.0 316.2,660.0 321.2,659.5 326.2,659.8 331.1,658.1 336.1,659.7 341.1,659.2 346.0,659.1 351.0,658.4 356.0,659.0 360.9,659.5 365.9,657.9 370.9,659.4 375.8,659.6 380.8,659.6 385.8,659.9 390.7,656.4 395.7,659.6 400.7,659.6 405.6,659.9 410.6,659.3 415.6,659.6 420.5,658.5 425.5,659.1 430.5,659.2 435.4,659.2 440.4,659.1 445.4,658.3 450.3,659.7 455.3,659.9 460.3,659.1 465.2,653.5 470.2,659.9 475.2,659.4 480.1,659.4 485.1,658.8 490.1,659.7 495.0,658.2 500.0,654.2 505.0,657.1 509.9,653.4 514.9,650.9 519.9,659.2 524.8,657.5 529.8,659.8 534.8,657.9 539.7,659.7 544.7,659.7 549.7,659.2 554.6,659.1 559.6,660.0 564.6,659.8 569.5,657.2 574.5,660.0 579.5,659.9 584.4,658.8 589.4,659.2 594.4,660.0 599.3,659.7 604.3,657.7 609.3,659.8 614.2,659.9 619.2,659.8 624.2,659.6 629.1,659.9 634.1,659.9 639.1,659.8 644.0,659.2 649.0,659.9 654.0,660.0 658.9,660.0 663.9,660.0 668.9,659.4 673.8,659.5 678.8,657.4 683.8,657.9 688.7,658.8 693.7,659.9 698.7,643.7 703.6,658.7 708.6,645.8 713.6,657.8 718.5,650.4 723.5,659.7 728.5,659.3 733.5,659.9 738.4,660.0 743.4,658.9 748.4,660.0 753.3,659.9 758.3,657.5 763.3,658.6 768.2,656.0 773.2,656.0 778.2,658.5 783.1,646.8 788.1,639.6 793.1,644.4 798.0,626.5 803.0,641.8 808.0,647.7 812.9,626.2 817.9,646.7 822.9,647.3 827.8,614.4 832.8,658.6 837.8,630.6 842.7,580.0 847.7,643.2 852.7,634.2 857.6,609.0 862.6,636.4 867.6,649.1 872.5,656.9 877.5,657.4 882.5,650.2 887.4,659.6 892.4,659.0 897.4,659.7 902.3,659.1 907.3,659.8 912.3,654.0 917.2,654.7 922.2,657.9 927.2,648.6 932.1,653.6 937.1,656.5 942.1,655.7 947.0,653.4 952.0,659.0" fill="none" stroke="#111" stroke-width="1.4"/>
 <line x1="48" y1="660" x2="952" y2="660" class="axis"/>
 <text x="48" y="681" class="tiny" text-anchor="start">oct</text>
 <text x="132.44" y="681" class="tiny" text-anchor="start">dec</text>
-<text x="211.912" y="681" class="tiny" text-anchor="start">jan</text>
+<text x="206.945" y="681" class="tiny" text-anchor="start">jan</text>
 <text x="286.418" y="681" class="tiny" text-anchor="start">feb</text>
 <text x="355.956" y="681" class="tiny" text-anchor="start">mar</text>
-<text x="435.429" y="681" class="tiny" text-anchor="start">apr</text>
-<text x="509.934" y="681" class="tiny" text-anchor="start">may</text>
+<text x="430.462" y="681" class="tiny" text-anchor="start">apr</text>
+<text x="504.967" y="681" class="tiny" text-anchor="start">may</text>
 <text x="584.44" y="681" class="tiny" text-anchor="start">jun</text>
 <text x="658.945" y="681" class="tiny" text-anchor="start">jul</text>
-<text x="738.418" y="681" class="tiny" text-anchor="start">aug</text>
+<text x="733.451" y="681" class="tiny" text-anchor="start">aug</text>
 <text x="812.923" y="681" class="tiny" text-anchor="start">sep</text>
 <text x="887.429" y="681" class="tiny" text-anchor="start">oct</text>
 <text x="48" y="711" class="tiny" text-anchor="start">Code totals include preserved history; language shares cover verified repository history.</text>

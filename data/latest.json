@@ -1,5 +1,5 @@
 {
-  "active_days": 305,
+  "active_days": 304,
   "authored_commits": 9939,
   "classified_languages": {
     "C": 840,
@@ -16,8 +16,8 @@
     "Vue": 206,
     "YAML": 11108
   },
-  "code_lines_changed": 5813584,
-  "code_lines_observed": 5813584,
+  "code_lines_changed": 5812751,
+  "code_lines_observed": 5812751,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -184,7 +184,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-11-03": 833,
     "2025-11-04": 7511,
     "2025-11-05": 6385,
     "2025-11-06": 18183,
@@ -548,15 +547,16 @@
     "2026-10-30": 10481,
     "2026-10-31": 0,
     "2026-11-01": 295,
-    "2026-11-02": 25377
+    "2026-11-02": 25377,
+    "2026-11-03": 0
   },
-  "end_date": "2026-11-02",
+  "end_date": "2026-11-03",
   "github_contributions": {
-    "commit_contributions": 304,
-    "end_date": "2026-11-02",
-    "restricted_contributions_count": 6871,
-    "start_date": "2025-11-03",
-    "total_contributions": 7183
+    "commit_contributions": 305,
+    "end_date": "2026-11-03",
+    "restricted_contributions_count": 6821,
+    "start_date": "2025-11-04",
+    "total_contributions": 7134
   },
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
@@ -578,12 +578,11 @@
     "Vue": 206,
     "YAML": 14323
   },
-  "last_successful_scan_at": "2026-11-03T22:19:23.343523+00:00",
+  "last_successful_scan_at": "2026-11-04T22:39:06.086903+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-11-03": 833,
       "2025-11-04": 3394,
       "2025-11-05": 1982,
       "2025-11-07": 1672,
@@ -3616,7 +3615,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-11-03",
+  "start_date": "2025-11-04",
   "username": "mileslow",
   "window_days": 365
 }

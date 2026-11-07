@@ -1,23 +1,23 @@
 {
-  "active_days": 302,
-  "authored_commits": 9928,
+  "active_days": 301,
+  "authored_commits": 9924,
   "classified_languages": {
     "C": 840,
     "C/C++": 84,
     "CSS": 159681,
     "Go": 34238,
     "HTML": 70649,
-    "JavaScript": 82958,
-    "Other": 184581,
+    "JavaScript": 82951,
+    "Other": 184480,
     "Python": 23029,
     "SQL": 172645,
     "Shell": 9799,
-    "TypeScript": 4073630,
+    "TypeScript": 4055555,
     "Vue": 206,
     "YAML": 11108
   },
-  "code_lines_changed": 5798855,
-  "code_lines_observed": 5798855,
+  "code_lines_changed": 5780672,
+  "code_lines_observed": 5780672,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -184,7 +184,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-11-06": 18183,
     "2025-11-07": 5589,
     "2025-11-08": 76,
     "2025-11-09": 181,
@@ -548,15 +547,16 @@
     "2026-11-02": 25377,
     "2026-11-03": 0,
     "2026-11-04": 0,
-    "2026-11-05": 0
+    "2026-11-05": 0,
+    "2026-11-06": 0
   },
-  "end_date": "2026-11-05",
+  "end_date": "2026-11-06",
   "github_contributions": {
-    "commit_contributions": 307,
-    "end_date": "2026-11-05",
-    "restricted_contributions_count": 6783,
-    "start_date": "2025-11-06",
-    "total_contributions": 7098
+    "commit_contributions": 308,
+    "end_date": "2026-11-06",
+    "restricted_contributions_count": 6771,
+    "start_date": "2025-11-07",
+    "total_contributions": 7087
   },
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
@@ -569,16 +569,16 @@
     "CSS": 159681,
     "Go": 34238,
     "HTML": 70649,
-    "JavaScript": 101486,
-    "Other": 277125,
+    "JavaScript": 101479,
+    "Other": 277024,
     "Python": 597056,
     "SQL": 172645,
     "Shell": 65861,
-    "TypeScript": 4147705,
+    "TypeScript": 4129630,
     "Vue": 206,
     "YAML": 14323
   },
-  "last_successful_scan_at": "2026-11-06T22:08:30.848058+00:00",
+  "last_successful_scan_at": "2026-11-07T20:54:31.833107+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
@@ -1876,16 +1876,6 @@
     },
     "1ad7df4ad1b690da54c86fdf8c83186b06736f9860ed6d341b895502b3c95d33": {
       "days": {
-        "2025-11-06": {
-          "commit_fingerprint": "e570d11c44a667bac8bdc1b539c5389d98f38608cacb3cbde32f7f82664e2910",
-          "commits": 4,
-          "languages": {
-            "JavaScript": 7,
-            "Other": 101,
-            "TypeScript": 18075
-          },
-          "truncated": 0
-        },
         "2025-11-07": {
           "commit_fingerprint": "4f4007f043a75c1a3b4cba0454b0b94d60fe7de0f008ad13226028017386fe33",
           "commits": 4,
@@ -3593,7 +3583,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-11-06",
+  "start_date": "2025-11-07",
   "username": "mileslow",
   "window_days": 365
 }

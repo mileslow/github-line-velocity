@@ -1,23 +1,23 @@
 {
-  "active_days": 302,
-  "authored_commits": 10032,
+  "active_days": 304,
+  "authored_commits": 10094,
   "classified_languages": {
     "C": 840,
     "C/C++": 84,
-    "CSS": 160901,
+    "CSS": 160569,
     "Go": 34502,
-    "HTML": 71699,
-    "JavaScript": 85675,
-    "Other": 186615,
+    "HTML": 72091,
+    "JavaScript": 85624,
+    "Other": 187168,
     "Python": 24947,
-    "SQL": 174036,
-    "Shell": 9803,
-    "TypeScript": 4079548,
+    "SQL": 175372,
+    "Shell": 9807,
+    "TypeScript": 4102071,
     "Vue": 206,
-    "YAML": 11140
+    "YAML": 11158
   },
-  "code_lines_changed": 5787763,
-  "code_lines_observed": 5787763,
+  "code_lines_changed": 5812204,
+  "code_lines_observed": 5812204,
   "commit_detail_failures": 0,
   "commits_with_truncated_file_lists": 19,
   "coverage_baseline": {
@@ -185,8 +185,6 @@
     ]
   },
   "daily_lines_changed": {
-    "2025-11-15": 2,
-    "2025-11-16": 5949,
     "2025-11-17": 19926,
     "2025-11-18": 6434,
     "2025-11-19": 5400,
@@ -544,20 +542,22 @@
     "2026-11-06": 5526,
     "2026-11-07": 2538,
     "2026-11-08": 7911,
-    "2026-11-09": 42168,
-    "2026-11-10": 0,
-    "2026-11-11": 465,
-    "2026-11-12": 93,
-    "2026-11-13": 0,
-    "2026-11-14": 0
+    "2026-11-09": 43550,
+    "2026-11-10": 883,
+    "2026-11-11": 2838,
+    "2026-11-12": 3221,
+    "2026-11-13": 574,
+    "2026-11-14": 2698,
+    "2026-11-15": 0,
+    "2026-11-16": 19354
   },
-  "end_date": "2026-11-14",
+  "end_date": "2026-11-16",
   "github_contributions": {
-    "commit_contributions": 316,
-    "end_date": "2026-11-14",
-    "restricted_contributions_count": 6730,
-    "start_date": "2025-11-15",
-    "total_contributions": 7054
+    "commit_contributions": 317,
+    "end_date": "2026-11-16",
+    "restricted_contributions_count": 6779,
+    "start_date": "2025-11-17",
+    "total_contributions": 7104
   },
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
@@ -567,24 +567,23 @@
   "languages": {
     "C": 840,
     "C/C++": 84,
-    "CSS": 160901,
+    "CSS": 160569,
     "Go": 34502,
-    "HTML": 71699,
-    "JavaScript": 104203,
-    "Other": 279159,
+    "HTML": 72091,
+    "JavaScript": 104152,
+    "Other": 279712,
     "Python": 598974,
-    "SQL": 174036,
-    "Shell": 65865,
-    "TypeScript": 4153623,
+    "SQL": 175372,
+    "Shell": 65869,
+    "TypeScript": 4176146,
     "Vue": 206,
-    "YAML": 14355
+    "YAML": 14373
   },
-  "last_successful_scan_at": "2026-11-15T21:51:19.536325+00:00",
+  "last_successful_scan_at": "2026-11-17T00:49:57.265155+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
     "daily_lines_changed": {
-      "2025-11-15": 2,
       "2025-11-19": 5400,
       "2025-11-20": 463,
       "2025-11-22": 24,
@@ -1921,18 +1920,80 @@
           "truncated": 0
         },
         "2026-11-09": {
-          "commit_fingerprint": "eabbb4b41f97bf0453acd2f80344bf58cdd7ab36e53330e67c91372a7540908b",
-          "commits": 23,
+          "commit_fingerprint": "e2ef5f069fd25efa9afe41e7562bc28f5020eb3904dd454854570e7d663c730e",
+          "commits": 30,
           "languages": {
             "CSS": 173,
             "Go": 137,
             "HTML": 222,
-            "Other": 957,
+            "Other": 1108,
             "Python": 841,
             "SQL": 992,
-            "Shell": 2,
-            "TypeScript": 35659,
+            "Shell": 4,
+            "TypeScript": 36888,
             "YAML": 16
+          },
+          "truncated": 0
+        },
+        "2026-11-10": {
+          "commit_fingerprint": "7f818d82cf298a71b0ef938cc2721adbce281a7efa597422b58cdbefabbae441",
+          "commits": 9,
+          "languages": {
+            "TypeScript": 883
+          },
+          "truncated": 0
+        },
+        "2026-11-11": {
+          "commit_fingerprint": "66446679dc4aebc69f14fa3d24730d95479dd481688e2c2c80bf022933763662",
+          "commits": 12,
+          "languages": {
+            "CSS": 4,
+            "Other": 119,
+            "TypeScript": 2241,
+            "YAML": 9
+          },
+          "truncated": 0
+        },
+        "2026-11-12": {
+          "commit_fingerprint": "2fdc85f6f28a5e840ebcfb78c11094f617ca55adb36fddf8e93da0cae3b8bd48",
+          "commits": 9,
+          "languages": {
+            "SQL": 145,
+            "TypeScript": 2983
+          },
+          "truncated": 0
+        },
+        "2026-11-13": {
+          "commit_fingerprint": "81c4f86f03e63051ed06fb228ce28b9d80543cb30adfecaee8c5a61aacdfdb1d",
+          "commits": 1,
+          "languages": {
+            "SQL": 20,
+            "TypeScript": 554
+          },
+          "truncated": 0
+        },
+        "2026-11-14": {
+          "commit_fingerprint": "95789a0d75678f2678893ca3ec652f3ec340b806a2fe11d9b1e753a31607739b",
+          "commits": 3,
+          "languages": {
+            "HTML": 164,
+            "Other": 4,
+            "SQL": 171,
+            "TypeScript": 2359
+          },
+          "truncated": 0
+        },
+        "2026-11-16": {
+          "commit_fingerprint": "5234b2d06832faef521c4fd5a4248ab759bf4b62938b18828fbea142c3645ab3",
+          "commits": 23,
+          "languages": {
+            "CSS": 62,
+            "HTML": 228,
+            "Other": 283,
+            "SQL": 1000,
+            "Shell": 2,
+            "TypeScript": 17770,
+            "YAML": 9
           },
           "truncated": 0
         }
@@ -1949,17 +2010,6 @@
     },
     "1ad7df4ad1b690da54c86fdf8c83186b06736f9860ed6d341b895502b3c95d33": {
       "days": {
-        "2025-11-16": {
-          "commit_fingerprint": "5f606f402723ee45f8d4dddbd6d2505d3babf6107e260ca484943bb8f5fa5423",
-          "commits": 2,
-          "languages": {
-            "CSS": 398,
-            "JavaScript": 51,
-            "Other": 4,
-            "TypeScript": 5496
-          },
-          "truncated": 0
-        },
         "2025-11-17": {
           "commit_fingerprint": "75711927b347973b21bfebad9a020ebb38bed8d104c6d6f4c42cf0dce215b8a2",
           "commits": 13,
@@ -3668,7 +3718,7 @@
     }
   },
   "scan_mode": "authenticated-partial",
-  "start_date": "2025-11-15",
+  "start_date": "2025-11-17",
   "username": "mileslow",
   "window_days": 365
 }

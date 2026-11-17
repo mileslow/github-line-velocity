@@ -553,11 +553,11 @@
   },
   "end_date": "2026-11-16",
   "github_contributions": {
-    "commit_contributions": 317,
+    "commit_contributions": 318,
     "end_date": "2026-11-16",
     "restricted_contributions_count": 6779,
     "start_date": "2025-11-17",
-    "total_contributions": 7104
+    "total_contributions": 7105
   },
   "historical_backfill": "uniform-prior-snapshot",
   "historical_backfill_applied_lines": 1811848,
@@ -579,7 +579,7 @@
     "Vue": 206,
     "YAML": 14373
   },
-  "last_successful_scan_at": "2026-11-17T00:49:57.265155+00:00",
+  "last_successful_scan_at": "2026-11-17T23:51:42.078834+00:00",
   "legacy_carry": {
     "authored_commits": 1993,
     "commits_with_truncated_file_lists": 19,
